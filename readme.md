@@ -1,4 +1,4 @@
-# ITSE 1430 - Programming in C#
+# ITSE 1430 - Programming
 
 This repository is where your classwork and lab assignments will go.
 
