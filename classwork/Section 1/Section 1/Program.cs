@@ -28,38 +28,101 @@ namespace Section1
         private static bool ReadBoolean ( string message )
         {
             Console.Write(message + " (Y/N)");
-            string value = Console.ReadLine();
 
-            //TODO: Do this correctly?
-            char firstChar = value[0];
-            return firstChar == 'Y'; 
+            do
+            {
+                string value = Console.ReadLine();
+
+                //Check for empty string
+                // 1. if (value != "")
+                // 2. if (value != String.Empty)
+                // 3. if (value != null && value.Length == 0)
+                if (!String.IsNullOrEmpty(value))
+                {
+                    // Input validation
+                    // 1. If
+                    // 2. Switch
+                    // 3. String casing
+                    // 4. String comparison
+                    //value = value.ToLower();
+                    //if (value == "y")
+                    //    return true;
+                    //else if (value == "n")
+                    //    return false;
+
+                    //bool isYes = String.Compare(value, "Y", true) == 0 ? true : false;
+
+                    if (String.Compare(value, "Y", true) == 0)
+                        return true;
+                    else if (String.Compare(value, "N", true) == 0)
+                        return false;
+
+                    char firstChar = value[0];
+                    //if (firstChar == 'Y' || firstChar == 'y')
+                    //    return true;
+                    //else if (firstChar == 'N' || firstChar == 'n')
+                    //    return false;                    
+                    //switch (firstChar)
+                    //{
+                    //    #region Demo case
+                    //    //case 'A':
+                    //    //{
+                    //    //    Console.WriteLine("A");
+                    //    //    break;
+                    //    //};
+                    //    //case 'a': Console.WriteLine("a"); break;
+                    //    #endregion
+
+                    //    case 'Y':
+                    //    case 'y': return true;
+
+                    //    case 'N': 
+                    //    case 'n': return false;
+                    //};
+                };
+
+                Console.WriteLine("Enter Y/N");
+            } while (true);
         }
 
-        private static string ReadString (string message, bool required)
+        private static string ReadString ( string message, bool required )
         {
             Console.Write(message);
-            string value = Console.ReadLine();
 
-            //TODO: Validate
-            return value;
+            do
+            {
+                //var x = 10;
+                string value = Console.ReadLine();
+
+                //If required and string is empty then error
+                if (!String.IsNullOrEmpty(value) || !required)
+                    return value;
+
+                if (required)
+                    Console.WriteLine("Value is required");
+            } while (true);
         }
 
         private static int ReadInt32 ( string message, int minValue, int maxValue )
         {
             Console.Write(message);
 
-            string temp = Console.ReadLine();
-            //int value = Int32.Parse(temp);
-
-            //TODO: Clean this up
-            int value; 
-            if (Int32.TryParse(temp, out value))
+            do
             {
-                return value;
-            }
+                //string temp = Console.ReadLine();
+                var temp = Console.ReadLine();
+                //int value = Int32.Parse(temp);
 
-            //TODO: Validate input
-            return -1;
+                //TODO: Clean this up
+                //int value;
+                if (Int32.TryParse(temp, out var value))
+                {
+                    if (value >= minValue && value <= maxValue)
+                        return value;
+                };
+
+                Console.WriteLine("Value must be between minValue and maxValue");
+            } while (true);
         }
 
         private static void PlayingWithVariables ()
@@ -98,4 +161,3 @@ namespace Section1
         }
     }
 }
-
