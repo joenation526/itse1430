@@ -10,19 +10,82 @@ namespace Section1
     {
         static void Main ( string[] args )
         {
-            //PlayingWithVariables();                       
-            AddMovie();
+            //PlayingWithVariables();  
+            var done = false;
+            do
+            {
+                switch (DisplayMenu())
+                {
+                    case Command.Add: AddMovie(); break;
+                    case Command.Display: DisplayMovie(); break;
+                    case Command.Quit: done = true; break;
+                };
+            } while (!done);
         }
+
+        private static void DisplayMovie ()
+        {
+            if (String.IsNullOrEmpty(title))
+            {
+                Console.WriteLine("No movies");
+                return;
+            };
+
+            Console.WriteLine(title);
+
+            Console.WriteLine(releaseYear);
+
+            Console.WriteLine(runLength + " (min)");
+
+            Console.WriteLine(isClassic ? "Classic" : "Not Classic");
+
+            if(!String.IsNullOrEmpty(description))
+            Console.WriteLine(description);
+        }
+
+
+        enum Command
+        {
+            Quit = 0,
+            Add = 1,
+            Display = 2,
+        }
+
+        private static Command DisplayMenu ()
+        {
+            do
+            {
+                Console.WriteLine("A)dd Movie");
+                Console.WriteLine("D)isplay Movie");
+                Console.WriteLine("Q)uit");
+
+                var input = Console.ReadLine();
+                switch (input.ToLower())
+                {
+                    case "a": return Command.Add;
+                    case "d": return Command.Display;
+                    case "q": return Command.Quit;
+
+                    default: Console.WriteLine("Invalid option"); break;
+                };
+            } while (true);
+        }
+
+        static string title;
+        static int releaseYear;
+        static int runLength;
+        static string description;
+        static bool isClassic;
 
         static void AddMovie ()
         {
-            string title = ReadString("Enter a title: ", true);
+             title = ReadString("Enter a title: ", true);
 
-            int releaseYear = ReadInt32("Enter the release year (>= 0): ", 0, 2100);
-            int runLength = ReadInt32("Enter the run length (>= 0): ", 0, 86400);
+             releaseYear = ReadInt32("Enter the release year (>= 0): ", 0, 2100);
+             runLength = ReadInt32("Enter the run length (>= 0): ", 0, 86400);
 
-            string description = ReadString("Enter a description: ", false);
-            bool isClassic = ReadBoolean("Is this a classic movie?");
+             description = ReadString("Enter a description: ", false);
+             isClassic = ReadBoolean("Is this a classic movie?");
         }
 
         private static bool ReadBoolean ( string message )
@@ -33,10 +96,11 @@ namespace Section1
             {
                 string value = Console.ReadLine();
 
-                //Check for empty string
+                //Checking for empty string
                 // 1. if (value != "")
                 // 2. if (value != String.Empty)
                 // 3. if (value != null && value.Length == 0)
+                // 4. Preferred - String.IsNullOrEmpty
                 if (!String.IsNullOrEmpty(value))
                 {
                     // Input validation
@@ -158,6 +222,45 @@ namespace Section1
             //Display a message
             Console.WriteLine("Enter a value");
             string input = Console.ReadLine();
+        }
+
+        static void PlayingWithStrings ()
+        {
+            var firstName = "John";
+            var lastName = "Wick";
+
+            var fullName = firstName + lastName;
+            fullName += "Jr";
+
+            //Concat more than 6
+            var concat = String.Concat(firstName, " ", lastName);
+            var joined = (" ", firstName, lastName);
+
+            //Formatting
+            Console.WriteLine("First name: {0} Last Name: {1}", firstName, lastName);
+            var format = String.Format("First name: {0} Last Name: {1}", firstName, lastName);
+
+            var format2 = "First Name: " + firstName + " Last Name" + lastName;
+
+            //Preferred - string interpolation
+            var format3 = $"First name: {firstName} Last Name: {lastName}";
+
+            //Verbaim string
+            var path = @"c:\windows\system32";
+
+            var startsWithSlash = path.StartsWith(@"\");
+            var endsWithSlash = path.EndsWith(@"\");
+
+            var pathLeft = fullName.PadLeft(20);
+            var pathRight = fullName.PadRight(20);
+            var header = "".PadLeft(20, "-"); //------
+
+            var trim = fullName.Trim();
+            var trimStart = fullName.TrimStart();
+            var trimEnd = fullName.TrimEnd();
+            var trimSlash = path.Trim('\\', '-');
+
+            var tokens = path.Split('\\');
         }
     }
 }
