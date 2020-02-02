@@ -11,58 +11,82 @@ namespace PizzaCreator
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            PizzaMenu();
-        }
-
-        private static void PizzaMenu ()
+        // total amount of acummulated for the pizza 
+        static double total;
+        static bool done = false;
+        static void Main ( string[] args )
         {
 
-            ReadInput();
-
-        }
-
-        private static void ReadInput ()
-        {
             do
             {
-                // Create the menu
+                switch (PizzaMenu())
+                {
+                    case Command.New: break;
+                    case Command.Display: break;
+                    case Command.Modify: break;
+                    case Command.Quit: Exit(); break;
+                };
+            } while (!done);
+        }
+
+        private static Command PizzaMenu ()
+        {
+            // when user doesn't input anything an error is thown. Need to error check for this
+            do
+            {
                 Console.WriteLine("Choose your pizza option");
                 Console.WriteLine("1. New order\n" + "2. Display order\n" + "3. Modify order\n" + "0. Quit\n");
 
-                // User should only be able to select 1-3 or 0 
-                string selection = Console.ReadLine();
-                do
+                var selection = Console.ReadLine();
+
+                switch (selection)
                 {
+                    case "1": return Command.New;
+                    case "2": return Command.Display;
+                    case "3": return Command.Modify;
+                    case "0": return Command.Quit;    // this needs to be checked by using the Y/N options 
 
-                    // Error check for user input
-                    if (String.IsNullOrEmpty(selection))
-                    {
-                        Console.WriteLine("Please enter a value.");
-                    } else if (selection != "1" && selection != "2" && selection != "3" && selection != "0")
-                    {
-                        Console.WriteLine("Please enter in key values 1-3 or 0.");
-                    }
-
-                    // the quit option prompt
-                    if (selection == "0")
-                    {
-                        Console.WriteLine("Are you sure? (Y/N)");
-
-                        selection = Console.ReadLine();
-
-                        if (selection == "N" || selection == "n")
-                        {
-                            break;
-                        }
-                    }
-
-                    // Current price needs to be shown on the menu
-
-                } while (true);
-
+                    default: Console.WriteLine("ERROR: Please enter the number keys 1-3 or 0.\n"); break;
+                };
             } while (true);
+        }
+
+        private static void Exit ()
+        {
+            Console.WriteLine("Are you sure? (Y/N)?");
+
+            do
+            {
+                string value = Console.ReadLine();
+                if (!String.IsNullOrEmpty(value))
+                {
+                    if (String.Compare(value, "Y", true) == 0)
+                    {
+                        done = true;
+                        return;
+                    } 
+                    else if (String.Compare(value, "N", true) == 0)
+                    {
+                        done = false;
+                        return;
+                    }
+                };
+                Console.WriteLine("Enter Y or N");
+            } while (true);
+
+        }
+
+        enum Command
+        { 
+            New = 1,
+            Display = 2,
+            Modify = 3, 
+            Quit = 0,
+        }
+
+        static void NewOrder ()
+        {
+            
         }
     }
 }

@@ -253,7 +253,7 @@ namespace Section1
 
             var pathLeft = fullName.PadLeft(20);
             var pathRight = fullName.PadRight(20);
-            var header = "".PadLeft(20, "-"); //------
+            // var header = "".PadLeft(20, "-"); //------
 
             var trim = fullName.Trim();
             var trimStart = fullName.TrimStart();
