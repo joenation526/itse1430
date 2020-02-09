@@ -11,9 +11,7 @@ namespace PizzaCreator
 {
     class Program
     {
-        // total amount of acummulated for the pizza 
-        static double totalPrice;
-        static bool done = false;
+        private static bool done = false;
 
         static void Main ( string[] args )
         {
@@ -23,7 +21,7 @@ namespace PizzaCreator
                 switch (PizzaMenu())
                 {
                     case Command.New: NewOrder(); break;
-                    case Command.Display: break;
+                    case Command.Display: DisplayOrder(); break;
                     case Command.Modify: break;
                     case Command.Quit: Exit(); break;
                 };
@@ -37,7 +35,6 @@ namespace PizzaCreator
             {
                 Console.WriteLine("Choose your pizza option");
                 Console.WriteLine("1. New order\n" + "2. Display order\n" + "3. Modify order\n" + "0. Quit\n");
-
                 Console.WriteLine("Current Price " + totalPrice.ToString("C"));
 
                 var selection = Console.ReadLine();
@@ -76,7 +73,6 @@ namespace PizzaCreator
                 };
                 Console.WriteLine("Enter Y or N");
             } while (true);
-
         }
 
         enum Command
@@ -87,8 +83,25 @@ namespace PizzaCreator
             Quit = 0,
         }
 
-        static void NewOrder ()
+        static double small = 5.00;
+        static double medium = 6.25;
+        static double large = 8.75;
+        static double meats = 0.75;
+        static double veggies = 0.50;
+        static double pizzaSauce = 1;
+        static double deliver = 2.50;
+        static double totalPrice;
+
+        private static void NewOrder ()
         {
+
+            if (totalPrice != 0)
+            {
+                Console.WriteLine("Order already exist. Do you want to overwrite existing order? (Y/N)");
+                // Need the users input for this in order to proceed to function below.
+                return; 
+            }
+
             Console.WriteLine("New order ");
             Console.WriteLine("-----------");
 
@@ -104,14 +117,62 @@ namespace PizzaCreator
 
                 Delivery();
 
+                Console.WriteLine();
+
+                DisplayOrder();
+
+                Console.WriteLine();
+
                 break;
 
             } while (true);
         }
 
+        // Having problems displaying multiples of one item. --- meats and vegetables
+        static string pizzaSizeDisplay;
+        static string meatDisplay;
+        static string vegatableDisplay;
+        static string sauceDisplay;
+        static string deliveryDisplay;
+        private static void DisplayOrder ()
+        {
+            if (String.IsNullOrEmpty(pizzaSizeDisplay))
+            {
+                Console.WriteLine("No Order has been created");
+                return; 
+            }
+
+            Console.WriteLine("\n" + pizzaSizeDisplay);
+
+            Console.WriteLine(deliveryDisplay);
+
+            Console.Write("Meats\n" + meatDisplay);
+
+            Console.Write("Vegatables\n" + vegatableDisplay);
+
+            Console.Write("Sauce\n" + sauceDisplay + "\n");
+        }
+
         private static void Delivery ()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Take out or Delivery?");
+            Console.WriteLine("1. Take out ($0)");
+            Console.WriteLine("2. Delivery ($2.50)");
+
+            do
+            {
+                var selection = Console.ReadLine();
+
+                switch (selection)
+                {
+                    case "1": Console.WriteLine("Take out"); deliveryDisplay = "Take out\t\t" + "$0"; return;   // make take out a variable of 0
+                    case "2": Console.WriteLine("Delivery Added."); totalPrice += deliver; deliveryDisplay = "Delivery\t" + deliver.ToString("C"); return;
+
+                    default: Console.WriteLine("Please choose one of the options."); break;
+                }
+
+            } while (true);
+            
         }
 
         private static void Sauce ()
@@ -120,20 +181,23 @@ namespace PizzaCreator
             Console.WriteLine("1. Traditional ($0)");
             Console.WriteLine("2. Garlic ($1)");
             Console.WriteLine("3. Oregano ($1)");
-            Console.WriteLine("0. NEXT->");
 
-            var selection = Console.ReadLine();
-            const double pizzaSauce = 1;
-
-
-            switch (selection)
+            do 
             {
-                case "1": Console.WriteLine("Traditional Sauce Added."); break;
-                case "2": Console.WriteLine("Garlic Sauce Added."); totalPrice += pizzaSauce; break;
-                case "3": Console.WriteLine("Oregano Added."); totalPrice += pizzaSauce; break;
+                var selection = Console.ReadLine();
+                
 
-                default: Console.WriteLine("Use the 1-4 num keys or press 0 to proceed."); break;
+                switch (selection)
+                {
+                    case "1": Console.WriteLine("Traditional Sauce Added."); sauceDisplay = "\tTraditional Sauce\t\n"; return;
+                    case "2": Console.WriteLine("Garlic Sauce Added."); totalPrice += pizzaSauce; sauceDisplay = "\tGarlic Sauce\t" + pizzaSauce.ToString("C") + "\n"; return;
+                    case "3": Console.WriteLine("Oregano Added."); totalPrice += pizzaSauce; sauceDisplay = "\tOregano\t" + pizzaSauce.ToString("C") + "\n"; return;
+
+                    default: Console.WriteLine("Please pick a sauce."); break;
+                }
             }
+            while (true);
+
         }
 
         private static void Vegetables ()
@@ -148,20 +212,19 @@ namespace PizzaCreator
             do
             {
                 var meatSelect = Console.ReadLine();
-                const double veggies = 0.50;
-
+                
                 switch (meatSelect)
                 {
-                    case "1": Console.WriteLine("Black Olives Added."); totalPrice += veggies; break;
-                    case "2": Console.WriteLine("Mushrooms Added."); totalPrice += veggies; break;
-                    case "3": Console.WriteLine("Onions Added."); totalPrice += veggies; break;
-                    case "4": Console.WriteLine("Peppers Added."); totalPrice += veggies; break;
+                    case "1": Console.WriteLine("Black Olives Added."); totalPrice += veggies; vegatableDisplay += "\tBlack Olives\t" + veggies.ToString("C") + "\n"; break;
+                    case "2": Console.WriteLine("Mushrooms Added."); totalPrice += veggies; vegatableDisplay += "\tMushrooms\t" + veggies.ToString("C") + "\n"; break;
+                    case "3": Console.WriteLine("Onions Added."); totalPrice += veggies; vegatableDisplay += "\tOnions\t\t" + veggies.ToString("C") + "\n"; break;
+                    case "4": Console.WriteLine("Peppers Added."); totalPrice += veggies; vegatableDisplay += "\tPeppers\t\t" + veggies.ToString("C") + "\n"; break;
                     case "0": return;
 
                     default: Console.WriteLine("Use the 1-4 num keys or press 0 to proceed."); break;
                 }
             } while (true);
-        }
+        }   
 
         private static void Meats ()
         {
@@ -175,14 +238,13 @@ namespace PizzaCreator
             do 
             {
                 var meatSelect = Console.ReadLine();
-                const double meats = 0.75;
-
+      
                 switch (meatSelect)
                 {
-                    case "1": Console.WriteLine("Bacon Added."); totalPrice += meats; break;
-                    case "2": Console.WriteLine("Ham Added."); totalPrice += meats; break;
-                    case "3": Console.WriteLine("Pepperoni Added."); totalPrice += meats; break;
-                    case "4": Console.WriteLine("Sausage Added."); totalPrice += meats; break;
+                    case "1": Console.WriteLine("Bacon Added."); totalPrice += meats; meatDisplay += "\tBacon\t\t" + meats.ToString("C") + "\n"; break;
+                    case "2": Console.WriteLine("Ham Added."); totalPrice += meats; meatDisplay += "\tHam\t\t" + meats.ToString("C") + "\n"; break;
+                    case "3": Console.WriteLine("Pepperoni Added."); totalPrice += meats; meatDisplay += "\tPepperoni\t" + meats.ToString("C") + "\n"; break;
+                    case "4": Console.WriteLine("Sausage Added."); totalPrice += meats; meatDisplay += "\tSausage\t\t" + meats.ToString("C") + "\n"; break;
                     case "0": return;
                    
                     default: Console.WriteLine("Use the 1-4 num keys or press 0 to proceed."); break;
@@ -197,19 +259,15 @@ namespace PizzaCreator
             Console.WriteLine("2. Medium ($6.25)");
             Console.WriteLine("3. Large ($7)");
 
-
             do
             {
-                string pizzaSize = Console.ReadLine();
-                const double small = 5.00;
-                const double medium = 5.00;
-                const double large = 5.00;
+                string selection = Console.ReadLine();
 
-                switch (pizzaSize)
+                switch (selection)
                 {
-                    case "1": totalPrice += small; return;
-                    case "2": totalPrice += medium; return;
-                    case "3": totalPrice += large; return;
+                    case "1": totalPrice += small; pizzaSizeDisplay = "Small Pizza\t\t" + small.ToString("C"); return;  
+                    case "2": totalPrice += medium; pizzaSizeDisplay = "Medium Pizza\t\t" + medium.ToString("C"); return;
+                    case "3": totalPrice += large; pizzaSizeDisplay = "Large Pizza\t\t" + large.ToString("C"); return;
 
                     default: Console.WriteLine("Please choose a pizza size using 1-3 num keys"); break;
                 }
