@@ -4,7 +4,6 @@
  * Jonathan Saysanam
  */
 
-
 using System;
 
 namespace PizzaCreator
@@ -22,7 +21,7 @@ namespace PizzaCreator
                 {
                     case Command.New: NewOrder(); break;
                     case Command.Display: DisplayOrder(); break;
-                    case Command.Modify: break;
+                    case Command.Modify: ModifyOrder(); break;
                     case Command.Quit: Exit(); break;
                 };
             } while (!done);
@@ -35,7 +34,7 @@ namespace PizzaCreator
             {
                 Console.WriteLine("Choose your pizza option");
                 Console.WriteLine("1. New order\n" + "2. Display order\n" + "3. Modify order\n" + "0. Quit\n");
-                Console.WriteLine("Current Price " + totalPrice.ToString("C"));
+                Console.WriteLine("Cart Price " + totalPrice.ToString("C"));
 
                 var selection = Console.ReadLine();
 
@@ -64,8 +63,7 @@ namespace PizzaCreator
                     {
                         done = true;
                         return;
-                    } 
-                    else if (String.Compare(value, "N", true) == 0)
+                    } else if (String.Compare(value, "N", true) == 0)
                     {
                         done = false;
                         return;
@@ -76,20 +74,13 @@ namespace PizzaCreator
         }
 
         enum Command
-        { 
+        {
             New = 1,
             Display = 2,
-            Modify = 3, 
+            Modify = 3,
             Quit = 0,
         }
 
-        static double small = 5.00;
-        static double medium = 6.25;
-        static double large = 8.75;
-        static double meats = 0.75;
-        static double veggies = 0.50;
-        static double pizzaSauce = 1;
-        static double deliver = 2.50;
         static double totalPrice;
 
         private static void NewOrder ()
@@ -97,13 +88,11 @@ namespace PizzaCreator
 
             if (totalPrice != 0)
             {
-                Console.WriteLine("Order already exist. Do you want to overwrite existing order? (Y/N)");
-                // Need the users input for this in order to proceed to function below.
-                return; 
+                if (OverWrite() == false)
+                {
+                    return;
+                }
             }
-
-            Console.WriteLine("New order ");
-            Console.WriteLine("-----------");
 
             do
             {
@@ -114,6 +103,8 @@ namespace PizzaCreator
                 Vegetables();
 
                 Sauce();
+
+                Cheese();
 
                 Delivery();
 
@@ -128,30 +119,173 @@ namespace PizzaCreator
             } while (true);
         }
 
-        // Having problems displaying multiples of one item. --- meats and vegetables
-        static string pizzaSizeDisplay;
-        static string meatDisplay;
-        static string vegatableDisplay;
-        static string sauceDisplay;
-        static string deliveryDisplay;
-        private static void DisplayOrder ()
+        private static bool OverWrite ()
         {
-            if (String.IsNullOrEmpty(pizzaSizeDisplay))
+            do
             {
-                Console.WriteLine("No Order has been created");
-                return; 
-            }
+                Console.WriteLine("Order already exist. Do you want to overwrite existing order? (Y/N)");
 
-            Console.WriteLine("\n" + pizzaSizeDisplay);
+                string value = Console.ReadLine();
 
-            Console.WriteLine(deliveryDisplay);
-
-            Console.Write("Meats\n" + meatDisplay);
-
-            Console.Write("Vegatables\n" + vegatableDisplay);
-
-            Console.Write("Sauce\n" + sauceDisplay + "\n");
+                if (!String.IsNullOrEmpty(value))
+                {
+                    if (String.Compare(value, "Y", true) == 0)
+                    {
+                        pizzaSizeDisplay = "";
+                        meatDisplay = "";
+                        vegatableDisplay = "";
+                        sauceDisplay = "";
+                        deliveryDisplay = "";
+                        totalPrice = 0;
+                        return true;
+                    } else if (String.Compare(value, "N", true) == 0)
+                    {
+                        return false;
+                    }
+                };
+                Console.WriteLine("Enter Y or N");
+            } while (true);
         }
+
+        static double pizzaSize;
+
+        private static void PizzaSize ()
+        {
+            do
+            {
+                Console.WriteLine("\nChoose your Pizza size: ");
+                Console.WriteLine("1. Small ($5)");
+                Console.WriteLine("2. Medium ($6.25)");
+                Console.WriteLine("3. Large ($7)");
+
+                string selection = Console.ReadLine();
+
+                switch (selection)
+                {
+                    case "1": pizzaSize = 5; totalPrice += pizzaSize; pizzaSizeDisplay = "Small Pizza\t\t" + pizzaSize.ToString("C"); return;
+                    case "2": pizzaSize = 6.25; totalPrice += pizzaSize; pizzaSizeDisplay = "Medium Pizza\t\t" + pizzaSize.ToString("C"); return;
+                    case "3": pizzaSize = 7; totalPrice += pizzaSize; pizzaSizeDisplay = "Large Pizza\t\t" + pizzaSize.ToString("C"); return;
+
+                    default: Console.WriteLine("Please choose a pizza size using 1-3 num keys"); break;
+                }
+            }
+            while (true);
+        }
+
+        
+        static double meats = 0.75;
+
+        private static void Meats ()
+        {
+            do
+            {
+                Console.WriteLine("Meats: ($0.75 per selection)");
+                Console.WriteLine("1. Bacon");
+                Console.WriteLine("2. Ham");
+                Console.WriteLine("3. Pepperoni");
+                Console.WriteLine("4. Sausage");
+                Console.WriteLine("0. NEXT->");
+
+                Console.WriteLine(meatDisplay);
+
+                var selection = Console.ReadLine();
+
+                // Need to unselect somehow......
+                switch (selection)
+                {
+                    case "1": Console.WriteLine("Bacon Added."); totalPrice += meats; meatDisplay += "\tBacon\t\t" + meats.ToString("C") + "\n"; break;
+                    case "2": Console.WriteLine("Ham Added."); totalPrice += meats; meatDisplay += "\tHam\t\t" + meats.ToString("C") + "\n"; break;
+                    case "3": Console.WriteLine("Pepperoni Added."); totalPrice += meats; meatDisplay += "\tPepperoni\t" + meats.ToString("C") + "\n"; break;
+                    case "4": Console.WriteLine("Sausage Added."); totalPrice += meats; meatDisplay += "\tSausage\t\t" + meats.ToString("C") + "\n"; break;
+                    case "0": return;
+
+                    default: Console.WriteLine("Please use the number keys or press 0 to proceed."); break;
+                }
+            }
+            while (true);
+        }
+
+        static double veggies = 0.50;
+
+        private static void Vegetables ()
+        {
+            Console.WriteLine("Vegetables: ($0.50 per selection)");
+            Console.WriteLine("1. Black Olives");
+            Console.WriteLine("2. Mushrooms");
+            Console.WriteLine("3. Onions");
+            Console.WriteLine("4. Peppers");
+            Console.WriteLine("0. NEXT->");
+
+            do
+            {
+                Console.WriteLine(vegatableDisplay);
+
+                var selection = Console.ReadLine();
+
+                switch (selection)
+                {
+                    case "1": Console.WriteLine("Black Olives Added."); totalPrice += veggies; vegatableDisplay += "\tBlack Olives\t" + veggies.ToString("C") + "\n"; break;
+                    case "2": Console.WriteLine("Mushrooms Added."); totalPrice += veggies; vegatableDisplay += "\tMushrooms\t" + veggies.ToString("C") + "\n"; break;
+                    case "3": Console.WriteLine("Onions Added."); totalPrice += veggies; vegatableDisplay += "\tOnions\t\t" + veggies.ToString("C") + "\n"; break;
+                    case "4": Console.WriteLine("Peppers Added."); totalPrice += veggies; vegatableDisplay += "\tPeppers\t\t" + veggies.ToString("C") + "\n"; break;
+                    case "0": return;
+
+                    default: Console.WriteLine("Please use the number keys or press 0 to proceed."); break;
+                }
+            } while (true);
+        }
+
+        static double pizzaSauce = 1;
+
+        private static void Sauce ()
+        {
+            Console.WriteLine("Sauce: (One is Required)");
+            Console.WriteLine("1. Traditional ($0)");
+            Console.WriteLine("2. Garlic ($1)");
+            Console.WriteLine("3. Oregano ($1)");
+
+            do
+            {
+                var selection = Console.ReadLine();
+
+                switch (selection)
+                {
+                    case "1": Console.WriteLine("Traditional Sauce Added."); sauceDisplay = "\tTraditional\t\t"; return;
+                    case "2": Console.WriteLine("Garlic Sauce Added."); totalPrice += pizzaSauce; sauceDisplay = "\tGarlic\t\t" + pizzaSauce.ToString("C") + "\n"; return;
+                    case "3": Console.WriteLine("Oregano Added."); totalPrice += pizzaSauce; sauceDisplay = "\tOregano\t\t" + pizzaSauce.ToString("C") + "\n"; return;
+
+                    default: Console.WriteLine("Please pick a sauce."); break;
+                }
+            }
+            while (true);
+
+        }
+
+        static double extraCheese = 1.50;
+
+        private static void Cheese ()
+        {
+            Console.WriteLine("Cheese");
+            Console.WriteLine("1. Regular ($0)");
+            Console.WriteLine("2. Extra ($1.50)");
+
+            do
+            {
+                var selection = Console.ReadLine();
+
+                switch (selection)
+                {
+                    case "1": Console.WriteLine("Regular cheese added"); cheeseDisplay = "\tRegular cheese\t\t"; return;
+                    case "2": Console.WriteLine("Extra cheese added"); totalPrice += extraCheese; cheeseDisplay = "\tExtra cheese\t\t" + extraCheese.ToString("C"); return;
+
+                    default: Console.WriteLine("Please choose one of the options."); break;
+                }
+
+            } while (true);
+        }
+
+        static double takeOut = 0;
+        static double deliver = 2.50;
 
         private static void Delivery ()
         {
@@ -165,114 +299,98 @@ namespace PizzaCreator
 
                 switch (selection)
                 {
-                    case "1": Console.WriteLine("Take out"); deliveryDisplay = "Take out\t\t" + "$0"; return;   // make take out a variable of 0
-                    case "2": Console.WriteLine("Delivery Added."); totalPrice += deliver; deliveryDisplay = "Delivery\t" + deliver.ToString("C"); return;
+                    case "1": Console.WriteLine("Take out"); deliveryDisplay = "Take out\t\t" + takeOut.ToString("C"); return;
+                    case "2": Console.WriteLine("Delivery Added."); totalPrice += deliver; deliveryDisplay = "Delivery\t\t" + deliver.ToString("C"); return;
 
                     default: Console.WriteLine("Please choose one of the options."); break;
                 }
 
             } while (true);
-            
+
         }
 
-        private static void Sauce ()
+        static string pizzaSizeDisplay;
+        static string meatDisplay;
+        static string vegatableDisplay;
+        static string sauceDisplay;
+        static string cheeseDisplay;
+        static string deliveryDisplay;
+        private static void DisplayOrder ()
         {
-            Console.WriteLine("Sauce: (One is Required)");
-            Console.WriteLine("1. Traditional ($0)");
-            Console.WriteLine("2. Garlic ($1)");
-            Console.WriteLine("3. Oregano ($1)");
-
-            do 
+            if (String.IsNullOrEmpty(pizzaSizeDisplay))
             {
-                var selection = Console.ReadLine();
-                
-
-                switch (selection)
-                {
-                    case "1": Console.WriteLine("Traditional Sauce Added."); sauceDisplay = "\tTraditional Sauce\t\n"; return;
-                    case "2": Console.WriteLine("Garlic Sauce Added."); totalPrice += pizzaSauce; sauceDisplay = "\tGarlic Sauce\t" + pizzaSauce.ToString("C") + "\n"; return;
-                    case "3": Console.WriteLine("Oregano Added."); totalPrice += pizzaSauce; sauceDisplay = "\tOregano\t" + pizzaSauce.ToString("C") + "\n"; return;
-
-                    default: Console.WriteLine("Please pick a sauce."); break;
-                }
+                Console.WriteLine("No Order has been created");
+                return;
             }
-            while (true);
 
+            Console.WriteLine("\n" + pizzaSizeDisplay);
+
+            Console.WriteLine(deliveryDisplay);
+
+            Console.Write("Meats:\n" + meatDisplay);
+
+            Console.Write("Vegatables:\n" + vegatableDisplay);
+
+            Console.WriteLine("Cheese:\n" + cheeseDisplay);
+
+            Console.WriteLine("Sauce:\n" + sauceDisplay);
+
+            var header = "".PadRight(30, '-'); //------
+
+            Console.WriteLine(header);
+
+            Console.WriteLine("Total Price " + totalPrice.ToString("C"));
         }
 
-        private static void Vegetables ()
+        private static void ModifyOrder ()
         {
-            Console.WriteLine("Vegetables: ($0.75 per selection)");
-            Console.WriteLine("1. Black Olives");
-            Console.WriteLine("2. Mushrooms");
-            Console.WriteLine("3. Onions");
-            Console.WriteLine("4. Peppers");
-            Console.WriteLine("0. NEXT->");
-
-            do
+            if (pizzaSize == 0)
             {
-                var meatSelect = Console.ReadLine();
-                
-                switch (meatSelect)
-                {
-                    case "1": Console.WriteLine("Black Olives Added."); totalPrice += veggies; vegatableDisplay += "\tBlack Olives\t" + veggies.ToString("C") + "\n"; break;
-                    case "2": Console.WriteLine("Mushrooms Added."); totalPrice += veggies; vegatableDisplay += "\tMushrooms\t" + veggies.ToString("C") + "\n"; break;
-                    case "3": Console.WriteLine("Onions Added."); totalPrice += veggies; vegatableDisplay += "\tOnions\t\t" + veggies.ToString("C") + "\n"; break;
-                    case "4": Console.WriteLine("Peppers Added."); totalPrice += veggies; vegatableDisplay += "\tPeppers\t\t" + veggies.ToString("C") + "\n"; break;
-                    case "0": return;
+                Console.WriteLine("Order does not exist");
+                return;
+            }
 
-                    default: Console.WriteLine("Use the 1-4 num keys or press 0 to proceed."); break;
-                }
-            } while (true);
-        }   
-
-        private static void Meats ()
-        {
-            Console.WriteLine("Meats: ($0.75 per selection)");
-            Console.WriteLine("1. Bacon");
-            Console.WriteLine("2. Ham");
-            Console.WriteLine("3. Pepperoni");
-            Console.WriteLine("4. Sausage");
-            Console.WriteLine("0. NEXT->");
-
-            do 
+            // If the user selects yes they can modify their order
+            if (Modify() == true)
             {
-                var meatSelect = Console.ReadLine();
-      
-                switch (meatSelect)
-                {
-                    case "1": Console.WriteLine("Bacon Added."); totalPrice += meats; meatDisplay += "\tBacon\t\t" + meats.ToString("C") + "\n"; break;
-                    case "2": Console.WriteLine("Ham Added."); totalPrice += meats; meatDisplay += "\tHam\t\t" + meats.ToString("C") + "\n"; break;
-                    case "3": Console.WriteLine("Pepperoni Added."); totalPrice += meats; meatDisplay += "\tPepperoni\t" + meats.ToString("C") + "\n"; break;
-                    case "4": Console.WriteLine("Sausage Added."); totalPrice += meats; meatDisplay += "\tSausage\t\t" + meats.ToString("C") + "\n"; break;
-                    case "0": return;
-                   
-                    default: Console.WriteLine("Use the 1-4 num keys or press 0 to proceed."); break;
-                }
-            } while (true);
+                PizzaSize();
+
+                Meats();
+
+                Vegetables();
+
+                Sauce();
+
+                Cheese();
+
+                Delivery();
+
+                DisplayOrder();
+            }
         }
 
-        private static void PizzaSize ()
+        private static bool Modify ()
         {
-            Console.WriteLine("\nChoose your Pizza size: ");
-            Console.WriteLine("1. Small ($5)");
-            Console.WriteLine("2. Medium ($6.25)");
-            Console.WriteLine("3. Large ($7)");
-
             do
             {
-                string selection = Console.ReadLine();
+                Console.WriteLine("Are you sure you want to modify your order? (Y/N)");
 
-                switch (selection)
+                string value = Console.ReadLine();
+
+                if (!String.IsNullOrEmpty(value))
                 {
-                    case "1": totalPrice += small; pizzaSizeDisplay = "Small Pizza\t\t" + small.ToString("C"); return;  
-                    case "2": totalPrice += medium; pizzaSizeDisplay = "Medium Pizza\t\t" + medium.ToString("C"); return;
-                    case "3": totalPrice += large; pizzaSizeDisplay = "Large Pizza\t\t" + large.ToString("C"); return;
+                    if (String.Compare(value, "Y", true) == 0)
+                    {
+                        return true;
+                    } else if (String.Compare(value, "N", true) == 0)
+                    {
+                        return false;
+                    }
+                };
 
-                    default: Console.WriteLine("Please choose a pizza size using 1-3 num keys"); break;
-                }
+                Console.WriteLine("Enter Y or N");
+
             } while (true);
-            
         }
     }
 }
