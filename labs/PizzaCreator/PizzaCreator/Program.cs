@@ -173,36 +173,72 @@ namespace PizzaCreator
         }
 
         
-        static double meats = 0.75;
+        static double meats;
 
         private static void Meats ()
         {
+
+            Console.WriteLine("Meats: ($0.75 per selection)");
+            Console.WriteLine("1. Bacon");
+            Console.WriteLine("2. Ham");
+            Console.WriteLine("3. Pepperoni");
+            Console.WriteLine("4. Sausage");
+            Console.WriteLine("0. NEXT->");
+
+            MeatSelect();
+        }
+
+        private static void MeatSelect ()
+        {
             do
             {
-                Console.WriteLine("Meats: ($0.75 per selection)");
-                Console.WriteLine("1. Bacon");
-                Console.WriteLine("2. Ham");
-                Console.WriteLine("3. Pepperoni");
-                Console.WriteLine("4. Sausage");
-                Console.WriteLine("0. NEXT->");
-
                 Console.WriteLine(meatDisplay);
 
                 var selection = Console.ReadLine();
 
-                // Need to unselect somehow......
                 switch (selection)
                 {
-                    case "1": Console.WriteLine("Bacon Added."); totalPrice += meats; meatDisplay += "\tBacon\t\t" + meats.ToString("C") + "\n"; break;
-                    case "2": Console.WriteLine("Ham Added."); totalPrice += meats; meatDisplay += "\tHam\t\t" + meats.ToString("C") + "\n"; break;
-                    case "3": Console.WriteLine("Pepperoni Added."); totalPrice += meats; meatDisplay += "\tPepperoni\t" + meats.ToString("C") + "\n"; break;
-                    case "4": Console.WriteLine("Sausage Added."); totalPrice += meats; meatDisplay += "\tSausage\t\t" + meats.ToString("C") + "\n"; break;
+                    case "1": meatCalculation(); meatDisplay += "\tBacon\t\t" + meats.ToString("C") + "\n"; break;
+                    case "2": meatCalculation(); totalPrice += meats; meatDisplay += "\tHam\t\t" + meats.ToString("C") + "\n"; break;
+                    case "3": meatCalculation(); totalPrice += meats; meatDisplay += "\tPepperoni\t" + meats.ToString("C") + "\n"; break;
+                    case "4": meatCalculation(); totalPrice += meats; meatDisplay += "\tSausage\t\t" + meats.ToString("C") + "\n"; break;
                     case "0": return;
 
                     default: Console.WriteLine("Please use the number keys or press 0 to proceed."); break;
                 }
+
+                var deselect = Console.ReadLine();
+
+                switch (deselect)
+                {
+                    case "1": Console.WriteLine("Bacon removed."); totalPrice -= meats; meatDisplay += ""; break;
+                    case "2": Console.WriteLine("Ham removed."); totalPrice -= meats; break;
+                    case "3": Console.WriteLine("Pepperoni removed."); totalPrice -= meats; break;
+                    case "4": Console.WriteLine("Sausage removed."); totalPrice -= meats; break;
+                    case "0": return;
+
+                    default: Console.WriteLine("Please use the number keys or press 0 to proceed."); break;
+                }
+
             }
             while (true);
+        }
+
+        private static void meatCalculation ()
+        {
+            Console.WriteLine("How many?");
+
+            var temp = Convert.ToInt32(Console.ReadLine());
+
+            meats += 0.75 * temp;
+
+            totalPrice += meats;
+
+            if (temp != 0)
+            {
+                Console.WriteLine("Meat Added.");
+            }
+            Console.WriteLine("No Meat added");
         }
 
         static double veggies = 0.50;
