@@ -1,30 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieLibrary.Business
 {
-    /// <summary>
-    /// Represents a movie
-    /// </summary>
+    /// <summary>Represents a movie.</summary>
     /// <remarks>
     /// Lots of info.
     /// </remarks>
     public class Movie
     {
-        public string title;
+        /// <summary>Gets or sets the title.</summary>
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; }
+        }
+        private string _title;
 
+        /// <summary>Gets or sets the run length in minutes.</summary>
         public int runLength;
 
-        /// <summary>
-        /// Run length in minutes 
-        /// </summary>
+        /// <summary>Gets or sets the description.</summary>
         public string description;
 
-        public int releaseYear = 2014;
+        /// <summary>Gets or sets the release year.</summary>
+        /// <value>Default is 1900.</value>
+        public int releaseYear = 1900;
 
+        /// <summary>Determines if this is a classic movie.</summary>
         public bool isClassic;
     }
 }
+
