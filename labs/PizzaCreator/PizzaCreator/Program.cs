@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Text;
 
 namespace PizzaCreator
 {
@@ -153,19 +154,22 @@ namespace PizzaCreator
 
         private static void PizzaSize ()
         {
+            // need to find a way to mark my selections without having them erased in modify
             do
             {
+                string markSelection = "";  // this erases when I call modify
+
                 Console.WriteLine("\nChoose your Pizza size: ");
-                Console.WriteLine("1. Small ($5)");
-                Console.WriteLine("2. Medium ($6.25)");
+                Console.WriteLine("1. Small ($5)" + markSelection);
+                Console.WriteLine("2. Medium ($6.25)" + markSelection);
                 Console.WriteLine("3. Large ($7)");
 
                 string selection = Console.ReadLine();
 
                 switch (selection)
                 {
-                    case "1": pizzaSize = 5; totalPrice += pizzaSize; pizzaSizeDisplay = "Small Pizza\t\t" + pizzaSize.ToString("C"); return;
-                    case "2": pizzaSize = 6.25; totalPrice += pizzaSize; pizzaSizeDisplay = "Medium Pizza\t\t" + pizzaSize.ToString("C"); return;
+                    case "1": pizzaSize = 5; markSelection = "Selected"; totalPrice += pizzaSize; pizzaSizeDisplay = "Small Pizza\t\t" + pizzaSize.ToString("C"); return;
+                    case "2": pizzaSize = 6.25; markSelection = "Selected"; totalPrice += pizzaSize; pizzaSizeDisplay = "Medium Pizza\t\t" + pizzaSize.ToString("C"); return;
                     case "3": pizzaSize = 7; totalPrice += pizzaSize; pizzaSizeDisplay = "Large Pizza\t\t" + pizzaSize.ToString("C"); return;
 
                     default: Console.WriteLine("Please choose a pizza size using 1-3 num keys"); break;
@@ -400,7 +404,7 @@ namespace PizzaCreator
             // If the user selects yes they can modify their order
             if (Modify() == true)
             {
-                NewOrder();
+                PizzaSize();
 
                 DisplayOrder();
             }
@@ -419,13 +423,6 @@ namespace PizzaCreator
                 {
                     if (String.Compare(value, "Y", true) == 0)
                     {
-                        pizzaSizeDisplay = ""; meatDisplay = ""; vegatableDisplay = ""; sauceDisplay = ""; deliveryDisplay = "";
-
-                        baconDisplay = ""; hamDisplay = ""; pepperoniDisplay = ""; sausageDisplay = "";
-
-                        oliveDisplay = ""; mushroomDisplay = ""; onionDisplay = ""; pepperDisplay = "";
-                        
-                        totalPrice = 0;
 
                         return true;
                     } else if (String.Compare(value, "N", true) == 0)
