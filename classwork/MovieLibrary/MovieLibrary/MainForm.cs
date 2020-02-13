@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MovieLibrary.Business;
 using MovieLibrary.WinForms;
@@ -18,61 +11,104 @@ namespace MovieLibrary
         {
             InitializeComponent();
 
+            #region Playing with objects
+
+            //Full name
             //MovieLibrary.Business.Movie;
-            var movie = new Movie();
+            //var movie = new Movie();
 
-            movie.title = "Jaws";
-            movie.description = movie.title;
+            //movie.title = "Jaws";
+            //movie.description = movie.title;
 
-            movie = new Movie();
-
+            //movie = new Movie();
 
             //DisplayMovie(movie);
             //DisplayMovie(null);
             //DisplayConfirmation("Are you sure?", "Start");
-        }
-
-        /// <summary>
-        /// Displays an error message 
-        /// </summary>
-        /// <param name="message">Error to Display</param>
-        private void DisplayError ( string message )
-        {
-            //var that = this;
-
-            //var Text = "";
-            //var newTitle = this.Text; 
-            //var newTitle = Text;
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            #endregion
         }
 
         private bool DisplayConfirmation ( string message, string title )
         {
-           var result = MessageBox.Show(message, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+            //Display a confirmation dialog
+            var result = MessageBox.Show(message, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
 
-            return result == DialogResult.OK; 
+            //Return true if user selected OK
+            return result == DialogResult.OK;
         }
 
-        void DisplayMovie (Movie movie)
+        /// <summary>Displays an error message.</summary>
+        /// <param name="message">Error to display.</param>
+        private void DisplayError ( string message )
+        {
+            #region Playing with this
+
+            //this represents the current instance
+            //var that = this;
+
+            //var Text = "";
+
+            //These are equal
+            //var newTitle = this.Text;
+            //var newTitle = Text;
+            #endregion
+
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        #region Playing with methods
+
+        void DisplayMovie ( Movie movie )
         {
             if (movie == null)
-                return; 
+                return;
 
-            var title = movie.title;
-            movie.description = "Test";
+            var title = movie.Title;
+            movie.Description = "Test";
 
-            movie = new Movie(); 
+            movie = new Movie();
         }
+        #endregion
 
         private void OnMovieAdd ( object sender, EventArgs e )
         {
             MovieForm child = new MovieForm();
 
-            if (child.ShowDialog(this) != DialogResult.OK);
+            //child.Show(); //Modeless, both windows are interactive
+            //Modal - must dismiss child form before main form is accessible
+            if (child.ShowDialog(this) != DialogResult.OK)
                 return;
-            
+
             //TODO: Save the movie
-            //child.Show(); 
+            _movie = child.Movie;
+        }
+
+        private Movie _movie;
+
+        private void OnMovieDelete ( object sender, EventArgs e )
+        {
+            //Verify movie
+            if (_movie == null)
+                return;
+
+            //Confirm
+            if (!DisplayConfirmation($"Are you sure you want to delete {_movie.Title}?", "Delete"))
+                return;
+
+            //TODO: Delete
+            _movie = null;
+        }
+
+        private void OnFileExit ( object sender, EventArgs e )
+        {
+            Close();
+        }
+
+        private void OnHelpAbout ( object sender, EventArgs e )
+        {
+            var about = new AboutBox();
+
+            about.ShowDialog(this);
         }
     }
 }
