@@ -8,6 +8,8 @@ namespace MovieLibrary
 {
     public partial class MainForm : Form
     {
+        #region Construction
+
         public MainForm ()
         {
             InitializeComponent();
@@ -17,7 +19,7 @@ namespace MovieLibrary
             //Full name
             //MovieLibrary.Business.Movie;
             //var movie = new Movie();
-                        
+
             //movie.title = "Jaws";
             //movie.description = movie.title;
 
@@ -28,6 +30,7 @@ namespace MovieLibrary
             //DisplayConfirmation("Are you sure?", "Start");
             #endregion
         }
+        #endregion
 
         private bool DisplayConfirmation ( string message, string title )
         {
@@ -63,13 +66,22 @@ namespace MovieLibrary
         {
             if (movie == null)
                 return;
-            
+
             var title = movie.Title;
             movie.Description = "Test";
 
             movie = new Movie();
         }
         #endregion
+
+        protected override void OnFormClosing ( FormClosingEventArgs e )
+        {
+            base.OnFormClosing(e);
+
+            if (_movie != null)
+                if (!DisplayConfirmation("Are you sure you want to close?", "Close"))                
+                    e.Cancel = true;
+        }
 
         private void OnMovieAdd ( object sender, EventArgs e )
         {
@@ -81,10 +93,23 @@ namespace MovieLibrary
                 return;
 
             //TODO: Save the movie
-            _movie = child.Movie;            
+            _movie = child.Movie;
         }
 
-        private Movie _movie;
+        private void OnMovieEdit ( object sender, EventArgs e )
+        {
+            //Verify movie
+            if (_movie == null)
+                return;
+
+            var child = new MovieForm();
+            child.Movie = _movie;
+            if (child.ShowDialog(this) != DialogResult.OK)
+                return;
+
+            //TODO: Save the movie
+            _movie = child.Movie;
+        }
 
         private void OnMovieDelete ( object sender, EventArgs e )
         {
@@ -111,5 +136,7 @@ namespace MovieLibrary
 
             about.ShowDialog(this);
         }
+
+        private Movie _movie;
     }
 }
