@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Movie Library")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Jonathan Saysanam")]
+[assembly: AssemblyCompany("Your Name")]
 [assembly: AssemblyProduct("MovieLibrary")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("29d51ffe-5f70-444d-aa1a-b46b79703eae")]
+[assembly: Guid("e03e002f-8944-4ce3-a033-4194537af657")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MovieLibrary.Business;
 
-namespace MovieLibrary.WinForms
+namespace MovieLibrary.Winforms
 {
     public partial class MovieForm : Form
     {
@@ -25,16 +25,13 @@ namespace MovieLibrary.WinForms
         }
         private Movie _movie;
 
-       
         private void OnCancel ( object sender, EventArgs e )
         {
-            //TODO: Validation and error reporting
-
             DialogResult = DialogResult.Cancel;
             Close();
         }
 
-        private void OnOk ( object sender, EventArgs e )
+        private void OnOK ( object sender, EventArgs e )
         {
             // Validation and error reporting
             var movie = GetMovie();
@@ -42,8 +39,9 @@ namespace MovieLibrary.WinForms
             {
                 DisplayError(error);
                 return;
-            }
-                
+            };
+
+            Movie = movie;
             DialogResult = DialogResult.OK;
             Close();
         }
@@ -52,7 +50,7 @@ namespace MovieLibrary.WinForms
         {
             var movie = new Movie();
 
-            //Null Conditional
+            //Null conditional
             movie.Title = txtTitle.Text?.Trim();
             movie.RunLength = GetAsInt32(txtRunLength);
             movie.ReleaseYear = GetAsInt32(txtReleaseYear, 1900);
@@ -62,11 +60,10 @@ namespace MovieLibrary.WinForms
             return movie;
         }
 
-      
-
+        /// <summary>Displays an error message.</summary>
+        /// <param name="message">Error to display.</param>
         private void DisplayError ( string message )
         {
-
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
@@ -75,23 +72,15 @@ namespace MovieLibrary.WinForms
             return GetAsInt32(control, 0);
         }
 
-
         private int GetAsInt32 ( Control control, int emptyValue )
         {
             if (String.IsNullOrEmpty(control.Text))
                 return emptyValue;
 
-            if (String.IsNullOrEmpty(control.Text))
-                return 0;
-
             if (Int32.TryParse(control.Text, out var result))
-            {
-                return result;         
-            }
+                return result;
+
             return -1;
         }
-
-
     }
 }
-

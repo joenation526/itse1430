@@ -11,16 +11,18 @@ namespace MovieLibrary.Business
         /// <summary>Gets or sets the title.</summary>
         public string Title
         {
-            get {
+            get 
+            {
                 //Long, long way
                 //if (_title == null)
+                //    return "";
 
-                //    return _title;
+                //return _title;
 
                 //Long way
                 //return (_title != null) ? _title : "";
 
-                //Correct way
+                //Correct
                 return _title ?? "";
             }
             set { _title = value?.Trim(); }
@@ -34,7 +36,7 @@ namespace MovieLibrary.Business
         //    set { _runLength = value; }
         //}
         //private int _runLength;
-        public int RunlLength { get; set; }
+        public int RunLength { get; set; }
 
         /// <summary>Gets or sets the description.</summary>
         public string Description
@@ -66,8 +68,8 @@ namespace MovieLibrary.Business
         public bool IsBlackAndWhite
         {
             get { return ReleaseYear <= 1930; }
-        }   
-        
+        }
+
         //public int Id
         //{
         //    get { return _id; }
@@ -100,8 +102,7 @@ namespace MovieLibrary.Business
                 return false;
             };
 
-            error = null; 
-
+            error = null;
             return true;
         }
     }

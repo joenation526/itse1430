@@ -1,4 +1,4 @@
-﻿namespace MovieLibrary.WinForms
+﻿namespace MovieLibrary.Winforms
 {
     partial class AboutBox
     {

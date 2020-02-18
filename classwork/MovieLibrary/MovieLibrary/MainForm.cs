@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+
 using MovieLibrary.Business;
-using MovieLibrary.WinForms;
+using MovieLibrary.Winforms;
 
 namespace MovieLibrary
 {
@@ -16,7 +17,7 @@ namespace MovieLibrary
             //Full name
             //MovieLibrary.Business.Movie;
             //var movie = new Movie();
-
+                        
             //movie.title = "Jaws";
             //movie.description = movie.title;
 
@@ -62,7 +63,7 @@ namespace MovieLibrary
         {
             if (movie == null)
                 return;
-
+            
             var title = movie.Title;
             movie.Description = "Test";
 
@@ -80,7 +81,7 @@ namespace MovieLibrary
                 return;
 
             //TODO: Save the movie
-            _movie = child.Movie;
+            _movie = child.Movie;            
         }
 
         private Movie _movie;

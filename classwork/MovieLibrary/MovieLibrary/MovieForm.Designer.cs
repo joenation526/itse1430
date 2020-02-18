@@ -1,4 +1,4 @@
-﻿namespace MovieLibrary.WinForms
+﻿namespace MovieLibrary.Winforms
 {
     partial class MovieForm
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent ()
         {
-            this.btnOk = new System.Windows.Forms.Button();
+            this.btnOK = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -41,19 +41,19 @@
             this.txtDescription = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // btnOk
+            // btnOK
             // 
-            this.btnOk.Location = new System.Drawing.Point(479, 376);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
-            this.btnOk.TabIndex = 0;
-            this.btnOk.Text = "OK";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.OnOk);
+            this.btnOK.Location = new System.Drawing.Point(517, 362);
+            this.btnOK.Name = "btnOK";
+            this.btnOK.Size = new System.Drawing.Size(75, 23);
+            this.btnOK.TabIndex = 0;
+            this.btnOK.Text = "OK";
+            this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.OnOK);
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(625, 376);
+            this.btnCancel.Location = new System.Drawing.Point(626, 362);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 1;
@@ -64,7 +64,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(31, 28);
+            this.label1.Location = new System.Drawing.Point(48, 40);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 13);
             this.label1.TabIndex = 2;
@@ -73,7 +73,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(31, 81);
+            this.label2.Location = new System.Drawing.Point(51, 80);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 3;
@@ -82,7 +82,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(31, 126);
+            this.label3.Location = new System.Drawing.Point(51, 121);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 4;
@@ -91,7 +91,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(31, 157);
+            this.label4.Location = new System.Drawing.Point(51, 159);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 13);
             this.label4.TabIndex = 5;
@@ -100,7 +100,7 @@
             // chkIsClassic
             // 
             this.chkIsClassic.AutoSize = true;
-            this.chkIsClassic.Location = new System.Drawing.Point(34, 276);
+            this.chkIsClassic.Location = new System.Drawing.Point(125, 222);
             this.chkIsClassic.Name = "chkIsClassic";
             this.chkIsClassic.Size = new System.Drawing.Size(70, 17);
             this.chkIsClassic.TabIndex = 6;
@@ -109,28 +109,28 @@
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(121, 25);
+            this.txtTitle.Location = new System.Drawing.Point(125, 40);
             this.txtTitle.Name = "txtTitle";
             this.txtTitle.Size = new System.Drawing.Size(100, 20);
             this.txtTitle.TabIndex = 7;
             // 
             // txtRunLength
             // 
-            this.txtRunLength.Location = new System.Drawing.Point(121, 81);
+            this.txtRunLength.Location = new System.Drawing.Point(125, 80);
             this.txtRunLength.Name = "txtRunLength";
             this.txtRunLength.Size = new System.Drawing.Size(100, 20);
             this.txtRunLength.TabIndex = 8;
             // 
             // txtReleaseYear
             // 
-            this.txtReleaseYear.Location = new System.Drawing.Point(121, 126);
+            this.txtReleaseYear.Location = new System.Drawing.Point(125, 113);
             this.txtReleaseYear.Name = "txtReleaseYear";
             this.txtReleaseYear.Size = new System.Drawing.Size(100, 20);
             this.txtReleaseYear.TabIndex = 9;
             // 
             // txtDescription
             // 
-            this.txtDescription.Location = new System.Drawing.Point(121, 157);
+            this.txtDescription.Location = new System.Drawing.Point(125, 156);
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(100, 20);
             this.txtDescription.TabIndex = 10;
@@ -150,13 +150,13 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnCancel);
-            this.Controls.Add(this.btnOk);
+            this.Controls.Add(this.btnOK);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MovieForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Movie Details ";
+            this.Text = "Movie Details";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -164,7 +164,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnOk;
+        private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;

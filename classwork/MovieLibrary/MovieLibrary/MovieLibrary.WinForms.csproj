@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{29D51FFE-5F70-444D-AA1A-B46B79703EAE}</ProjectGuid>
+    <ProjectGuid>{E03E002F-8944-4CE3-A033-4194537AF657}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>MovieLibrary.WinForms</RootNamespace>
-    <AssemblyName>MovieLibrary.WinForms</AssemblyName>
+    <RootNamespace>MovieLibrary.Winforms</RootNamespace>
+    <AssemblyName>MovieLibrary.Winforms</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -100,7 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MovieLibrary.Business\MovieLibrary.Business.csproj">
-      <Project>{5634cdf5-32ce-46c4-a607-72aef1046aab}</Project>
+      <Project>{f1a36463-bb35-41b3-81b4-8283166c6aca}</Project>
       <Name>MovieLibrary.Business</Name>
     </ProjectReference>
   </ItemGroup>

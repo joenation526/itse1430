@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace MovieLibrary.WinForms
+namespace MovieLibrary.Winforms
 {
     partial class AboutBox : Form
     {
