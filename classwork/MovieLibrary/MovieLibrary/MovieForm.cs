@@ -1,25 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using MovieLibrary.Business;
 
 namespace MovieLibrary.Winforms
 {
     public partial class MovieForm : Form
     {
-        public MovieForm ()
+        #region Constructors
+
+        //If no constructor specified then base default constructor is called automatically
+        public MovieForm () //: base()
         {
             InitializeComponent();
         }
 
-        //Call the more specific contructor first - constructor chaining
-        public MovieForm (Movie movie)  : this(movie != null ? "Edit" : "Add", movie)
+        //Call the more specific constructor first - constructor chaining
+        public MovieForm ( Movie movie ) : this(movie != null ? "Edit" : "Add", movie)
         {
             //InitializeComponent();
             //Movie = movie;
@@ -27,40 +24,25 @@ namespace MovieLibrary.Winforms
             //Text = movie != null ? "Edit" : "Add";
         }
 
-        public MovieForm (string title, Movie movie) : this()
-        {
+        public MovieForm ( string title, Movie movie ) : this()
+        {           
             Text = title;
             Movie = movie;
         }
-        protected override void OnLoad ( EventArgs e )
-        {
-            base.OnLoad(e);
 
-            if (Movie != null)
-            {
-                txtTitle.Text = Movie.Title;
-                txtDescription.Text = Movie.Description;
-                txtReleaseYear.Text = Movie.RunLength.ToString();
-                txtRunLength.Text = Movie.RunLength.ToString();
-                chkIsClassic.Checked = Movie.IsClassic;
-            }
-
-        }
-
-        //private void Initialize (string title, Movie movie)
+        //Use constructor chaining
+        //private void Initialize ( string title, Movie movie )
         //{
         //    InitializeComponent();
 
         //    Text = title;
-        //    Movie = movie
+        //    Movie = movie;
         //}
+        #endregion
 
-        public Movie Movie
-        {
-            get { return _movie; }
-            set { _movie = value; }
-        }
-        private Movie _movie;
+        public Movie Movie { get; set; }
+
+        #region Event Handlers
 
         private void OnCancel ( object sender, EventArgs e )
         {
@@ -82,6 +64,28 @@ namespace MovieLibrary.Winforms
             DialogResult = DialogResult.OK;
             Close();
         }
+        #endregion
+        
+        protected override void OnLoad ( EventArgs e )
+        {
+            base.OnLoad(e);
+
+            //Populate combo
+            var genres = Genres.GetAll();
+            ddlGenres.Items.AddRange(genres);
+
+            if (Movie != null)
+            {
+                txtTitle.Text = Movie.Title;
+                txtDescription.Text = Movie.Description;
+                txtReleaseYear.Text = Movie.ReleaseYear.ToString();
+                txtRunLength.Text = Movie.RunLength.ToString();
+                chkIsClassic.Checked = Movie.IsClassic;
+
+                if (Movie.Genre != null)
+                    ddlGenres.SelectedText = Movie.Genre.Description;
+            };
+        }
 
         private Movie GetMovie ()
         {
@@ -93,6 +97,21 @@ namespace MovieLibrary.Winforms
             movie.ReleaseYear = GetAsInt32(txtReleaseYear, 1900);
             movie.Description = txtDescription.Text.Trim();
             movie.IsClassic = chkIsClassic.Checked;
+
+            //movie.Genre = (Genre)ddlGenres.SelectedItem; //C-style, crashes if wrong
+
+            //Preferred - as operator
+            //var genre = ddlGenres.SelectedItem as Genre; 
+            //if (genre != null)
+            //    movie.Genre = genre;
+
+            //Equivalent of as
+            //if (ddlGenres.SelectedItem is Genre)
+            //    genre = (Genre)ddlGenres.SelectedItem;
+
+            //Pattern match
+            if (ddlGenres.SelectedItem is Genre genre)
+                movie.Genre = genre;            
 
             return movie;
         }

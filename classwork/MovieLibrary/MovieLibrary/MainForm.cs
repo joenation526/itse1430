@@ -19,7 +19,7 @@ namespace MovieLibrary
             //Full name
             //MovieLibrary.Business.Movie;
             //var movie = new Movie();
-
+                        
             //movie.title = "Jaws";
             //movie.description = movie.title;
 
@@ -66,7 +66,7 @@ namespace MovieLibrary
         {
             if (movie == null)
                 return;
-
+            
             var title = movie.Title;
             movie.Description = "Test";
 
@@ -79,8 +79,8 @@ namespace MovieLibrary
             base.OnFormClosing(e);
 
             if (_movie != null)
-                if (!DisplayConfirmation("Are you sure you want to close?", "Close"))                
-                    e.Cancel = true;
+                if (!DisplayConfirmation("Are you sure you want close?", "Close"))                    
+                    e.Cancel = true;            
         }
 
         private void OnMovieAdd ( object sender, EventArgs e )
@@ -93,7 +93,7 @@ namespace MovieLibrary
                 return;
 
             //TODO: Save the movie
-            _movie = child.Movie;
+            _movie = child.Movie;            
         }
 
         private void OnMovieEdit ( object sender, EventArgs e )
