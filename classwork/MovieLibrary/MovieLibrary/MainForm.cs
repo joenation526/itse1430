@@ -19,7 +19,7 @@ namespace MovieLibrary
             //Full name
             //MovieLibrary.Business.Movie;
             //var movie = new Movie();
-                        
+
             //movie.title = "Jaws";
             //movie.description = movie.title;
 
@@ -66,7 +66,7 @@ namespace MovieLibrary
         {
             if (movie == null)
                 return;
-            
+
             var title = movie.Title;
             movie.Description = "Test";
 
@@ -74,13 +74,11 @@ namespace MovieLibrary
         }
         #endregion
 
-        protected override void OnFormClosing ( FormClosingEventArgs e )
+        protected override void OnLoad ( EventArgs e )
         {
-            base.OnFormClosing(e);
+            base.OnLoad(e);
 
-            if (_movie != null)
-                if (!DisplayConfirmation("Are you sure you want close?", "Close"))                    
-                    e.Cancel = true;            
+            UpdateUI();
         }
 
         private void OnMovieAdd ( object sender, EventArgs e )
@@ -93,36 +91,100 @@ namespace MovieLibrary
                 return;
 
             //TODO: Save the movie
-            _movie = child.Movie;            
+            AddMovie(child.Movie);
+            UpdateUI();
+        }
+
+        private void UpdateUI ()
+        {
+            listMovies.Items.Clear();
+
+            var movies = GetMovies();
+            foreach (var movie in movies)
+            {
+                //ListBox cannot take a null object
+                if (movie != null)
+                    listMovies.Items.Add(movie);
+            };
+        }
+
+        private void AddMovie ( Movie movie )
+        {
+            for (var index = 0; index < _movies.Length; ++index)
+            {
+                if (_movies[index] == null)
+                {
+                    _movies[index] = movie;
+                    break;
+                };
+            };
+        }
+
+        private Movie[] GetMovies ()
+        {
+            return _movies;
+        }
+
+        private Movie GetSelectedMovie ()
+        {
+            return listMovies.SelectedItem as Movie;
+        }
+
+        private void UpdateMovie ( Movie oldMovie, Movie newMovie )
+        {
+            for (var index = 0; index < _movies.Length; ++index)
+            {
+                if (_movies[index] == oldMovie)
+                {
+                    _movies[index] = newMovie;
+                    break;
+                };
+            };
+        }
+
+        private void DeleteMovie ( Movie movie )
+        {
+            for (var index = 0; index < _movies.Length; ++index)
+            {
+                if (_movies[index] == movie)
+                {
+                    _movies[index] = null;
+                    break;
+                };
+            };
         }
 
         private void OnMovieEdit ( object sender, EventArgs e )
         {
             //Verify movie
-            if (_movie == null)
+            var movie = GetSelectedMovie();
+            if (movie == null)
                 return;
 
             var child = new MovieForm();
-            child.Movie = _movie;
+            child.Movie = movie;
             if (child.ShowDialog(this) != DialogResult.OK)
                 return;
 
             //TODO: Save the movie
-            _movie = child.Movie;
+            UpdateMovie(movie, child.Movie);
+            UpdateUI();
         }
 
         private void OnMovieDelete ( object sender, EventArgs e )
         {
             //Verify movie
-            if (_movie == null)
+            var movie = GetSelectedMovie();
+            if (movie == null)
                 return;
 
             //Confirm
-            if (!DisplayConfirmation($"Are you sure you want to delete {_movie.Title}?", "Delete"))
+            if (!DisplayConfirmation($"Are you sure you want to delete {movie.Title}?", "Delete"))
                 return;
 
             //TODO: Delete
-            _movie = null;
+            DeleteMovie(movie);
+            UpdateUI();
         }
 
         private void OnFileExit ( object sender, EventArgs e )
@@ -137,6 +199,7 @@ namespace MovieLibrary
             about.ShowDialog(this);
         }
 
-        private Movie _movie;
+        //private Movie _movie;
+        private Movie[] _movies = new Movie[100];
     }
 }

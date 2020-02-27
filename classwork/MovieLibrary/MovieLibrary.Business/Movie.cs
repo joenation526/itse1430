@@ -14,8 +14,7 @@ namespace MovieLibrary.Business
         public string Title
         {
             //Never return null from a string property, always return empty string
-            get 
-            {
+            get {
                 //Long, long way
                 //if (_title == null)
                 //    return "";
@@ -73,7 +72,7 @@ namespace MovieLibrary.Business
 
         //Calculated property, no setter
         public bool IsBlackAndWhite
-        {            
+        {
             get { return ReleaseYear <= 1930; }
         }
 
@@ -85,6 +84,11 @@ namespace MovieLibrary.Business
         //private int _id;
         //Public getter, private setter using auto property syntax
         public int Id { get; }
+
+        public override string ToString ()
+        {
+            return Title;
+        }
 
         public bool Validate ( out string error )
         {
