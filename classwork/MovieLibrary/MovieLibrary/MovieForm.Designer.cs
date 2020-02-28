@@ -137,6 +137,7 @@
             // 
             // txtReleaseYear
             // 
+            this.txtReleaseYear.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtReleaseYear.Location = new System.Drawing.Point(128, 113);
             this.txtReleaseYear.Name = "txtReleaseYear";
             this.txtReleaseYear.Size = new System.Drawing.Size(44, 20);

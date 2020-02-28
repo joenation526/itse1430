@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+
+
 
 namespace CharacterCreator.Winforms
 {
@@ -15,11 +10,6 @@ namespace CharacterCreator.Winforms
         public MainForm()
         {
             InitializeComponent();
-        }
-
-        private void Form1_Load ( object sender, EventArgs e )
-        {
-
         }
 
         private void OnExitButton ( object sender, EventArgs e )
@@ -32,6 +22,14 @@ namespace CharacterCreator.Winforms
             var about = new AboutBox();
 
             about.ShowDialog(this);
+        }
+
+        private void OnNewButton ( object sender, EventArgs e )
+        {
+            CreateNewCharacter child = new CreateNewCharacter();
+
+            if (child.ShowDialog(this) != DialogResult.OK)
+                return;
         }
     }
 }
