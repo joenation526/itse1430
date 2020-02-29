@@ -19,7 +19,6 @@ namespace CharacterCreator.Winforms
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
-            this.textBoxDescription.Text = AssemblyDescription;
         }
 
         #region Assembly Attribute Accessors
@@ -95,5 +94,6 @@ namespace CharacterCreator.Winforms
             }
         }
         #endregion
+
     }
 }

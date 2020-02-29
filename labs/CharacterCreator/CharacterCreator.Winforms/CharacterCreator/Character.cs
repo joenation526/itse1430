@@ -29,11 +29,11 @@ namespace CharacterCreator
         /// <value>
         /// Default by 50 
         /// </value>
-        public int Strength { get; set; } = 50;
-        public int Intelligence { get; set; } = 50;
-        public int Agility { get; set; } = 50;
-        public int Constitution { get; set; } = 50;
-        public int Charisma { get; set; } = 50;
+        public int Strength { get; set; } 
+        public int Intelligence { get; set; }
+        public int Agility { get; set; } 
+        public int Constitution { get; set; } 
+        public int Charisma { get; set; } 
 
         public string Description
         {
@@ -50,33 +50,45 @@ namespace CharacterCreator
                 return false; 
             };
 
-            if (Strength < 0)
+            if (Profession == null)
             {
-                error = "Cannot have <= 0 strength.";
+                error = "Select a profession";
+                return false; 
+            };
+
+            if (Race == null)
+            {
+                error = "Select a race";
                 return false;
             };
 
-            if (Intelligence < 0)
+            if (Strength == 0)
             {
-                error = "Cannot have <= 0 intelligence.";
+                error = "Cannot have 0 strength.";
                 return false;
             };
 
-            if (Agility < 0)
+            if (Intelligence == 0)
             {
-                error = "Cannot have <= 0 agility.";
+                error = "Cannot have 0 intelligence.";
                 return false;
             };
 
-            if (Constitution < 0)
+            if (Agility == 0)
             {
-                error = "Cannot have <= 0 constitution.";
+                error = "Cannot have 0 agility.";
                 return false;
             };
 
-            if (Charisma < 0)
+            if (Constitution == 0)
             {
-                error = "Cannot have <= 0 charisma.";
+                error = "Cannot have 0 constitution.";
+                return false;
+            };
+
+            if (Charisma == 0)
+            {
+                error = "Cannot have 0 charisma.";
                 return false;
             };
 

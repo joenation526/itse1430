@@ -7,7 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using static CharacterCreator.Profession;
+using static CharacterCreator.Race;
 
 namespace CharacterCreator.Winforms
 {
@@ -18,17 +19,139 @@ namespace CharacterCreator.Winforms
             InitializeComponent();
         }
 
-        public CreateNewCharacter ( Character character ) : this(character != null ? "Edit" : "Add", character)
-        {
-            
-        }
-
         public CreateNewCharacter ( string name, Character character ) : this()
         {
             Name = name;
-            Character = character; 
+            Character = character;
         }
 
         public Character Character { get; set; }
+
+        private void OnCancel ( object sender, EventArgs e )
+        {
+            DialogResult = DialogResult.Cancel;
+            Close();
+        }
+
+        private void OnSave ( object sender, EventArgs e )
+        {
+            if (!ValidateChildren())
+                return;
+
+            var character = GetCharacter();
+            if (!character.Validate(out var error))
+            {
+                DisplayError(error);
+                return;
+            }
+
+            Character = character;
+            DialogResult = DialogResult.OK;
+            Close();
+
+        }
+
+        protected override void OnLoad ( EventArgs e )
+        {
+            base.OnLoad(e);
+
+            // Getting all the items from Profession.cs
+            var profession = Professions.GetAll();
+            ddlProfession.Items.AddRange(profession);
+
+            // Getting all the items from Race.cs
+            var race = Races.GetAll();
+            ddlRace.Items.AddRange(race);
+
+            if (Character != null)
+            {
+                txtName.Text = Character.Name;
+                txtDescription.Text = Character.Description;
+
+                if (Character.Profession != null)
+                    ddlProfession.SelectedText = Character.Profession.Description;
+
+                if (Character.Race != null)
+                    ddlRace.SelectedText = Character.Race.Description;
+
+                ValidateChildren();
+            }
+        }
+
+
+        private Character GetCharacter ()
+        {
+            var character = new Character();
+
+            character.Name = txtName.Text?.Trim();
+            character.Description = txtDescription.Text.Trim();
+            character.Agility = GetAsInt32(numericAgility);
+            character.Charisma = GetAsInt32(numericCharisma);
+            character.Constitution = GetAsInt32(numericConstitution);
+            character.Intelligence = GetAsInt32(numbericIntelligience);
+            character.Strength = GetAsInt32(numbericStrength);
+            
+            if (ddlProfession.SelectedItem is Profession profession)
+                character.Profession = profession;
+
+            if (ddlRace.SelectedItem is Race race)
+                character.Race = race;
+
+            return character; 
+        }
+
+        private void DisplayError ( string message )
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private int GetAsInt32 ( Control control )
+        {
+            return GetAsInt32(control, 0);
+        }
+
+        private int GetAsInt32 ( Control control, int emptyValue )
+        {
+            if (String.IsNullOrEmpty(control.Text))
+                return emptyValue;
+
+            if (Int32.TryParse(control.Text, out var result))
+                return result;
+
+            return -1;
+        }
+
+        private void OnValidateName ( object sender, CancelEventArgs e )
+        {
+            var control = sender as TextBox;
+
+            if (String.IsNullOrEmpty(control.Text))
+            {
+                // DisplayError("Title is required");
+                _errorName.SetError(control, "Name is required");
+                e.Cancel = true;
+
+            } 
+            else
+            {
+                _errorName.SetError(control, "");
+            }
+        }
+
+        private void OnValidateAttribute ( object sender, System.ComponentModel.CancelEventArgs e )
+        {
+            var control = sender as Control;
+            var value = GetAsInt32(control, 0);
+            if (value == 0)
+            {
+                _errorAttribute.SetError(control, "Attribute must be greater than 0.");
+                e.Cancel = true;
+            } 
+            else
+            {
+                _errorAttribute.SetError(control, "");
+            }
+        }
     }
 }
+
