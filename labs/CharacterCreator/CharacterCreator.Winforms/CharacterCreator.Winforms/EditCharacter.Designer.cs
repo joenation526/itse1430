@@ -68,7 +68,7 @@
             this.button2.Location = new System.Drawing.Point(648, 384);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 33;
+            this.button2.TabIndex = 10;
             this.button2.Text = "Cancel";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.OnCancel);
@@ -79,7 +79,7 @@
             this.button1.Location = new System.Drawing.Point(567, 384);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 31;
+            this.button1.TabIndex = 9;
             this.button1.Text = "Save";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.OnSave);
@@ -93,7 +93,7 @@
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
             this.txtDescription.Size = new System.Drawing.Size(334, 231);
-            this.txtDescription.TabIndex = 30;
+            this.txtDescription.TabIndex = 8;
             // 
             // label9
             // 
@@ -110,7 +110,7 @@
             this.numericCharisma.Location = new System.Drawing.Point(125, 256);
             this.numericCharisma.Name = "numericCharisma";
             this.numericCharisma.Size = new System.Drawing.Size(40, 20);
-            this.numericCharisma.TabIndex = 29;
+            this.numericCharisma.TabIndex = 7;
             this.numericCharisma.Value = new decimal(new int[] {
             50,
             0,
@@ -123,7 +123,7 @@
             this.numericConstitution.Location = new System.Drawing.Point(125, 230);
             this.numericConstitution.Name = "numericConstitution";
             this.numericConstitution.Size = new System.Drawing.Size(40, 20);
-            this.numericConstitution.TabIndex = 28;
+            this.numericConstitution.TabIndex = 6;
             this.numericConstitution.Value = new decimal(new int[] {
             50,
             0,
@@ -136,7 +136,7 @@
             this.numericAgility.Location = new System.Drawing.Point(125, 204);
             this.numericAgility.Name = "numericAgility";
             this.numericAgility.Size = new System.Drawing.Size(39, 20);
-            this.numericAgility.TabIndex = 27;
+            this.numericAgility.TabIndex = 5;
             this.numericAgility.Value = new decimal(new int[] {
             50,
             0,
@@ -176,7 +176,7 @@
             this.numericIntelligience.Location = new System.Drawing.Point(124, 178);
             this.numericIntelligience.Name = "numericIntelligience";
             this.numericIntelligience.Size = new System.Drawing.Size(41, 20);
-            this.numericIntelligience.TabIndex = 26;
+            this.numericIntelligience.TabIndex = 4;
             this.numericIntelligience.Value = new decimal(new int[] {
             50,
             0,
@@ -189,7 +189,7 @@
             this.numericStrength.Location = new System.Drawing.Point(125, 152);
             this.numericStrength.Name = "numericStrength";
             this.numericStrength.Size = new System.Drawing.Size(40, 20);
-            this.numericStrength.TabIndex = 24;
+            this.numericStrength.TabIndex = 3;
             this.numericStrength.Value = new decimal(new int[] {
             50,
             0,
@@ -203,7 +203,7 @@
             this.txtName.Location = new System.Drawing.Point(124, 46);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(121, 20);
-            this.txtName.TabIndex = 18;
+            this.txtName.TabIndex = 0;
             this.txtName.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateName);
             // 
             // ddlRace
@@ -212,7 +212,7 @@
             this.ddlRace.Location = new System.Drawing.Point(124, 112);
             this.ddlRace.Name = "ddlRace";
             this.ddlRace.Size = new System.Drawing.Size(121, 21);
-            this.ddlRace.TabIndex = 22;
+            this.ddlRace.TabIndex = 2;
             this.ddlRace.Click += new System.EventHandler(this.OnValidateRace);
             // 
             // ddlProfession
@@ -221,7 +221,7 @@
             this.ddlProfession.Location = new System.Drawing.Point(124, 77);
             this.ddlProfession.Name = "ddlProfession";
             this.ddlProfession.Size = new System.Drawing.Size(121, 21);
-            this.ddlProfession.TabIndex = 20;
+            this.ddlProfession.TabIndex = 1;
             this.ddlProfession.Click += new System.EventHandler(this.OnValidateProfession);
             // 
             // label5
