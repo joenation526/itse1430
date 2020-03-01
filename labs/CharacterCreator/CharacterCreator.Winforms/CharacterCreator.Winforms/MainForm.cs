@@ -22,7 +22,6 @@ namespace CharacterCreator.Winforms
         protected override void OnLoad ( EventArgs e )
         {
             base.OnLoad(e);
-
         }
 
         private void OnNewCharacter ( object sender, EventArgs e )
@@ -48,7 +47,6 @@ namespace CharacterCreator.Winforms
             return _character;
         }
         
-
         private void OnAboutButton ( object sender, EventArgs e )
         {
             var about = new AboutBox();

@@ -76,7 +76,6 @@ namespace CharacterCreator.Winforms
             }
         }
 
-
         private Character GetCharacter ()
         {
             var character = new Character();
@@ -165,7 +164,6 @@ namespace CharacterCreator.Winforms
                 _errorComboBox.SetError(control, "");
             }
         }
-
         private void OnValidateRace ( object sender, EventArgs e )
         {
             var control = sender as ComboBox;
