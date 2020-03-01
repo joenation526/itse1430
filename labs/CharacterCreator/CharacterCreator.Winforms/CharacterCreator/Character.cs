@@ -30,7 +30,7 @@ namespace CharacterCreator
         /// Default by 50 
         /// </value>
         public int Strength { get; set; } 
-        public int Intelligence { get; set; }
+        public int Intelligence { get; set; } 
         public int Agility { get; set; } 
         public int Constitution { get; set; } 
         public int Charisma { get; set; } 
@@ -41,6 +41,11 @@ namespace CharacterCreator
             set { _description = value?.Trim(); }
         }
         private string _description;
+
+        public override string ToString ()
+        {
+            return Name;
+        }
 
         public bool Validate ( out string error )
         {
@@ -95,6 +100,5 @@ namespace CharacterCreator
             error = null;
             return true;
         }
-
     }
 }

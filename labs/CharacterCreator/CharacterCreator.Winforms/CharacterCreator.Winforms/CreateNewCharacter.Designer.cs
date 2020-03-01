@@ -37,8 +37,8 @@
             this.ddlProfession = new System.Windows.Forms.ComboBox();
             this.ddlRace = new System.Windows.Forms.ComboBox();
             this.txtName = new System.Windows.Forms.TextBox();
-            this.numbericStrength = new System.Windows.Forms.NumericUpDown();
-            this.numbericIntelligience = new System.Windows.Forms.NumericUpDown();
+            this.numericStrength = new System.Windows.Forms.NumericUpDown();
+            this.numericIntelligience = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
@@ -51,13 +51,15 @@
             this.button2 = new System.Windows.Forms.Button();
             this._errorName = new System.Windows.Forms.ErrorProvider(this.components);
             this._errorAttribute = new System.Windows.Forms.ErrorProvider(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.numbericStrength)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numbericIntelligience)).BeginInit();
+            this._errorComboBox = new System.Windows.Forms.ErrorProvider(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.numericStrength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericIntelligience)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericAgility)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericConstitution)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericCharisma)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._errorName)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._errorAttribute)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._errorComboBox)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -112,6 +114,8 @@
             this.ddlProfession.Name = "ddlProfession";
             this.ddlProfession.Size = new System.Drawing.Size(121, 21);
             this.ddlProfession.TabIndex = 1;
+            this.ddlProfession.SelectedIndexChanged += new System.EventHandler(this.OnValidateProfession);
+            this.ddlProfession.Click += new System.EventHandler(this.OnValidateProfession);
             // 
             // ddlRace
             // 
@@ -120,44 +124,44 @@
             this.ddlRace.Name = "ddlRace";
             this.ddlRace.Size = new System.Drawing.Size(121, 21);
             this.ddlRace.TabIndex = 2;
+            this.ddlRace.SelectedIndexChanged += new System.EventHandler(this.OnValidateRace);
             // 
             // txtName
             // 
+            this.txtName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this._errorName.SetError(this.txtName, "Name is required");
             this.txtName.Location = new System.Drawing.Point(127, 64);
             this.txtName.Name = "txtName";
             this.txtName.Size = new System.Drawing.Size(121, 20);
             this.txtName.TabIndex = 0;
-            this.txtName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.txtName.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateName);
             // 
-            // numbericStrength
+            // numericStrength
             // 
-            this._errorAttribute.SetError(this.numbericStrength, "Cannot be 0");
-            this.numbericStrength.Location = new System.Drawing.Point(128, 170);
-            this.numbericStrength.Name = "numbericStrength";
-            this.numbericStrength.Size = new System.Drawing.Size(40, 20);
-            this.numbericStrength.TabIndex = 3;
-            this.numbericStrength.Value = new decimal(new int[] {
+            this.numericStrength.Location = new System.Drawing.Point(128, 170);
+            this.numericStrength.Name = "numericStrength";
+            this.numericStrength.Size = new System.Drawing.Size(40, 20);
+            this.numericStrength.TabIndex = 3;
+            this.numericStrength.Value = new decimal(new int[] {
             50,
             0,
             0,
             0});
-            this.numbericStrength.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateAttribute);
+            this.numericStrength.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateAttribute);
             // 
-            // numbericIntelligience
+            // numericIntelligience
             // 
-            this._errorAttribute.SetError(this.numbericIntelligience, "Cannot be 0");
-            this.numbericIntelligience.Location = new System.Drawing.Point(127, 196);
-            this.numbericIntelligience.Name = "numbericIntelligience";
-            this.numbericIntelligience.Size = new System.Drawing.Size(41, 20);
-            this.numbericIntelligience.TabIndex = 4;
-            this.numbericIntelligience.Value = new decimal(new int[] {
+            this.numericIntelligience.Location = new System.Drawing.Point(127, 196);
+            this.numericIntelligience.Name = "numericIntelligience";
+            this.numericIntelligience.Size = new System.Drawing.Size(41, 20);
+            this.numericIntelligience.TabIndex = 4;
+            this.numericIntelligience.Value = new decimal(new int[] {
             50,
             0,
             0,
             0});
-            this.numbericIntelligience.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateAttribute);
+            this.numericIntelligience.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateAttribute);
             // 
             // label6
             // 
@@ -188,7 +192,6 @@
             // 
             // numericAgility
             // 
-            this._errorAttribute.SetError(this.numericAgility, "Cannot be 0");
             this.numericAgility.Location = new System.Drawing.Point(128, 222);
             this.numericAgility.Name = "numericAgility";
             this.numericAgility.Size = new System.Drawing.Size(39, 20);
@@ -202,7 +205,6 @@
             // 
             // numericConstitution
             // 
-            this._errorAttribute.SetError(this.numericConstitution, "Cannot be 0");
             this.numericConstitution.Location = new System.Drawing.Point(128, 248);
             this.numericConstitution.Name = "numericConstitution";
             this.numericConstitution.Size = new System.Drawing.Size(40, 20);
@@ -216,7 +218,6 @@
             // 
             // numericCharisma
             // 
-            this._errorAttribute.SetError(this.numericCharisma, "Cannot be 0");
             this.numericCharisma.Location = new System.Drawing.Point(128, 274);
             this.numericCharisma.Name = "numericCharisma";
             this.numericCharisma.Size = new System.Drawing.Size(40, 20);
@@ -230,7 +231,8 @@
             // 
             // label9
             // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(335, 61);
             this.label9.Name = "label9";
@@ -240,7 +242,9 @@
             // 
             // txtDescription
             // 
-            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDescription.Location = new System.Drawing.Point(415, 61);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
@@ -249,6 +253,7 @@
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button1.Location = new System.Drawing.Point(570, 403);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
@@ -259,6 +264,7 @@
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.Location = new System.Drawing.Point(651, 402);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
@@ -277,6 +283,11 @@
             this._errorAttribute.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this._errorAttribute.ContainerControl = this;
             // 
+            // _errorComboBox
+            // 
+            this._errorComboBox.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
+            this._errorComboBox.ContainerControl = this;
+            // 
             // CreateNewCharacter
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -293,8 +304,8 @@
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.numbericIntelligience);
-            this.Controls.Add(this.numbericStrength);
+            this.Controls.Add(this.numericIntelligience);
+            this.Controls.Add(this.numericStrength);
             this.Controls.Add(this.txtName);
             this.Controls.Add(this.ddlRace);
             this.Controls.Add(this.ddlProfession);
@@ -307,13 +318,14 @@
             this.Name = "CreateNewCharacter";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Create New Character";
-            ((System.ComponentModel.ISupportInitialize)(this.numbericStrength)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numbericIntelligience)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericStrength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericIntelligience)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericAgility)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericConstitution)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericCharisma)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._errorName)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._errorAttribute)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._errorComboBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -329,8 +341,8 @@
         private System.Windows.Forms.ComboBox ddlProfession;
         private System.Windows.Forms.ComboBox ddlRace;
         private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.NumericUpDown numbericStrength;
-        private System.Windows.Forms.NumericUpDown numbericIntelligience;
+        private System.Windows.Forms.NumericUpDown numericStrength;
+        private System.Windows.Forms.NumericUpDown numericIntelligience;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
@@ -343,5 +355,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ErrorProvider _errorName;
         private System.Windows.Forms.ErrorProvider _errorAttribute;
+        private System.Windows.Forms.ErrorProvider _errorComboBox;
     }
 }

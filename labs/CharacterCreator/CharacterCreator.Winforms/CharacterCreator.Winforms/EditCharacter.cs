@@ -12,9 +12,9 @@ using static CharacterCreator.Race;
 
 namespace CharacterCreator.Winforms
 {
-    public partial class CreateNewCharacter : Form
+    public partial class EditCharacter : Form
     {
-        public CreateNewCharacter ()
+        public EditCharacter ()
         {
             InitializeComponent();
         }
@@ -64,7 +64,7 @@ namespace CharacterCreator.Winforms
                 numericCharisma.Value = Character.Charisma;
                 numericConstitution.Value = Character.Constitution;
                 numericIntelligience.Value = Character.Intelligence;
-                numericStrength.Value = Character.Strength; 
+                numericStrength.Value = Character.Strength;
 
                 if (Character.Profession != null)
                     ddlProfession.SelectedText = Character.Profession.Description;
@@ -88,14 +88,14 @@ namespace CharacterCreator.Winforms
             character.Constitution = GetAsInt32(numericConstitution);
             character.Intelligence = GetAsInt32(numericIntelligience);
             character.Strength = GetAsInt32(numericStrength);
-            
+
             if (ddlProfession.SelectedItem is Profession profession)
                 character.Profession = profession;
 
             if (ddlRace.SelectedItem is Race race)
                 character.Race = race;
 
-            return character; 
+            return character;
         }
 
         private void DisplayError ( string message )
@@ -129,8 +129,7 @@ namespace CharacterCreator.Winforms
                 _errorName.SetError(control, "Name is required");
                 e.Cancel = true;
 
-            } 
-            else
+            } else
             {
                 _errorName.SetError(control, "");
             }
@@ -144,8 +143,7 @@ namespace CharacterCreator.Winforms
             {
                 _errorAttribute.SetError(control, "Attribute must be greater than 0.");
                 e.Cancel = true;
-            } 
-            else
+            } else
             {
                 _errorAttribute.SetError(control, "");
             }
@@ -159,8 +157,7 @@ namespace CharacterCreator.Winforms
             {
                 _errorComboBox.SetError(control, "Please select profession");
                 return;
-            } 
-            else 
+            } else
             {
                 _errorComboBox.SetError(control, "");
             }
@@ -181,4 +178,3 @@ namespace CharacterCreator.Winforms
         }
     }
 }
-
