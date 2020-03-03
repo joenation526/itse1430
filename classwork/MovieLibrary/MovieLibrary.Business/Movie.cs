@@ -83,7 +83,7 @@ namespace MovieLibrary.Business
         //}
         //private int _id;
         //Public getter, private setter using auto property syntax
-        public int Id { get; }
+        public int Id { get; set; }
 
         public override string ToString ()
         {
