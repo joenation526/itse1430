@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace MovieLibrary.Business
 {
+    // Is-a relationship 
     public class MemoryMovieDatabase : IMovieDatabase
     {
         public Movie Add ( Movie movie )
@@ -10,7 +11,13 @@ namespace MovieLibrary.Business
             //TODO: Validate
             if (movie == null)
                 return null;
-            if (!movie.Validate(out var error))
+
+            //.NET validation
+            var errors = new ObjectValidator().Validate(movie);
+            if(errors.Any())
+            //var errors = new List<ValidationResult>();
+            //if (!Validator.TryValidateObject(movie, new ValidationContext(movie), errors, true))
+                //if (!movie.Validate(out var error))
                 return null;
 
             //Movie names must be unique
@@ -35,6 +42,7 @@ namespace MovieLibrary.Business
 
             return CloneMovie(item);
         }
+
 
         public void Delete ( int id )
         {
@@ -68,18 +76,30 @@ namespace MovieLibrary.Business
             return CloneMovie(movie);
         }
 
-        public Movie[] GetAll ()
+        public IEnumerable<Movie> GetAll ()
         {
             //Clone objects
-            var items = new Movie[_movies.Count];
-            var index = 0;
+            //var items = new Movie[_movies.Count];
+            //var index = 0;
+            //foreach (var movie in _movies)
+            //{
+            //    items[index++] = CloneMovie(movie);
+            //};
+
+            //return items;
+
+            // Using an interator Like
             foreach (var movie in _movies)
             {
-                items[index++] = CloneMovie(movie);
+                yield return CloneMovie(movie); 
             };
-
-            return items;
         }
+
+        //private sealed class MovieEnumerator : IEnumerable<Movie>
+        //{
+        //    ...
+        //}
+
 
         //TODO: Validate
         //TODO: Movie names must be unique
@@ -89,8 +109,10 @@ namespace MovieLibrary.Business
             //TODO: Validate
             if (movie == null)
                 return "Movie is null";
-            if (!movie.Validate(out var error))
-                return error;
+            var errors = new ObjectValidator().Validate(movie);
+            if (errors.Any())
+                //if (!movie.Validate(out var error))
+                return "Error";
             if (id <= 0)
                 return "Id is invalid";
 

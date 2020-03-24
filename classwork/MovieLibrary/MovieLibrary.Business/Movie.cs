@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MovieLibrary.Business
 {
@@ -6,7 +8,7 @@ namespace MovieLibrary.Business
     /// <remarks>
     /// Lots of info.
     /// </remarks>
-    public class Movie
+    public class Movie : IValidatableObject
     {
         public int Id { get; set; }
 
@@ -46,39 +48,42 @@ namespace MovieLibrary.Business
         public bool IsBlackAndWhite
         {            
             get { return ReleaseYear <= 1930; }
-        }        
-
-        public override string ToString ()
-        {
-            return Title;
         }
 
-        public bool Validate ( out string error )
+
+        public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {
             //Title is required
             //if (txtTitle.Text?.Trim() == "")
             if (String.IsNullOrEmpty(Title))
             {
-                error = "Title is required.";
-                return false;
+                yield return new ValidationResult("Title is required.", new[] { nameof(Title) });
+               // error = "Title is required.";              
             };
 
             //Run length >= 0
             if (RunLength < 0)
             {
-                error = "Run length must be >= 0.";
-                return false;
+                yield return new ValidationResult("Run length must be >= 0.", new[] { nameof(RunLength) });
+                //error = "Run length must be >= 0.";
+                
             };
 
             //Release year >= 1900
             if (ReleaseYear < 1900)
             {
-                error = "Release year must be >= 1900.";
-                return false;
+                yield return new ValidationResult("Release year must be >= 1900.", new[] { nameof(ReleaseYear) });
+               //error = "Release year must be >= 1900.";
+               
             };
 
-            error = null;
-            return true;
+          // error = null;
+          // return true;  
+        }
+
+        public override string ToString ()
+        {
+            return Title;
         }
 
         private string _title;
