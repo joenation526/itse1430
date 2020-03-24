@@ -14,6 +14,8 @@ namespace MovieLibrary
         {
             InitializeComponent();
 
+            _movies = new MemoryMovieDatabase();
+
             #region Playing with objects
 
             //Full name
@@ -31,85 +33,53 @@ namespace MovieLibrary
             #endregion
         }
         #endregion
-
-        private bool DisplayConfirmation ( string message, string title )
-        {
-            //Display a confirmation dialog
-            var result = MessageBox.Show(message, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-
-            //Return true if user selected OK
-            return result == DialogResult.OK;
-        }
-
-        /// <summary>Displays an error message.</summary>
-        /// <param name="message">Error to display.</param>
-        private void DisplayError ( string message )
-        {
-            #region Playing with this
-
-            //this represents the current instance
-            //var that = this;
-
-            //var Text = "";
-
-            //These are equal
-            //var newTitle = this.Text;
-            //var newTitle = Text;
-            #endregion
-
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        #region Playing with methods
-
-        void DisplayMovie ( Movie movie )
-        {
-            if (movie == null)
-                return;
-
-            var title = movie.Title;
-            movie.Description = "Test";
-
-            movie = new Movie();
-        }
-        #endregion
-
+        
         protected override void OnLoad ( EventArgs e )
         {
             base.OnLoad(e);
 
+            new SeedDatabase().SeedIfEmpty(_movies);
+
             UpdateUI();
         }
+
+        private Movie GetSelectedMovie ()
+        {
+            return lstMovies.SelectedItem as Movie;
+        }
+
+        private void UpdateUI ()
+        {
+            lstMovies.Items.Clear();
+
+            var movies = _movies.GetAll();
+            foreach (var movie in movies)
+            {
+                lstMovies.Items.Add(movie);
+            };
+        }
+                                  
+        #region Event Handlers
 
         private void OnMovieAdd ( object sender, EventArgs e )
         {
             MovieForm child = new MovieForm();
 
-            //child.Show(); //Modeless, both windows are interactive
-            //Modal - must dismiss child form before main form is accessible
-            if (child.ShowDialog(this) != DialogResult.OK)
-                return;
-
-            //TODO: Save the movie
-            _movies.Add(child.Movie);
-            UpdateUI();
-        }
-
-        private void UpdateUI ()
-        {
-            listMovies.Items.Clear();
-
-            var movies = _movies.GetAll();
-            foreach (var movie in movies)
+            do
             {
-               listMovies.Items.Add(movie);
-            };
-        }
+                if (child.ShowDialog(this) != DialogResult.OK)
+                    return;
 
+                //TODO: Save the movie
+                var movie = _movies.Add(child.Movie);
+                if (movie != null)
+                {
+                    UpdateUI();
+                    return;
+                };
 
-        private Movie GetSelectedMovie ()
-        {
-            return listMovies.SelectedItem as Movie;
+                DisplayError("Add failed");
+            } while (true);
         }
 
         private void OnMovieEdit ( object sender, EventArgs e )
@@ -121,12 +91,21 @@ namespace MovieLibrary
 
             var child = new MovieForm();
             child.Movie = movie;
-            if (child.ShowDialog(this) != DialogResult.OK)
-                return;
+            do
+            {
+                if (child.ShowDialog(this) != DialogResult.OK)
+                    return;
 
-            //TODO: Save the movie
-            _movies.Update(movie, child.Movie);
-            UpdateUI();
+                // Save the movie
+                var error = _movies.Update(movie.Id, child.Movie);
+                if (String.IsNullOrEmpty(error))
+                {
+                    UpdateUI();
+                    return;
+                };
+
+                DisplayError(error);
+            } while (true);
         }
 
         private void OnMovieDelete ( object sender, EventArgs e )
@@ -141,7 +120,7 @@ namespace MovieLibrary
                 return;
 
             //TODO: Delete
-            _movies.Delete(movie);
+            _movies.Delete(movie.Id);
             UpdateUI();
         }
 
@@ -156,8 +135,27 @@ namespace MovieLibrary
 
             about.ShowDialog(this);
         }
+        #endregion
 
-        //private Movie _movie;
-        private readonly MovieDatabase _movies = new MovieDatabase();
+        #region Private Members
+
+        private readonly IMovieDatabase _movies;
+
+        private bool DisplayConfirmation ( string message, string title )
+        {
+            //Display a confirmation dialog
+            var result = MessageBox.Show(message, title, MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+
+            //Return true if user selected OK
+            return result == DialogResult.OK;
+        }
+
+        /// <summary>Displays an error message.</summary>
+        /// <param name="message">Error to display.</param>
+        private void DisplayError ( string message )
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        #endregion
     }
 }
