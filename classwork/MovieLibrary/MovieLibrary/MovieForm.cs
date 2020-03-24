@@ -130,6 +130,8 @@ namespace MovieLibrary.Winforms
 
         private int GetAsInt32 ( Control control )
         {
+            //DateTime result;
+
             return GetAsInt32(control, 0);
         }
 
@@ -150,15 +152,11 @@ namespace MovieLibrary.Winforms
 
             if (String.IsNullOrEmpty(control.Text))
             {
-                // DisplayError("Title is required");
+                //DisplayError("Title is required");
                 _errors.SetError(control, "Title is required");
-                e.Cancel = true; 
-
-            }
-            else
-            {
+                e.Cancel = true;
+            } else
                 _errors.SetError(control, "");
-            }
         }
 
         private void OnValidateRunLength ( object sender, System.ComponentModel.CancelEventArgs e )
@@ -167,13 +165,10 @@ namespace MovieLibrary.Winforms
             var value = GetAsInt32(control, 0);
             if (value < 0)
             {
-                _errors.SetError(control, "Run Length must be >= 0.");
+                _errors.SetError(control, "Run length must be >= 0.");
                 e.Cancel = true;
-            } 
-            else
-            {
+            } else
                 _errors.SetError(control, "");
-            }
         }
 
         private void OnValidateReleaseYear ( object sender, System.ComponentModel.CancelEventArgs e )
@@ -184,11 +179,8 @@ namespace MovieLibrary.Winforms
             {
                 _errors.SetError(control, "Release year must be >= 1900.");
                 e.Cancel = true;
-            }
-            else
-            {
+            } else
                 _errors.SetError(control, "");
-            }
         }
     }
 }

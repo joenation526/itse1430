@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*
+ * ITSE 1430
+ * Spring 2020
+ * Jonathan Saysanam
+ */
+
+using System;
 
 namespace CharacterCreator
 {

@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*
+ * ITSE 1430
+ * Spring 2020
+ * Jonathan Saysanam
+ */
+
+using System;
 using System.Windows.Forms;
 
 namespace CharacterCreator.Winforms

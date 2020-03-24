@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*
+ * ITSE 1430
+ * Spring 2020
+ * Jonathan Saysanam
+ */
+
+using System;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static CharacterCreator.Profession;
 using static CharacterCreator.Race;

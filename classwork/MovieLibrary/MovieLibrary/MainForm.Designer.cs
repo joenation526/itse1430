@@ -38,7 +38,7 @@
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.listMovies = new System.Windows.Forms.ListBox();
+            this.lstMovies = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,7 +50,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(640, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -125,21 +125,21 @@
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnHelpAbout);
             // 
-            // listMovies
+            // lstMovies
             // 
-            this.listMovies.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.listMovies.FormattingEnabled = true;
-            this.listMovies.Location = new System.Drawing.Point(0, 24);
-            this.listMovies.Name = "listMovies";
-            this.listMovies.Size = new System.Drawing.Size(800, 426);
-            this.listMovies.TabIndex = 7;
+            this.lstMovies.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstMovies.FormattingEnabled = true;
+            this.lstMovies.Location = new System.Drawing.Point(0, 24);
+            this.lstMovies.Name = "lstMovies";
+            this.lstMovies.Size = new System.Drawing.Size(640, 426);
+            this.lstMovies.TabIndex = 7;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.listMovies);
+            this.ClientSize = new System.Drawing.Size(640, 450);
+            this.Controls.Add(this.lstMovies);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
@@ -162,7 +162,7 @@
         private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ListBox listMovies;
+        private System.Windows.Forms.ListBox lstMovies;
     }
 }
 

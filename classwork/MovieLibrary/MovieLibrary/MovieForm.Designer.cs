@@ -49,7 +49,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(354, 340);
+            this.btnOK.Location = new System.Drawing.Point(235, 316);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 6;
@@ -61,7 +61,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.CausesValidation = false;
-            this.btnCancel.Location = new System.Drawing.Point(435, 340);
+            this.btnCancel.Location = new System.Drawing.Point(316, 316);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 7;
@@ -72,7 +72,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(95, 47);
+            this.label1.Location = new System.Drawing.Point(76, 43);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 13);
             this.label1.TabIndex = 2;
@@ -81,7 +81,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(59, 84);
+            this.label2.Location = new System.Drawing.Point(40, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 3;
@@ -90,7 +90,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(51, 116);
+            this.label3.Location = new System.Drawing.Point(32, 112);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(71, 13);
             this.label3.TabIndex = 4;
@@ -99,7 +99,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(62, 151);
+            this.label4.Location = new System.Drawing.Point(43, 146);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(60, 13);
             this.label4.TabIndex = 5;
@@ -109,7 +109,7 @@
             // 
             this.chkIsClassic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkIsClassic.AutoSize = true;
-            this.chkIsClassic.Location = new System.Drawing.Point(128, 247);
+            this.chkIsClassic.Location = new System.Drawing.Point(109, 223);
             this.chkIsClassic.Name = "chkIsClassic";
             this.chkIsClassic.Size = new System.Drawing.Size(70, 17);
             this.chkIsClassic.TabIndex = 4;
@@ -120,27 +120,25 @@
             // 
             this.txtTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._errors.SetError(this.txtTitle, "Title is required");
-            this.txtTitle.Location = new System.Drawing.Point(128, 44);
+            this.txtTitle.Location = new System.Drawing.Point(109, 40);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(347, 20);
+            this.txtTitle.Size = new System.Drawing.Size(260, 20);
             this.txtTitle.TabIndex = 0;
             this.txtTitle.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateTitle);
             // 
             // txtRunLength
             // 
-            this.txtRunLength.Location = new System.Drawing.Point(128, 81);
+            this.txtRunLength.Location = new System.Drawing.Point(109, 73);
             this.txtRunLength.Name = "txtRunLength";
-            this.txtRunLength.Size = new System.Drawing.Size(44, 20);
+            this.txtRunLength.Size = new System.Drawing.Size(50, 20);
             this.txtRunLength.TabIndex = 1;
             this.txtRunLength.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateRunLength);
             // 
             // txtReleaseYear
             // 
-            this.txtReleaseYear.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.txtReleaseYear.Location = new System.Drawing.Point(128, 113);
+            this.txtReleaseYear.Location = new System.Drawing.Point(109, 109);
             this.txtReleaseYear.Name = "txtReleaseYear";
-            this.txtReleaseYear.Size = new System.Drawing.Size(44, 20);
+            this.txtReleaseYear.Size = new System.Drawing.Size(50, 20);
             this.txtReleaseYear.TabIndex = 2;
             this.txtReleaseYear.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateReleaseYear);
             // 
@@ -149,17 +147,17 @@
             this.txtDescription.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtDescription.Location = new System.Drawing.Point(128, 148);
+            this.txtDescription.Location = new System.Drawing.Point(109, 143);
             this.txtDescription.Multiline = true;
             this.txtDescription.Name = "txtDescription";
-            this.txtDescription.Size = new System.Drawing.Size(347, 80);
+            this.txtDescription.Size = new System.Drawing.Size(260, 66);
             this.txtDescription.TabIndex = 3;
             // 
             // ddlGenres
             // 
             this.ddlGenres.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ddlGenres.FormattingEnabled = true;
-            this.ddlGenres.Location = new System.Drawing.Point(128, 270);
+            this.ddlGenres.Location = new System.Drawing.Point(109, 246);
             this.ddlGenres.Name = "ddlGenres";
             this.ddlGenres.Size = new System.Drawing.Size(121, 21);
             this.ddlGenres.TabIndex = 5;
@@ -168,7 +166,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(57, 270);
+            this.label5.Location = new System.Drawing.Point(67, 249);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(36, 13);
             this.label5.TabIndex = 12;
@@ -184,7 +182,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
-            this.ClientSize = new System.Drawing.Size(524, 391);
+            this.ClientSize = new System.Drawing.Size(417, 357);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.ddlGenres);
             this.Controls.Add(this.txtDescription);
@@ -200,7 +198,7 @@
             this.Controls.Add(this.btnOK);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(540, 430);
+            this.MinimumSize = new System.Drawing.Size(433, 396);
             this.Name = "MovieForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
