@@ -75,9 +75,22 @@ namespace CharacterCreator
                 return false;
             };
 
+            if (Strength < 100)
+            {
+                error = "Cannot have <100 strength.";
+                return false;
+            }; 
+
             if (Intelligence == 0)
             {
                 error = "Cannot have 0 intelligence.";
+                return false;
+            };
+
+
+            if (Intelligence < 100)
+            {
+                error = "Cannot have <100 intelligence.";
                 return false;
             };
 
@@ -87,15 +100,35 @@ namespace CharacterCreator
                 return false;
             };
 
+            if (Agility < 100)
+            {
+                error = "Cannot have <100 agility.";
+                return false;
+            };
+
             if (Constitution == 0)
             {
                 error = "Cannot have 0 constitution.";
                 return false;
             };
 
+
+            if (Constitution < 100)
+            {
+                error = "Cannot have <100 constitution.";
+                return false;
+            };
+
             if (Charisma == 0)
             {
                 error = "Cannot have 0 charisma.";
+                return false;
+            };
+
+
+            if (Charisma < 100)
+            {
+                error = "Cannot have <100 charisma.";
                 return false;
             };
 
