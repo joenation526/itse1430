@@ -67,10 +67,10 @@ namespace CharacterCreator.Winforms
                 numericStrength.Value = Character.Strength; 
 
                 if (Character.Profession != null)
-                    ddlProfession.SelectedText = Character.Profession.Description;
+                    ddlProfession.SelectedItem = Character.Profession.Description;
 
                 if (Character.Race != null)
-                    ddlRace.SelectedText = Character.Race.Description;
+                    ddlRace.SelectedItem = Character.Race.Description;
 
                 ValidateChildren();
             }
@@ -164,6 +164,9 @@ namespace CharacterCreator.Winforms
                 _errorComboBox.SetError(control, "");
             }
         }
+
+
+
         private void OnValidateRace ( object sender, EventArgs e )
         {
             var control = sender as ComboBox;

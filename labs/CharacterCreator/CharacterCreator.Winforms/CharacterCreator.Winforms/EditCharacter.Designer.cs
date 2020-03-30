@@ -208,21 +208,25 @@
             // 
             // ddlRace
             // 
+            this.ddlRace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ddlRace.FormattingEnabled = true;
             this.ddlRace.Location = new System.Drawing.Point(124, 112);
             this.ddlRace.Name = "ddlRace";
             this.ddlRace.Size = new System.Drawing.Size(121, 21);
             this.ddlRace.TabIndex = 2;
             this.ddlRace.Click += new System.EventHandler(this.OnValidateRace);
+            this.ddlRace.Validated += new System.EventHandler(this.OnValidateRace);
             // 
             // ddlProfession
             // 
+            this.ddlProfession.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ddlProfession.FormattingEnabled = true;
             this.ddlProfession.Location = new System.Drawing.Point(124, 77);
             this.ddlProfession.Name = "ddlProfession";
             this.ddlProfession.Size = new System.Drawing.Size(121, 21);
             this.ddlProfession.TabIndex = 1;
             this.ddlProfession.Click += new System.EventHandler(this.OnValidateProfession);
+            this.ddlProfession.Validated += new System.EventHandler(this.OnValidateProfession);
             // 
             // label5
             // 

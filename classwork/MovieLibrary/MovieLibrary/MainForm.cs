@@ -39,7 +39,7 @@ namespace MovieLibrary
             base.OnLoad(e);
 
             new SeedDatabase().SeedIfEmpty(_movies);
-
+            
             UpdateUI();
         }
 
@@ -57,6 +57,13 @@ namespace MovieLibrary
             {
                 lstMovies.Items.Add(movie);
             };
+            //var current = movies.GetEnumerator();
+            //while (current.MoveNext())
+            //{
+            //    var movie = current.Current;
+
+            //    lstMovies.Items.Add(movie);
+            //};
         }
                                   
         #region Event Handlers

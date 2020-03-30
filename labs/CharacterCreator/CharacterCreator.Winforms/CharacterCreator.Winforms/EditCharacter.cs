@@ -67,15 +67,14 @@ namespace CharacterCreator.Winforms
                 numericStrength.Value = Character.Strength;
 
                 if (Character.Profession != null)
-                    ddlProfession.SelectedText = Character.Profession.Description;
+                    ddlProfession.SelectedItem = Character.Profession.Description;
 
                 if (Character.Race != null)
-                    ddlRace.SelectedText = Character.Race.Description;
+                    ddlRace.SelectedItem = Character.Race.Description;
 
                 ValidateChildren();
             }
         }
-
 
         private Character GetCharacter ()
         {
@@ -89,7 +88,7 @@ namespace CharacterCreator.Winforms
             character.Intelligence = GetAsInt32(numericIntelligience);
             character.Strength = GetAsInt32(numericStrength);
 
-            if (ddlProfession.SelectedItem is Profession profession)
+            if (ddlProfession.SelectedItem is Profession profession)    // this is the problem. it will not assign character value a profession or a race 
                 character.Profession = profession;
 
             if (ddlRace.SelectedItem is Race race)
@@ -176,5 +175,6 @@ namespace CharacterCreator.Winforms
                 _errorComboBox.SetError(control, "");
             }
         }
+
     }
 }

@@ -26,7 +26,7 @@ namespace MovieLibrary.Winforms
         }
 
         public MovieForm ( string title, Movie movie ) : this()
-        {
+        {           
             Text = title;
             Movie = movie;
         }
@@ -61,7 +61,7 @@ namespace MovieLibrary.Winforms
 
             var errors = new ObjectValidator().Validate(movie);
             if (errors.Any())
-            //if (!movie.Validate(out var error))
+                //if (!movie.Validate(out var error))
             {
                 DisplayError("Error");
                 return;
@@ -72,7 +72,7 @@ namespace MovieLibrary.Winforms
             Close();
         }
         #endregion
-
+        
         protected override void OnLoad ( EventArgs e )
         {
             base.OnLoad(e);
@@ -120,7 +120,7 @@ namespace MovieLibrary.Winforms
 
             //Pattern match
             if (ddlGenres.SelectedItem is Genre genre)
-                movie.Genre = genre;
+                movie.Genre = genre;            
 
             return movie;
         }

@@ -1,9 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieLibrary.Business
 {
-    // Is-a relationship 
+    //public interface ISelectableObject
+    //{
+    //    void Select ();
+    //}
+
+    //public interface IResizableObject
+    //{
+    //    void Resize ( int width, int height );
+    //}
+
+    //public struct SelectableResizableObject : IResizableObject, ISelectableObject
+    //{
+    //    public void Resize ( int width, int height );
+    //    public void Select ();
+    //}
+    
+    // Is-a relationship
     public class MemoryMovieDatabase : IMovieDatabase
     {
         public Movie Add ( Movie movie )
@@ -14,10 +31,9 @@ namespace MovieLibrary.Business
 
             //.NET validation
             var errors = new ObjectValidator().Validate(movie);
-            if(errors.Any())
-            //var errors = new List<ValidationResult>();
+            if (errors.Any())
             //if (!Validator.TryValidateObject(movie, new ValidationContext(movie), errors, true))
-                //if (!movie.Validate(out var error))
+            //if (!movie.Validate(out var error))
                 return null;
 
             //Movie names must be unique
@@ -42,7 +58,6 @@ namespace MovieLibrary.Business
 
             return CloneMovie(item);
         }
-
 
         public void Delete ( int id )
         {
@@ -78,6 +93,8 @@ namespace MovieLibrary.Business
 
         public IEnumerable<Movie> GetAll ()
         {
+            //return _movies;
+
             //Clone objects
             //var items = new Movie[_movies.Count];
             //var index = 0;
@@ -88,18 +105,17 @@ namespace MovieLibrary.Business
 
             //return items;
 
-            // Using an interator Like
+            //Use an iterator Luke
             foreach (var movie in _movies)
             {
-                yield return CloneMovie(movie); 
+                yield return CloneMovie(movie);
             };
         }
 
-        //private sealed class MovieEnumerator : IEnumerable<Movie>
+        //private sealed class Enumerator<T> : IEnumerator<T>
         //{
         //    ...
         //}
-
 
         //TODO: Validate
         //TODO: Movie names must be unique
@@ -109,10 +125,13 @@ namespace MovieLibrary.Business
             //TODO: Validate
             if (movie == null)
                 return "Movie is null";
+
+            //TODO: Fix this
             var errors = new ObjectValidator().Validate(movie);
             if (errors.Any())
                 //if (!movie.Validate(out var error))
                 return "Error";
+
             if (id <= 0)
                 return "Id is invalid";
 
