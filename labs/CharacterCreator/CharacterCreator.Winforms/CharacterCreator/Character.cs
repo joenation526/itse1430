@@ -57,18 +57,6 @@ namespace CharacterCreator
                 return false; 
             };
 
-            if (Profession == null)
-            {
-                error = "Select a profession";
-                return false; 
-            };
-
-            if (Race == null)
-            {
-                error = "Select a race";
-                return false;
-            };
-
             if (Strength == 0)
             {
                 error = "Cannot have 0 strength.";

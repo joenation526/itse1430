@@ -25,14 +25,9 @@ namespace CharacterCreator.Winforms
             return result == DialogResult.OK;
         }
 
-        protected override void OnLoad ( EventArgs e )
-        {
-            base.OnLoad(e);
-        }
-
         private void OnNewCharacter ( object sender, EventArgs e )
         {
-            CreateNewCharacter child = new CreateNewCharacter();
+            CharacterForm child = new CharacterForm();
 
             if (child.ShowDialog(this) != DialogResult.OK)
                 return;
@@ -65,13 +60,6 @@ namespace CharacterCreator.Winforms
             Close();
         }
 
-        private void UpdateCharacter ( Character oldCharacter, Character newCharacter )
-        {
-            if (_character == oldCharacter)
-            {
-                _character = newCharacter;
-            };
-        }
 
         private void OnCharacterEdit ( object sender, EventArgs e )
         {
@@ -79,12 +67,12 @@ namespace CharacterCreator.Winforms
             if (character == null)
                 return;
 
-            var child = new EditCharacter();
+            var child = new CharacterForm();
             child.Character = character;
             if (child.ShowDialog(this) != DialogResult.OK)
                 return;
 
-            UpdateCharacter(character, child.Character);
+            _character = child.Character;
         }
 
         private void DeleteCharacter ( Character character )
@@ -108,6 +96,6 @@ namespace CharacterCreator.Winforms
             DeleteCharacter(character);
         }
 
-        private Character _character = null;
+        private Character _character;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace CharacterCreator.Winforms
 {
-    partial class CreateNewCharacter
+    partial class CharacterForm
     {
         /// <summary>
         /// Required designer variable.
@@ -126,6 +126,7 @@
             this.ddlRace.Name = "ddlRace";
             this.ddlRace.Size = new System.Drawing.Size(121, 21);
             this.ddlRace.TabIndex = 2;
+            this.ddlRace.Click += new System.EventHandler(this.OnValidateRace);
             this.ddlRace.Validated += new System.EventHandler(this.OnValidateRace);
             // 
             // txtName
@@ -290,7 +291,7 @@
             this._errorComboBox.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this._errorComboBox.ContainerControl = this;
             // 
-            // CreateNewCharacter
+            // CharacterForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -317,9 +318,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "CreateNewCharacter";
+            this.Name = "CharacterForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Create New Character";
+            this.Text = "Character Form";
             ((System.ComponentModel.ISupportInitialize)(this.numericStrength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericIntelligience)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericAgility)).EndInit();

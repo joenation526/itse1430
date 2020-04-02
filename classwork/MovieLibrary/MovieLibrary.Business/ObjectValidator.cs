@@ -5,7 +5,8 @@ namespace MovieLibrary.Business
 {    
     public class ObjectValidator
     {
-        public IEnumerable<ValidationResult> Validate ( object value )
+        //Global function
+        public static IEnumerable<ValidationResult> Validate ( object value )
         {
             var errors = new List<ValidationResult>();
 

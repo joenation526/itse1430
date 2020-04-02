@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 
 using MovieLibrary.Business;
+using MovieLibrary.Business.Memory;
 using MovieLibrary.Winforms;
 
 namespace MovieLibrary

@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*
+ * ITSE 1430
+ * Spring 2020
+ * Jonathan Saysanam
+ */
+
+using System;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using static CharacterCreator.Profession;
 using static CharacterCreator.Race;
 
 namespace CharacterCreator.Winforms
 {
-    public partial class EditCharacter : Form
+    public partial class CharacterForm : Form
     {
-        public EditCharacter ()
+        public CharacterForm ()
         {
             InitializeComponent();
         }
@@ -29,9 +29,6 @@ namespace CharacterCreator.Winforms
 
         private void OnSave ( object sender, EventArgs e )
         {
-            if (!ValidateChildren())
-                return;
-
             var character = GetCharacter();
             if (!character.Validate(out var error))
             {
@@ -67,10 +64,10 @@ namespace CharacterCreator.Winforms
                 numericStrength.Value = Character.Strength;
 
                 if (Character.Profession != null)
-                    ddlProfession.SelectedItem = Character.Profession.Description;
+                    ddlProfession.Text = Character.Profession.Description;
 
                 if (Character.Race != null)
-                    ddlRace.SelectedItem = Character.Race.Description;
+                    ddlRace.Text = Character.Race.Description;
 
                 ValidateChildren();
             }
@@ -88,13 +85,13 @@ namespace CharacterCreator.Winforms
             character.Intelligence = GetAsInt32(numericIntelligience);
             character.Strength = GetAsInt32(numericStrength);
 
-            if (ddlProfession.SelectedItem is Profession profession)    // this is the problem. it will not assign character value a profession or a race 
+            if (ddlProfession.SelectedItem is Profession profession)
                 character.Profession = profession;
 
             if (ddlRace.SelectedItem is Race race)
                 character.Race = race;
 
-            return character;
+            return character; 
         }
 
         private void DisplayError ( string message )
@@ -127,8 +124,8 @@ namespace CharacterCreator.Winforms
                 // DisplayError("Title is required");
                 _errorName.SetError(control, "Name is required");
                 e.Cancel = true;
-
-            } else
+            } 
+            else
             {
                 _errorName.SetError(control, "");
             }
@@ -142,7 +139,8 @@ namespace CharacterCreator.Winforms
             {
                 _errorAttribute.SetError(control, "Attribute must be greater than 0.");
                 e.Cancel = true;
-            } else
+            } 
+            else
             {
                 _errorAttribute.SetError(control, "");
             }
@@ -152,11 +150,11 @@ namespace CharacterCreator.Winforms
         {
             var control = sender as ComboBox;
 
-            if (String.IsNullOrEmpty(control.Text))
+            if (control.SelectedItem == null)
             {
                 _errorComboBox.SetError(control, "Please select profession");
-                return;
-            } else
+            } 
+            else
             {
                 _errorComboBox.SetError(control, "");
             }
@@ -166,15 +164,15 @@ namespace CharacterCreator.Winforms
         {
             var control = sender as ComboBox;
 
-            if (String.IsNullOrEmpty(control.Text))
+            if (control.SelectedItem == null)
             {
                 _errorComboBox.SetError(control, "Please select Race");
-                return;
-            } else
+            } 
+            else
             {
                 _errorComboBox.SetError(control, "");
             }
         }
-
     }
 }
+

@@ -67,17 +67,11 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="CreateNewCharacter.cs">
+    <Compile Include="CharacterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CreateNewCharacter.Designer.cs">
-      <DependentUpon>CreateNewCharacter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="EditCharacter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="EditCharacter.Designer.cs">
-      <DependentUpon>EditCharacter.cs</DependentUpon>
+    <Compile Include="CharacterForm.Designer.cs">
+      <DependentUpon>CharacterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -90,11 +84,8 @@
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CreateNewCharacter.resx">
-      <DependentUpon>CreateNewCharacter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="EditCharacter.resx">
-      <DependentUpon>EditCharacter.cs</DependentUpon>
+    <EmbeddedResource Include="CharacterForm.resx">
+      <DependentUpon>CharacterForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

@@ -1,16 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MovieLibrary.Business
 {
-    public class MovieDatabase
+    //public interface ISelectableObject
+    //{
+    //    void Select ();
+    //}
+
+    //public interface IResizableObject
+    //{
+    //    void Resize ( int width, int height );
+    //}
+
+    //public struct SelectableResizableObject : IResizableObject, ISelectableObject
+    //{
+    //    public void Resize ( int width, int height );
+    //    public void Select ();
+    //}
+    
+    // Is-a relationship
+    public abstract class MovieDatabase : IMovieDatabase
     {
-        public Movie Add ( Movie movie )
+        public  Movie Add ( Movie movie )
         {
             //TODO: Validate
             if (movie == null)
                 return null;
-            if (!movie.Validate(out var error))
+
+            //.NET validation
+            var errors = new ObjectValidator().Validate(movie);
+            if (errors.Any())
+            //if (!Validator.TryValidateObject(movie, new ValidationContext(movie), errors, true))
+            //if (!movie.Validate(out var error))
                 return null;
 
             //Movie names must be unique
@@ -18,23 +41,10 @@ namespace MovieLibrary.Business
             if (existing != null)
                 return null;
 
-            //TODO: Clone movie to store     
-            var item = CloneMovie(movie);
-            item.Id = _id++;
-            _movies.Add(item);
-            //for (var index = 0; index < _movies.Count; ++index)
-            //{
-            //    if (_movies[index] == null)
-            //    {
-            //        _movies[index] = item;
-            //        item.Id = _id++;
-
-            //        return CloneMovie(item);
-            //    };
-            //};
-
-            return CloneMovie(item);
+            return AddCore(movie);
         }
+
+        protected abstract Movie AddCore ( Movie movie );
 
         public void Delete ( int id )
         {
@@ -42,93 +52,71 @@ namespace MovieLibrary.Business
             if (id <= 0)
                 return;
 
-            var movie = FindById(id);
-            if (movie != null)
-                _movies.Remove(movie);
-            //for (var index = 0; index < _movies.Count; ++index)
-            //{
-            //    if (_movies[index]?.Id == id)
-            //    {
-            //        _movies[index] = null;
-            //        return;
-            //    };
-            //};
+            DeleteCore(id);
         }
 
-        public Movie[] GetAll ()
+        protected abstract void DeleteCore ( int id );
+
+        public Movie Get ( int id )
         {
-            //TODO: Clone objects
-            var items = new Movie[_movies.Count];
-            var index = 0;
-            foreach (var movie in _movies)
-            {
-                items[index++] = CloneMovie(movie);
-            }
-            return items;
+            //TODO: Error
+            if (id <= 0)
+                return null;
+
+            return GetCore(id);
         }
+
+        protected abstract Movie GetCore ( int id );
+
+        public IEnumerable<Movie> GetAll ()
+        {
+            return GetAllCore();
+        }
+
+        protected abstract IEnumerable<Movie> GetAllCore ();
+
+        //private sealed class Enumerator<T> : IEnumerator<T>
+        //{
+        //    ...
+        //}
 
         //TODO: Validate
         //TODO: Movie names must be unique
         //TODO: Clone movie to store
-        public void Update ( int id, Movie newMovie )
+        public string Update ( int id, Movie movie )
         {
-            for (var index = 0; index < _movies.Length; ++index)
-            {
-                if (_movies[index]?.Id == id)
-                {
-                    _movies[index] = newMovie;
-                    break;
-                };
-            };
-        }
+            //TODO: Validate
+            if (movie == null)
+                return "Movie is null";
 
-        private Movie CloneMovie ( Movie movie )
-        {
-            //Object initializer syntax
-            return new Movie() {
-                Id = movie.Id,
-                Title = movie.Title,
-                Description = movie.Description,
-                Genre = new Genre(movie.Genre.Description),
-                IsClassic = movie.IsClassic,
-                ReleaseYear = movie.ReleaseYear,
-                RunLength = movie.RunLength,
-            };
-            //item.Id = movie.Id;
-            //item.Title = movie.Title;
-            //item.Description = movie.Description;
-            //item.Genre = movie.Genre;
-            //item.IsClassic = movie.IsClassic;
-            //item.ReleaseYear = movie.ReleaseYear;
-            //item.RunLength = movie.RunLength;
+            //TODO: Fix this
+            var errors = new ObjectValidator().Validate(movie);
+            if (errors.Any())
+                //if (!movie.Validate(out var error))
+                return "Error";
 
-            //return item;
-        }
+            if (id <= 0)
+                return "Id is invalid";
 
-        private Movie FindByTitle ( string title )
-        {
-            foreach (var movie in _movies)
-            {
-                if (String.Compare(movie?.Title, title, true) == 0)
-                    return movie;
-            };
+            var existing = FindById(id);
+            if (existing == null)
+                return "Movie not found";
+
+            //Movie names must be unique
+            var sameName = FindByTitle(movie.Title);
+            if (sameName != null && sameName.Id != id)
+                return "Movie must be unique";
+
+            UpdateCore(id, movie);
 
             return null;
         }
 
-        private Movie FindById ( int id )
-        {
-            foreach (var movie in _movies)
-            {
-                if (movie.Id == id)
-                    return movie;
-            };
+        protected abstract void UpdateCore ( int id, Movie movie );
 
-            return null;
-        }
+        protected abstract Movie FindByTitle ( string title );
 
-        //private readonly Movie[] _movies = new Movie[100];
-        private readonly List<Movie> _movies = new List<Movie>();
-        private int _id = 1;
+        protected abstract Movie FindById ( int id );
+    
     }
 }
