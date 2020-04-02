@@ -57,6 +57,18 @@ namespace CharacterCreator
                 return false; 
             };
 
+            if (Profession?.Description is null)
+            {
+                error = "Profession is required";
+                return false;
+            }
+
+            if (Race?.Description is null)
+            {
+                error = "Race is required";
+                return false;
+            }
+
             if (Strength == 0)
             {
                 error = "Cannot have 0 strength.";

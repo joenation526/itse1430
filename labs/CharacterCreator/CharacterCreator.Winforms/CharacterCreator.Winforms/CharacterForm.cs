@@ -146,29 +146,29 @@ namespace CharacterCreator.Winforms
             }
         }
 
-        private void OnValidateProfession ( object sender, EventArgs e )
+        private void OnValidateProfession ( object sender, CancelEventArgs e )
         {
             var control = sender as ComboBox;
 
             if (control.SelectedItem == null)
             {
                 _errorComboBox.SetError(control, "Please select profession");
-            } 
-            else
+                e.Cancel = true;
+            } else
             {
                 _errorComboBox.SetError(control, "");
             }
         }
 
-        private void OnValidateRace ( object sender, EventArgs e )
+        private void OnValidateRace ( object sender, CancelEventArgs e )
         {
             var control = sender as ComboBox;
 
             if (control.SelectedItem == null)
             {
                 _errorComboBox.SetError(control, "Please select Race");
-            } 
-            else
+                e.Cancel = true;
+            } else
             {
                 _errorComboBox.SetError(control, "");
             }

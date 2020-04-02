@@ -115,8 +115,7 @@
             this.ddlProfession.Name = "ddlProfession";
             this.ddlProfession.Size = new System.Drawing.Size(121, 21);
             this.ddlProfession.TabIndex = 1;
-            this.ddlProfession.Click += new System.EventHandler(this.OnValidateProfession);
-            this.ddlProfession.Validated += new System.EventHandler(this.OnValidateProfession);
+            this.ddlProfession.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateProfession);
             // 
             // ddlRace
             // 
@@ -126,8 +125,7 @@
             this.ddlRace.Name = "ddlRace";
             this.ddlRace.Size = new System.Drawing.Size(121, 21);
             this.ddlRace.TabIndex = 2;
-            this.ddlRace.Click += new System.EventHandler(this.OnValidateRace);
-            this.ddlRace.Validated += new System.EventHandler(this.OnValidateRace);
+            this.ddlRace.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateRace);
             // 
             // txtName
             // 
