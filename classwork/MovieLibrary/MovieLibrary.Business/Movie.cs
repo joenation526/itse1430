@@ -18,13 +18,12 @@ namespace MovieLibrary.Business
         public string Title
         {
             //Never return null from a string property, always return empty string
-            get 
-            {
-                return _title ?? "";
-            }
+            // get { return _title ?? ""; }
+            get => _title ?? "";    // Expression body
 
             //Use null conditional operator if instance value can be null
-            set { _title = value?.Trim(); }
+            // set { _title = value?.Trim(); }
+            set => _title = value?.Trim(); // Expression body 
         }        
 
         /// <summary>Gets or sets the run length in minutes.</summary>        
@@ -33,8 +32,11 @@ namespace MovieLibrary.Business
         /// <summary>Gets or sets the description.</summary>
         public string Description
         {
-            get { return _description ?? ""; }
-            set { _description = value?.Trim(); }
+            //get { return _description ?? ""; }
+            get =>  _description ?? "";
+
+            //set { _description = value?.Trim(); }
+            set => _description = value?.Trim(); 
         }
         
         /// <summary>Gets or sets the release year.</summary>
@@ -44,16 +46,32 @@ namespace MovieLibrary.Business
         /// <summary>Determines if this is a classic movie.</summary>        
         public bool IsClassic { get; set; }
 
+        // Expression Body
+        // 1. Remove all curlies
+        // 2. Remove return
+        // 3. Arrow after property followed by expression
         //Calculated property, no setter
-        public bool IsBlackAndWhite
-        {            
-            get { return ReleaseYear <= 1930; }
-        }        
+        public bool IsBlackAndWhite => ReleaseYear <= 1900;
+        //{            
+        //    get => ReleaseYear <= 1930; 
+        //}
 
-        public override string ToString ()
-        {
-            return Title;
-        }
+        // Expression body
+        // 1. Remove curles
+        // 2. Put in arrow after member
+        // 3. Remove return
+        // 4. Semicolon on end
+        //public bool IsBlackAndWhite => ReleaseYear <= 1900;
+        //public List<string> SomeValue => new List<string>();
+        //public List<string> SomeValue
+        //{
+        //      get{ return new List<string>(); }
+        //}
+
+        public override string ToString () => Title;
+        //{
+        //    return Title;
+        //}
 
         public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {

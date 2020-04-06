@@ -30,7 +30,8 @@ namespace MovieLibrary.Business
                 return null;
 
             //.NET validation
-            var errors = new ObjectValidator().Validate(movie);
+            //var errors = new ObjectValidator().Validate(movie);
+            var errors = ObjectValidator.Validate(movie); 
             if (errors.Any())
             //if (!Validator.TryValidateObject(movie, new ValidationContext(movie), errors, true))
             //if (!movie.Validate(out var error))
@@ -68,10 +69,7 @@ namespace MovieLibrary.Business
 
         protected abstract Movie GetCore ( int id );
 
-        public IEnumerable<Movie> GetAll ()
-        {
-            return GetAllCore();
-        }
+        public IEnumerable<Movie> GetAll () => GetAllCore() ?? Enumerable.Empty<Movie>();
 
         protected abstract IEnumerable<Movie> GetAllCore ();
 
@@ -90,7 +88,8 @@ namespace MovieLibrary.Business
                 return "Movie is null";
 
             //TODO: Fix this
-            var errors = new ObjectValidator().Validate(movie);
+            //var errors = new ObjectValidator().Validate(movie);
+            var errors = ObjectValidator.Validate(movie);
             if (errors.Any())
                 //if (!movie.Validate(out var error))
                 return "Error";

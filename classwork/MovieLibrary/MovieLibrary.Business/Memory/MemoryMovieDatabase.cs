@@ -100,7 +100,7 @@ namespace MovieLibrary.Business.Memory
         protected override void UpdateCore ( int id, Movie movie )
         {
             var existing = FindById(id);
-
+            
             //Update
             CopyMovie(existing, movie, false);
         }
@@ -158,7 +158,9 @@ namespace MovieLibrary.Business.Memory
             return null;
         }
 
-        protected override Movie FindById ( int id )
+        //private bool IsId ( Movie movie ) => movie.Id == id;
+
+        protected override Movie FindById ( int id ) //TODO: => _movies.FirstOrDefault(IsId);
         {
             foreach (var movie in _movies)
             {
@@ -169,8 +171,8 @@ namespace MovieLibrary.Business.Memory
             return null;
         }
 
-        //private readonly Movie[] _movies = new Movie[100];
-        private readonly List<Movie> _movies = new List<Movie>();
+//private readonly Movie[] _movies = new Movie[100];
+private readonly List<Movie> _movies = new List<Movie>();
         private int _id = 1;
     }
 }

@@ -4,9 +4,16 @@ using System.Linq;
 
 namespace MovieLibrary.Business
 {
-    public class SeedDatabase
+    public static class SeedDatabase
     {
-        public IMovieDatabase SeedIfEmpty ( IMovieDatabase database )
+        // Extension Method - are static moethods of static classes that appear as instance members on the applied type
+        // Rules:
+        //  1. Must be a static method
+        //  2. Owning type must be static
+        //  3. The first parameter must be proceeded with keyword 'this'
+        //  4. Should behave just like instance member
+        //  5. Do not add frivalous methods to core types
+        public static IMovieDatabase SeedIfEmpty ( this IMovieDatabase database )
         {
             if (!database.GetAll().Any())
             {

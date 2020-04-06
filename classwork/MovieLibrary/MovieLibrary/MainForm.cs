@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;  //Language Intergrated Natural Query
 using System.Windows.Forms;
 
 using MovieLibrary.Business;
@@ -39,30 +40,58 @@ namespace MovieLibrary
         {
             base.OnLoad(e);
 
-            new SeedDatabase().SeedIfEmpty(_movies);
+            //Call extension method as though it is an instance - Discovers it
+            //SeedDatabase.SeedIfEmpty(_movies);
+            _movies.SeedIfEmpty();
             
             UpdateUI();
         }
 
         private Movie GetSelectedMovie ()
         {
-            return lstMovies.SelectedItem as Movie;
+            //Preferred
+            //return lstMovies.SelectedItem as Movie;
+
+            //
+            //  IEnumerable<T> returning LINQ methods are deferred execution
+            //
+
+            //SelectedObjectCollection : IEnumerable
+            //  IEnumerable<T> Cast<T> ( this IEnumerable source )
+            //  IEnumerable<T> OfType<T> ( this IEnumerable source )
+            var selectedItems = lstMovies.SelectedItems.OfType<Movie>();
+
+            //  T? FirstOrDefault( this IEnumerable<T>) :: Returns first item that meets criteria or default for type if none
+            //  T? LastOrDefault( this IEnumerable<T>) :: Returns last item that meets criteria or default for type if none; not always supported
+
+            // T First ( this IEnumerable<T> ) ::  Returns first item that meets criteria or blows up
+            // T Last ( this IEnumerable<T> )  ::  Returns first item that meets criteria or blows up
+
+            // T? SingleOrDefault ( this IEnumerable<T> ) :: Returns the only item that meets criteria or default for type if none, blows up if more thatn one meets criteria
+            // T Single ( this IEnumerable<T> ) :: Returns the only item that meets criteria or blows up 
+            return selectedItems.FirstOrDefault();
         }
+
+        private string SortByTitle ( Movie movie ) => movie.Title;
+        private int SortByReleaseYear ( Movie movie ) => movie.ReleaseYear;
 
         private void UpdateUI ()
         {
             lstMovies.Items.Clear();
 
-            var movies = _movies.GetAll();
-            foreach (var movie in movies)
-            {
-                lstMovies.Items.Add(movie);
-            };
-            //var current = movies.GetEnumerator();
-            //while (current.MoveNext())
-            //{
-            //    var movie = current.Current;
+            var movies = _movies.GetAll()
+                                .OrderBy(SortByTitle)  //  IEnumerable<T> OrderBy<T> { this IEnumerable<T> source, Func<T>, string> sorter}
+                                .ThenByDescending(SortByReleaseYear);
 
+
+            // T[] ToArray { this IEnumerable<T> source } = returns source as an array
+            // List<T> ToList { this IEnumerable<T> source } = returns source as a List<T>
+            //foreach {var item in movies}
+            //      temp.Add(item);
+            //return temp;
+            lstMovies.Items.AddRange(movies.ToArray());
+            //foreach (var movie in movies)
+            //{
             //    lstMovies.Items.Add(movie);
             //};
         }
