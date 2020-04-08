@@ -42,7 +42,19 @@ namespace MovieLibrary
 
             //Call extension method as though it is an instance - Discovers it
             //SeedDatabase.SeedIfEmpty(_movies);
-            _movies.SeedIfEmpty();
+            try
+            {
+                _movies.SeedIfEmpty();
+            } catch (InvalidOperationException)
+            {
+                DisplayError("Invalid op");
+            } catch (ArgumentException)
+            {
+                DisplayError("Invalid arguement");
+            } catch (Exception ex)
+            {
+                DisplayError(ex.Message);
+            };
             
             UpdateUI();
         }
@@ -72,16 +84,49 @@ namespace MovieLibrary
             return selectedItems.FirstOrDefault();
         }
 
-        private string SortByTitle ( Movie movie ) => movie.Title;
-        private int SortByReleaseYear ( Movie movie ) => movie.ReleaseYear;
+        //private string SortByTitle ( Movie movie ) => movie.Title;
+        //private int SortByReleaseYear ( Movie movie ) => movie.ReleaseYear;
+
+        //Lambas syntax
+        // 1 parameter, 1 return type ::=       x => E
+        // no return type => {}
+        // 2+ parameters (x,y) => ?
 
         private void UpdateUI ()
         {
             lstMovies.Items.Clear();
 
-            var movies = _movies.GetAll()
-                                .OrderBy(SortByTitle)  //  IEnumerable<T> OrderBy<T> { this IEnumerable<T> source, Func<T>, string> sorter}
-                                .ThenByDescending(SortByReleaseYear);
+            //Extension method approach
+            //var movies = _movies.GetAll()
+            //                    .OrderBy(movie => movie.Title)  //  IEnumerable<T> OrderBy<T> { this IEnumerable<T> source, Func<T>, string> sorter}
+            //                    .ThenByDescending(movie => movie.ReleaseYear);
+
+            //Error Handling = try-catch block
+            // try
+            // { S* }
+            // catch
+            // { S* }
+            //
+            var movies = Enumerable.Empty<Movie>();
+            try
+            {
+                movies = _movies.GetAll();
+                //other things
+            } catch (Exception e)
+            {
+                DisplayError($"Failed to load movies: {e.Message} ");
+            };
+
+
+            //LINQ Syntax
+            // from movie in IEnumerable<T>
+            // [where expression]
+            // [order by property1 [, other properties]
+            // select
+            movies = from movie in movies
+                         where movie.Id > 0
+                         orderby movie.Title, movie.ReleaseYear descending
+                         select movie;
 
 
             // T[] ToArray { this IEnumerable<T> source } = returns source as an array

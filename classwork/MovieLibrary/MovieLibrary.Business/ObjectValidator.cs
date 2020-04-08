@@ -11,7 +11,7 @@ namespace MovieLibrary.Business
     public static class ObjectValidator
     {
         //Global function
-        public static IEnumerable<ValidationResult> Validate ( object value )
+        public static IEnumerable<ValidationResult> TryValidate ( object value )
         {
             //this.InstanceFoo()
             StaticFoo();
@@ -21,6 +21,11 @@ namespace MovieLibrary.Business
             Validator.TryValidateObject(value, new ValidationContext(value), errors, true);
 
             return errors;
+        }
+
+        public static void Validate ( object value )
+        {
+            Validator.ValidateObject(value, new ValidationContext(value), true);
         }
 
        // private void InstanceFoo (/*Object validator*/) {  }
