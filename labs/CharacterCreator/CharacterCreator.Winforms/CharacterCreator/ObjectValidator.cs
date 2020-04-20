@@ -3,6 +3,7 @@
  * Spring 2020
  * Jonathan Saysanam
  */
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 

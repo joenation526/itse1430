@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace CharacterCreator
 {
-    public class CharacterRoster : ICharacterRoster
+    public abstract class CharacterRoster : ICharacterRoster
     {
         //TODO: implement interface in this class file
         public Character Add ( Character character )
@@ -19,7 +19,7 @@ namespace CharacterCreator
                 return null;
             };
 
-            var errors = new ObjectValidator().Validate(character);
+            var errors = new ObjectValidator().TryValidate(character);
 
             //Character names must be unique
             var existing = FindByName(character.Name);
@@ -67,14 +67,10 @@ namespace CharacterCreator
 
         public IEnumerable<Character> GetAll ()
         {
-            var items = new Character[_characters.Count];
-            var index = 0;
             foreach (var character in _characters)
             {
-                items[index++] = CloneCharacter(character);
+                yield return CloneCharacter(character);
             }
-
-            return items; 
         }
 
         public string Update ( int id , Character newCharacter )

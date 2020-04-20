@@ -5,7 +5,6 @@
  */
 using System;
 using System.Collections.Generic;
-using CharacterCreator.Memory;
 
 namespace CharacterCreator
 {
@@ -15,13 +14,8 @@ namespace CharacterCreator
         //TODO: change methods from public to protected override
         public Character Add ( Character character )
         {
-            //TODO: validate
-            if (character == null)
-            {
-                return null;
-            };
 
-            var errors = new ObjectValidator().Validate(character);
+            var errors = new ObjectValidator().TryValidate(character);
             if (errors.Any())
                 return null;
 
@@ -82,7 +76,7 @@ namespace CharacterCreator
             //TODO: Validate
             if (character == null)
                 return "character is null";
-            var errors = new ObjectValidator().Validate(character);
+            var errors = new ObjectValidator().TryValidate(character);
             if (errors.Any())
                 //if (!movie.Validate(out var error))
                 return "Error";
