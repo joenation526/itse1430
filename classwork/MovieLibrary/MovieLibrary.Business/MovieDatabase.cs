@@ -23,17 +23,15 @@ namespace MovieLibrary.Business
     // Is-a relationship
     public abstract class MovieDatabase : IMovieDatabase
     {
-        public  Movie Add ( Movie movie )
+        public Movie Add ( Movie movie )
         {
             if (movie == null)
                 throw new ArgumentNullException(nameof(movie), "Movie is null");
                 //return null;
 
             //.NET validation
-            //var errors = new ObjectValidator().Validate(movie);
-            ObjectValidator.Validate(movie); 
-
-
+            ObjectValidator.Validate(movie);
+            
             //Movie names must be unique
             var existing = FindByTitle(movie.Title);
             if (existing != null)
@@ -43,21 +41,19 @@ namespace MovieLibrary.Business
         }
 
         protected abstract Movie AddCore ( Movie movie );
-
+        
         public void Delete ( int id )
         {
-            //TODO: Validate
             if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id),"Id must be greater than zero");
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
 
-            DeleteCore(id);
+            DeleteCore(id);            
         }
 
         protected abstract void DeleteCore ( int id );
 
         public Movie Get ( int id )
         {
-            //TODO: Error
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
 
@@ -81,17 +77,15 @@ namespace MovieLibrary.Business
         public string Update ( int id, Movie movie )
         {
             //if (movie == null)
-            //    return "Movie is null";
+            //  return "Movie is null";
             if (movie == null)
                 throw new ArgumentNullException(nameof(movie), "Movie is null");
 
-            //TODO: Fix this
-            //var errors = new ObjectValidator().Validate(movie);
             ObjectValidator.Validate(movie);
 
             if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than or equal to zero.");
-               //return "Id is invalid";
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
+                //return "Id is invalid";
 
             var existing = FindById(id);
             if (existing == null)
@@ -105,7 +99,7 @@ namespace MovieLibrary.Business
                 //return "Movie must be unique";
 
             UpdateCore(id, movie);
-
+            
             return null;
         }
 
@@ -114,6 +108,5 @@ namespace MovieLibrary.Business
         protected abstract Movie FindByTitle ( string title );
 
         protected abstract Movie FindById ( int id );
-    
     }
 }

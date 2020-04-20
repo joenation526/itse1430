@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Linq;  //Language Intergrated Natural Query
+using System.Linq;   //Language Integrated Natural Query
 using System.Windows.Forms;
 
 using MovieLibrary.Business;
+using MovieLibrary.Business.FileSystem;
 using MovieLibrary.Business.Memory;
 using MovieLibrary.Winforms;
 
@@ -14,9 +15,7 @@ namespace MovieLibrary
 
         public MainForm ()
         {
-            InitializeComponent();
-
-            _movies = new MemoryMovieDatabase();
+            InitializeComponent();            
 
             #region Playing with objects
 
@@ -40,8 +39,10 @@ namespace MovieLibrary
         {
             base.OnLoad(e);
 
-            //Call extension method as though it is an instance - Discovers it
-            //SeedDatabase.SeedIfEmpty(_movies);
+            _movies = new FileMovieDatabase("movies.csv");
+
+            //Call extension method as though it is an instance - discover it
+            //SeedDatabase.SeedIfEmpty(_movies);  //Compiles to this
             try
             {
                 _movies.SeedIfEmpty();
@@ -50,7 +51,7 @@ namespace MovieLibrary
                 DisplayError("Invalid op");
             } catch (ArgumentException)
             {
-                DisplayError("Invalid arguement");
+                DisplayError("Invalid argument");
             } catch (Exception ex)
             {
                 DisplayError(ex.Message);
@@ -59,38 +60,33 @@ namespace MovieLibrary
             UpdateUI();
         }
 
+        // Deferred execution:
+        // IEnumerable<T> returning LINQ methods are deferred execution
+        // All other methods execute immediately - To?, First?, Last?, Single?
+        
         private Movie GetSelectedMovie ()
         {
             //Preferred
-            //return lstMovies.SelectedItem as Movie;
-
-            //
-            //  IEnumerable<T> returning LINQ methods are deferred execution
-            //
-
+            //return lstMovies.SelectedItem as Movie;            
+            
             //SelectedObjectCollection : IEnumerable
-            //  IEnumerable<T> Cast<T> ( this IEnumerable source )
-            //  IEnumerable<T> OfType<T> ( this IEnumerable source )
+            // IEnumerable<T> Cast<T> ( this IEnumerable source )
+            // IEnumerable<T> OfType<T> ( this IEnumerable source )
             var selectedItems = lstMovies.SelectedItems.OfType<Movie>();
 
-            //  T? FirstOrDefault( this IEnumerable<T>) :: Returns first item that meets criteria or default for type if none
-            //  T? LastOrDefault( this IEnumerable<T>) :: Returns last item that meets criteria or default for type if none; not always supported
+            // T? FirstOrDefault ( this IEnumerable<T> ) :: Returns first item that meets criteria or default for type if none
+            // T? LastOrDefault ( this IEnumerable<T> ) :: Returns last item that meets criteria or default for type if none; not always supported
 
-            // T First ( this IEnumerable<T> ) ::  Returns first item that meets criteria or blows up
-            // T Last ( this IEnumerable<T> )  ::  Returns first item that meets criteria or blows up
+            // T First ( this IEnumerable<T> ) :: Returns first item that meets criteria or blows up
+            // T Last ( this IEnumerable<T> )  :: Returns first item that meets criteria or blows up
 
-            // T? SingleOrDefault ( this IEnumerable<T> ) :: Returns the only item that meets criteria or default for type if none, blows up if more thatn one meets criteria
-            // T Single ( this IEnumerable<T> ) :: Returns the only item that meets criteria or blows up 
+            // T? SingleOrDefault ( this IEnumerable<T> ) :: Returns the only item that meets criteria or default for type if none, blows up if more than one meets criteria
+            // T Single ( this IEnumerable<T> ) :: Returns the only item that meets criteria or blows up
             return selectedItems.FirstOrDefault();
         }
 
         //private string SortByTitle ( Movie movie ) => movie.Title;
         //private int SortByReleaseYear ( Movie movie ) => movie.ReleaseYear;
-
-        //Lambas syntax
-        // 1 parameter, 1 return type ::=       x => E
-        // no return type => {}
-        // 2+ parameters (x,y) => ?
 
         private void UpdateUI ()
         {
@@ -98,13 +94,16 @@ namespace MovieLibrary
 
             //Extension method approach
             //var movies = _movies.GetAll()
-            //                    .OrderBy(movie => movie.Title)  //  IEnumerable<T> OrderBy<T> { this IEnumerable<T> source, Func<T>, string> sorter}
-            //                    .ThenByDescending(movie => movie.ReleaseYear);
+            //                    .OrderBy(movie => movie.Title)  // IEnumerable<T> OrderBy<T> ( this IEnumerable<T> source, Func<T, string> sorter );
+            //                    .ThenByDescending(movie => movie.ReleaseYear)
+            //                    ;
 
-            //Error Handling = try-catch block
+            //Error handling = try-catch block
             // try
             // { S* }
-            // catch
+            // catch (T id)
+            // { S* }
+            // catch (T id)
             // { S* }
             //
             var movies = Enumerable.Empty<Movie>();
@@ -113,28 +112,27 @@ namespace MovieLibrary
                 movies = _movies.GetAll();
                 //other things
             } catch (Exception e)
-            {
-                DisplayError($"Failed to load movies: {e.Message} ");
+            {                
+                DisplayError($"Failed to load movies: {e.Message}");
             };
 
-
-            //LINQ Syntax
-            // from movie in IEnumerable<T>
-            // [where expression]
-            // [order by property1 [, other properties]
-            // select
+            //LINQ syntax 
+            //  from movie in IEnumerable<T>
+            //  [where expression]
+            //  [orderby property1 [, other properties]
+            //  select movie
             movies = from movie in movies
-                         where movie.Id > 0
-                         orderby movie.Title, movie.ReleaseYear descending
-                         select movie;
+                     where movie.Id > 0
+                     orderby movie.Title, movie.ReleaseYear descending
+                     select movie;
 
-
-            // T[] ToArray { this IEnumerable<T> source } = returns source as an array
-            // List<T> ToList { this IEnumerable<T> source } = returns source as a List<T>
-            //foreach {var item in movies}
-            //      temp.Add(item);
-            //return temp;
-            lstMovies.Items.AddRange(movies.ToArray());
+            // T[] ToArray ( this IEnumerable<T> source ) = returns source as an array            
+            // List<T> ToList ( this IEnumerable<T> source ) = returns source as a List<T>
+            //var temp = new List<Movie>();
+            //foreach (var item in movies)
+            //    temp.Add(item);
+            //return temp;                                    
+            lstMovies.Items.AddRange(movies.ToArray()); //Enumerable.ToArray(movies)
             //foreach (var movie in movies)
             //{
             //    lstMovies.Items.Add(movie);
@@ -221,7 +219,7 @@ namespace MovieLibrary
 
         #region Private Members
 
-        private readonly IMovieDatabase _movies;
+        private IMovieDatabase _movies;
 
         private bool DisplayConfirmation ( string message, string title )
         {

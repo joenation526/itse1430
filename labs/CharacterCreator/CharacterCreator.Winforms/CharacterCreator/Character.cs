@@ -5,10 +5,11 @@
  */
 
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CharacterCreator
 {
-    public class Character
+    public class Character : IValidatableObject
     {
         public string Name
         {
@@ -37,6 +38,8 @@ namespace CharacterCreator
         public int Constitution { get; set; } 
         public int Charisma { get; set; } 
 
+        public int Id { get; set; }
+
         public string Description
         {
             get { return _description ?? ""; }
@@ -49,91 +52,72 @@ namespace CharacterCreator
             return Name;
         }
 
-        public bool Validate ( out string error )
+        public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
         {
             if (String.IsNullOrEmpty(Name))
             {
-                error = "Name is required";
-                return false; 
+                yield return new ValidationResult("Name is required", new[] { nameof(Name) });
             };
 
             if (Profession?.Description is null)
             {
-                error = "Profession is required";
-                return false;
+                yield return new ValidationResult("Profession is required", new[] { nameof(Profession) });
             }
 
             if (Race?.Description is null)
             {
-                error = "Race is required";
-                return false;
+                yield return new ValidationResult("Race is required", new[] { nameof(Race) });
             }
 
             if (Strength == 0)
             {
-                error = "Cannot have 0 strength.";
-                return false;
+                yield return new ValidationResult("Cannot have 0 strength.", new[] { nameof(Strength) });
             };
 
             if (Strength > 100)
             {
-                error = "Cannot have >100 strength.";
-                return false;
+                yield return new ValidationResult("Cannot have >100 strength.", new[] { nameof(Strength) });
             }; 
 
             if (Intelligence == 0)
             {
-                error = "Cannot have 0 intelligence.";
-                return false;
+                yield return new ValidationResult("Cannot have 0 intelligence.", new[] { nameof(Intelligence) });
             };
-
 
             if (Intelligence > 100)
             {
-                error = "Cannot have >100 intelligence.";
-                return false;
+                yield return new ValidationResult("Cannot have >100 intelligence.", new[] { nameof(Intelligence) });
             };
 
             if (Agility == 0)
             {
-                error = "Cannot have 0 agility.";
-                return false;
+                yield return new ValidationResult("Cannot have 0 agility.", new[] { nameof(Agility) });
             };
 
             if (Agility > 100)
             {
-                error = "Cannot have >100 agility.";
-                return false;
+                yield return new ValidationResult("Cannot have >100 agility.", new[] { nameof(Agility) });
             };
 
             if (Constitution == 0)
             {
-                error = "Cannot have 0 constitution.";
-                return false;
+                yield return new ValidationResult("Cannot have 0 constitution.", new[] { nameof(Constitution) });
             };
-
 
             if (Constitution > 100)
             {
-                error = "Cannot have >100 constitution.";
-                return false;
+                yield return new ValidationResult("Cannot have >100 constitution.", new[] { nameof(Constitution) });
             };
 
             if (Charisma == 0)
             {
-                error = "Cannot have 0 charisma.";
-                return false;
+                yield return new ValidationResult("Cannot have 0 charisma.", new[] { nameof(Charisma) });
             };
-
 
             if (Charisma > 100)
             {
-                error = "Cannot have >100 charisma.";
-                return false;
+                yield return new ValidationResult("Cannot have >100 Charisma.", new[] { nameof(Charisma) });
             };
-
-            error = null;
-            return true;
         }
     }
 }

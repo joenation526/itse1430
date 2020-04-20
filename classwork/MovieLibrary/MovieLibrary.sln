@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.Winforms", "Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.Business", "MovieLibrary.Business\MovieLibrary.Business.csproj", "{F1A36463-BB35-41B3-81B4-8283166C6ACA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.Business.FileSystem", "MovieLibrary.Business.FileSystem\MovieLibrary.Business.FileSystem.csproj", "{09108737-7E0C-49F4-B775-6F6384E5C3F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{F1A36463-BB35-41B3-81B4-8283166C6ACA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1A36463-BB35-41B3-81B4-8283166C6ACA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1A36463-BB35-41B3-81B4-8283166C6ACA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09108737-7E0C-49F4-B775-6F6384E5C3F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09108737-7E0C-49F4-B775-6F6384E5C3F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09108737-7E0C-49F4-B775-6F6384E5C3F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09108737-7E0C-49F4-B775-6F6384E5C3F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

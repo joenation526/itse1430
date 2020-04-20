@@ -60,8 +60,7 @@ namespace MovieLibrary.Business.Memory
         }
 
         protected override Movie GetCore ( int id )
-        {
-
+        {            
             var movie = FindById(id);
             if (movie == null)
                 return null;
@@ -71,15 +70,18 @@ namespace MovieLibrary.Business.Memory
 
         protected override IEnumerable<Movie> GetAllCore ()
         {
-            throw new Exception("Failed");
+//            throw new Exception("Failed");
 
-            // Transforms
+            //Filtering
+            var items = _movies.Where(m => true);
+
+            //Transforms
             return _movies.Select(m => CloneMovie(m));
 
             //items.Any() => true if any elements or any elements meet a condition
             //items.All() => true for all elements
-            //new[] {1, 2}.Join[] {3, 4};
-            //items.Max(i => i.Id); .Min(); .Sum(); 
+            //new[] { 1, 2 }.Join(new[] { 3, 4, });
+            //items.Max(i => i.Id); .Min(); .Sum()
 
             //Debug.WriteLine("Starting GetAllCore");
 
@@ -150,7 +152,7 @@ namespace MovieLibrary.Business.Memory
             target.RunLength = source.RunLength;
         }
 
-
+        //Example of doing more complex querying with programmatic filters
         private IEnumerable<Movie> Query ( string title, int releaseYear )
         {
             var query = from movie in _movies
@@ -166,10 +168,10 @@ namespace MovieLibrary.Business.Memory
         }
 
         protected override Movie FindByTitle ( string title ) => (from movie in _movies
-                                                                  where String.Compare(movie?.Title, title, true) == 0
+                                                                  where String.Compare(movie.Title, title, true) == 0
                                                                   select movie).FirstOrDefault();
-            // 1. Expression body => _movies.FirstOrDefault(m => String.Compare(m?.Title, title, true) == 0);
-            // 2. Long way
+            // 1. Expression body   //=> _movies.FirstOrDefault(m => String.Compare(m?.Title, title, true) == 0);
+            // 2. Long way 
         //{
         //    foreach (var movie in _movies)
         //    {
@@ -180,37 +182,37 @@ namespace MovieLibrary.Business.Memory
         //    return null;
         //}
 
-        //private bool _@Rffwe3adGv2 ( Movie movie ) { return movie.Id == id; } 
+        //private bool _@FAk2Fa235 ( Movie movie ) { return movie.Id == id; }
 
-        //Lambda syntax
-        // 0 parameters {} => ?
-        // 1 parameter, 1 return type ::=        x => E      ,   _ => E            Func<T, ?>
-        // 2+ parameters (x,y) => ?                                                Func<S, T, ?>
-        // no return type => {}                                                    Action<>
+        //Lambda syntax ::= parameters => body
+        // 0 parameters () => ?     Func<?>
+        // 1 parameter, 1 return type ::=   x => E   ,  _ => E         Func<T, ?>
+        // 2+ parameters (x,y) => ?                                    Func<S, T, ?>
+        // no return type => {}                                        Action<>
         // Multiple statement expressions => { S* }
-        //                  x => { Console.WriteLine(x); var y = x; return x; }
+        //      x => { Console.WriteLine(x); var y = x; return x; }
         //
-        // General rules around lamdas
-        // 1. No ref or out parameters
-        // 2. Closure
-        protected override Movie FindById ( int id ) => _movies.FirstOrDefault(m => m.Id == id );
+        // General rules around lambdas
+        //   1. No ref or out parameters
+        //   2. Closure - any changes to captured values are lost
+        protected override Movie FindById ( int id ) => _movies.FirstOrDefault(m => m.Id == id);
         //{
+        //    _movies.FirstOrDefault(m => m.Id == id);
+        //    //var temp = new DummyType() { Id = id };
+        //    //_movies.FirstOrDefault(temp._@Fak);
 
-        //    //_movies.FirstOrDefault(m => m.Id == id);
-        //    ////var temp = new DummyType() { Id = id };
-        //    ////_movies.FirstOrDefault(temp._@Rff)
+        //    foreach (var movie in _movies)
+        //    {
+        //        if (movie.Id == id)
+        //            return movie;
+        //    };
 
-        //    //foreach (var movie in _movies)
-        //    //{
-        //    //    if (movie.Id == id)
-        //    //        return movie;
-        //    //};
-
-        //    //return null;
+        //    return null;
         //}
 
-//private readonly Movie[] _movies = new Movie[100];
-private readonly List<Movie> _movies = new List<Movie>();
+        //private readonly Movie[] _movies = new Movie[100];
+
+        private readonly List<Movie> _movies = new List<Movie>();
         private int _id = 1;
     }
 }

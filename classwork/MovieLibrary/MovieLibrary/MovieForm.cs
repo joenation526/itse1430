@@ -59,8 +59,9 @@ namespace MovieLibrary.Winforms
             // Validation and error reporting
             var movie = GetMovie();
 
-            // var errors = new ObjectValidator().Validate(movie);
-            var errors = ObjectValidator.TryValidate(movie); 
+            //var validator = new ObjectValidator();            
+            //var errors = new ObjectValidator().Validate(movie);
+            var errors = ObjectValidator.TryValidate(movie);
             if (errors.Any())
                 //if (!movie.Validate(out var error))
             {
@@ -144,9 +145,9 @@ namespace MovieLibrary.Winforms
         {
             if (String.IsNullOrEmpty(control.Text))
                 return emptyValue;
-
+            
             if (Int32.TryParse(control.Text, out var result))
-                return result;
+                return result;            
 
             return -1;
         }

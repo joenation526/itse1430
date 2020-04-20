@@ -2,18 +2,18 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace MovieLibrary.Business
-{
-    //Only contain static class
-    //Cannot Create an instance
-    // Rule - 1 Never create a type called ?Helper or ?Utility or ?Common
-    // Rule - 2 No data
-    // Rule - 3 Don't treat as global functions/variables
+{   
+    //Only contain static members 
+    //Cannot create an instance
+    // Rule 1 - Never create a type called ?Helper or ?Utility or ?Common
+    // Rule 2 - No data
+    // Rule 3 - Don't treat as global functions/variables
     public static class ObjectValidator
     {
-        //Global function
+        //Global functions 
         public static IEnumerable<ValidationResult> TryValidate ( object value )
         {
-            //this.InstanceFoo()
+            //this.InstanceFoo();
             StaticFoo();
 
             var errors = new List<ValidationResult>();
@@ -28,12 +28,11 @@ namespace MovieLibrary.Business
             Validator.ValidateObject(value, new ValidationContext(value), true);
         }
 
-       // private void InstanceFoo (/*Object validator*/) {  }
+        //private void InstanceFoo ( /* ObjectValidator this */ ) { }
 
         private static void StaticFoo () { }
 
-        //Global variables
+        //Global vaiables
         //private static ObjectValidator Instance = new ObjectValidator();
-
     }
 }

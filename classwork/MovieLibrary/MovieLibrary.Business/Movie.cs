@@ -18,12 +18,12 @@ namespace MovieLibrary.Business
         public string Title
         {
             //Never return null from a string property, always return empty string
-            // get { return _title ?? ""; }
-            get => _title ?? "";    // Expression body
+            //get { return _title ?? ""; }
+            get => _title ?? "";  //Expression body
 
             //Use null conditional operator if instance value can be null
-            // set { _title = value?.Trim(); }
-            set => _title = value?.Trim(); // Expression body 
+            //set { _title = value?.Trim(); }
+            set => _title = value?.Trim();   //Expression body
         }        
 
         /// <summary>Gets or sets the run length in minutes.</summary>        
@@ -32,11 +32,14 @@ namespace MovieLibrary.Business
         /// <summary>Gets or sets the description.</summary>
         public string Description
         {
+            //1. Remove curlies
+            //2. Put arrow after get
+            //3. Remove return
             //get { return _description ?? ""; }
-            get =>  _description ?? "";
+            get => _description ?? "";
 
             //set { _description = value?.Trim(); }
-            set => _description = value?.Trim(); 
+            set => _description = value?.Trim();
         }
         
         /// <summary>Gets or sets the release year.</summary>
@@ -46,28 +49,28 @@ namespace MovieLibrary.Business
         /// <summary>Determines if this is a classic movie.</summary>        
         public bool IsClassic { get; set; }
 
-        // Expression Body
+        //Expression body for calculated properties
         // 1. Remove all curlies
         // 2. Remove return
         // 3. Arrow after property followed by expression
         //Calculated property, no setter
-        public bool IsBlackAndWhite => ReleaseYear <= 1900;
+        public bool IsBlackAndWhite => ReleaseYear <= 1930;
         //{            
-        //    get => ReleaseYear <= 1930; 
+        //    //get { return ReleaseYear <= 1930; }
+        //    get => ReleaseYear <= 1930;
         //}
-
-        // Expression body
-        // 1. Remove curles
-        // 2. Put in arrow after member
-        // 3. Remove return
-        // 4. Semicolon on end
-        //public bool IsBlackAndWhite => ReleaseYear <= 1900;
+        //public bool IsBlackAndWhite = ReleaseYear <= 1930;
         //public List<string> SomeValue => new List<string>();
         //public List<string> SomeValue
         //{
-        //      get{ return new List<string>(); }
+        //    get { return new List<string>(); }
         //}
 
+        // Expression body
+        // 1. Remove curlies
+        // 2. Put in arrow after member
+        // 3. Remove return
+        // 4. Semicolon on end
         public override string ToString () => Title;
         //{
         //    return Title;
