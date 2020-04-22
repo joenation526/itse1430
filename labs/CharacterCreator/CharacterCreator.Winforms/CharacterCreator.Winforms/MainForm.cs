@@ -6,6 +6,7 @@
 
 using System;
 using System.Windows.Forms;
+using CharacterCreator.Memory;
 
 namespace CharacterCreator.Winforms
 {
@@ -23,19 +24,6 @@ namespace CharacterCreator.Winforms
             base.OnLoad(e);
 
             UpdateUI(); 
-        }
-
-        void DisplayCharacter ( Character character )
-        {
-            if (character == null)
-            {
-                return;
-            }
-
-            var name = character.Name;
-            character.Description = "Test";
-
-            character = new Character(); 
         }
 
         private void OnAboutButton ( object sender, EventArgs e )

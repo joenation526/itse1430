@@ -27,17 +27,28 @@ namespace MovieLibrary.Business
         {
             if (movie == null)
                 throw new ArgumentNullException(nameof(movie), "Movie is null");
-                //return null;
+            //return null;
 
             //.NET validation
             ObjectValidator.Validate(movie);
-            
-            //Movie names must be unique
-            var existing = FindByTitle(movie.Title);
-            if (existing != null)
-                throw new InvalidOperationException("Movie must be unique");
 
-            return AddCore(movie);
+            //Movie names must be unique
+            try
+            {
+                var existing = FindByTitle(movie.Title);
+                if (existing != null)
+                    throw new InvalidOperationException("Movie must be unique");
+
+                return AddCore(movie);
+            } catch (InvalidOperationException)
+            {
+                //Rethrow exception
+                throw;
+            } catch (Exception e)
+            {
+                //Rewrite exception with original exception as the inner exception
+                throw new InvalidOperationException("Error adding movie", e);
+            };            
         }
 
         protected abstract Movie AddCore ( Movie movie );
@@ -47,7 +58,14 @@ namespace MovieLibrary.Business
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
 
-            DeleteCore(id);            
+            try
+            {
+                DeleteCore(id);
+            } catch (Exception e)
+            {
+                //Rewrite exception
+                throw new InvalidOperationException("Error deleting movie.", e);
+            };
         }
 
         protected abstract void DeleteCore ( int id );
@@ -57,12 +75,29 @@ namespace MovieLibrary.Business
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
 
-            return GetCore(id);
+            try
+            { 
+                return GetCore(id);
+            } catch (Exception e)
+            {
+                //Rewrite exception
+                throw new InvalidOperationException("Error reading movie.", e);
+            };
         }
 
         protected abstract Movie GetCore ( int id );
 
-        public IEnumerable<Movie> GetAll () => GetAllCore() ?? Enumerable.Empty<Movie>();
+        public IEnumerable<Movie> GetAll ()
+        {
+            try
+            { 
+                return GetAllCore() ?? Enumerable.Empty<Movie>();
+            } catch (Exception e)
+            {
+                //Rewrite exception
+                throw new InvalidOperationException("Error reading movies.", e);
+            };
+        }
 
         protected abstract IEnumerable<Movie> GetAllCore ();
 
@@ -74,7 +109,7 @@ namespace MovieLibrary.Business
         //TODO: Validate
         //TODO: Movie names must be unique
         //TODO: Clone movie to store
-        public string Update ( int id, Movie movie )
+        public void Update ( int id, Movie movie )
         {
             //if (movie == null)
             //  return "Movie is null";
@@ -85,22 +120,33 @@ namespace MovieLibrary.Business
 
             if (id <= 0)
                 throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
-                //return "Id is invalid";
+            //return "Id is invalid";
 
-            var existing = FindById(id);
-            if (existing == null)
-                throw new ArgumentException("Movie not found", nameof(id));
-                //return "Movie not found";
-
-            //Movie names must be unique
-            var sameName = FindByTitle(movie.Title);
-            if (sameName != null && sameName.Id != id)
-                throw new InvalidOperationException("Movie must be unique");
-                //return "Movie must be unique";
-
-            UpdateCore(id, movie);
-            
-            return null;
+            try
+            {
+                var existing = FindById(id);
+                if (existing == null)
+                    throw new ArgumentException("Movie not found", nameof(id));
+                
+                //Movie names must be unique
+                var sameName = FindByTitle(movie.Title);
+                if (sameName != null && sameName.Id != id)
+                    throw new InvalidOperationException("Movie must be unique");
+                
+                UpdateCore(id, movie);
+            } catch (ArgumentException)
+            {
+                //Rethrow exception
+                throw;
+            } catch (InvalidOperationException)
+            {
+                //Rethrow exception
+                throw;            
+            } catch (Exception e)
+            {
+                //Rewrite exception
+                throw new InvalidOperationException("Error updating movie.", e);
+            };
         }
 
         protected abstract void UpdateCore ( int id, Movie movie );

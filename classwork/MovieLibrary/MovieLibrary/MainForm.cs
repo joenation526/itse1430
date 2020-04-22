@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Configuration;
 using System.Linq;   //Language Integrated Natural Query
 using System.Windows.Forms;
 
 using MovieLibrary.Business;
 using MovieLibrary.Business.FileSystem;
 using MovieLibrary.Business.Memory;
+using MovieLibrary.Business.SqlServer;
 using MovieLibrary.Winforms;
 
 namespace MovieLibrary
@@ -38,25 +40,26 @@ namespace MovieLibrary
         protected override void OnLoad ( EventArgs e )
         {
             base.OnLoad(e);
-
-            _movies = new FileMovieDatabase("movies.csv");
-
-            //Call extension method as though it is an instance - discover it
-            //SeedDatabase.SeedIfEmpty(_movies);  //Compiles to this
-            try
-            {
-                _movies.SeedIfEmpty();
-            } catch (InvalidOperationException)
-            {
-                DisplayError("Invalid op");
-            } catch (ArgumentException)
-            {
-                DisplayError("Invalid argument");
-            } catch (Exception ex)
-            {
-                DisplayError(ex.Message);
-            };
             
+            var connString = ConfigurationManager.ConnectionStrings["MovieDatabase"];
+            _movies = new SqlMovieDatabase(connString.ConnectionString);
+
+            ////Call extension method as though it is an instance - discover it
+            ////SeedDatabase.SeedIfEmpty(_movies);  //Compiles to this
+            //try
+            //{
+            //    _movies.SeedIfEmpty();
+            //} catch (InvalidOperationException)
+            //{
+            //    DisplayError("Invalid op");
+            //} catch (ArgumentException)
+            //{
+            //    DisplayError("Invalid argument");
+            //} catch (Exception ex)
+            //{
+            //    DisplayError(ex.Message);
+            //};
+
             UpdateUI();
         }
 
@@ -150,15 +153,16 @@ namespace MovieLibrary
                 if (child.ShowDialog(this) != DialogResult.OK)
                     return;
 
-                //TODO: Save the movie
-                var movie = _movies.Add(child.Movie);
-                if (movie != null)
+                try
                 {
+                    var movie = _movies.Add(child.Movie);
+                    
                     UpdateUI();
                     return;
-                };
-
-                DisplayError("Add failed");
+                } catch (Exception ex)
+                {
+                    DisplayError(ex.Message);
+                };                
             } while (true);
         }
 
@@ -177,14 +181,15 @@ namespace MovieLibrary
                     return;
 
                 // Save the movie
-                var error = _movies.Update(movie.Id, child.Movie);
-                if (String.IsNullOrEmpty(error))
+                try
                 {
+                    _movies.Update(movie.Id, child.Movie);
                     UpdateUI();
                     return;
+                } catch (Exception ex)
+                {
+                    DisplayError(ex.Message);
                 };
-
-                DisplayError(error);
             } while (true);
         }
 
@@ -199,9 +204,14 @@ namespace MovieLibrary
             if (!DisplayConfirmation($"Are you sure you want to delete {movie.Title}?", "Delete"))
                 return;
 
-            //TODO: Delete
-            _movies.Delete(movie.Id);
-            UpdateUI();
+            try
+            {
+                _movies.Delete(movie.Id);
+                UpdateUI();
+            } catch (Exception ex)
+            {
+                DisplayError(ex.Message);
+            };
         }
 
         private void OnFileExit ( object sender, EventArgs e )

@@ -5,7 +5,10 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Windows.Forms;
 using static CharacterCreator.Profession;
 using static CharacterCreator.Race;
@@ -29,10 +32,15 @@ namespace CharacterCreator.Winforms
 
         private void OnSave ( object sender, EventArgs e )
         {
+            if (!ValidateChildren())
+                return;
+
             var character = GetCharacter();
-            if (!character.Validate(out var error))
+
+            var errors = ObjectValidator.Validate(character);
+            if (errors.Any())
             {
-                DisplayError(error);
+                DisplayError(errors);
                 return;
             }
 
@@ -40,6 +48,8 @@ namespace CharacterCreator.Winforms
             DialogResult = DialogResult.OK;
             Close();
         }
+
+
 
         protected override void OnLoad ( EventArgs e )
         {
@@ -94,10 +104,11 @@ namespace CharacterCreator.Winforms
             return character; 
         }
 
-        private void DisplayError ( string message )
+        private void DisplayError ( IEnumerable<ValidationResult> errors )
         {
-            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(errors.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
+
 
         private int GetAsInt32 ( Control control )
         {
@@ -174,5 +185,7 @@ namespace CharacterCreator.Winforms
             }
         }
     }
+
+
 }
 

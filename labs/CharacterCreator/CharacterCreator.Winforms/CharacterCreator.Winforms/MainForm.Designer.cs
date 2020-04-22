@@ -123,6 +123,9 @@
             // 
             // listCharacters
             // 
+            this.listCharacters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listCharacters.FormattingEnabled = true;
             this.listCharacters.Location = new System.Drawing.Point(0, 27);
             this.listCharacters.Name = "listCharacters";

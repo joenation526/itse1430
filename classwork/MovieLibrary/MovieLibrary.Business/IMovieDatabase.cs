@@ -42,6 +42,6 @@ namespace MovieLibrary.Business
         /// Error: Movie already exists
         /// Error: Movie does not exist.
         /// Error: Id is less than zero.
-        string Update ( int id, Movie movie );
+        void Update ( int id, Movie movie );
     }
 }

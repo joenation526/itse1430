@@ -9,7 +9,8 @@ CREATE PROCEDURE [dbo].[GetMovies]
 AS BEGIN
     SET NOCOUNT ON;
 
-    SELECT Id, Name, Description, Rating, ReleaseYear, RunLength, HasSeen
+    --SELECT * 
+    SELECT Id, Name, Description, Genre, ReleaseYear, RunLength, IsClassic
     FROM Movies
 END
 

@@ -35,6 +35,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -103,6 +104,10 @@
     <ProjectReference Include="..\MovieLibrary.Business.FileSystem\MovieLibrary.Business.FileSystem.csproj">
       <Project>{09108737-7E0C-49F4-B775-6F6384E5C3F6}</Project>
       <Name>MovieLibrary.Business.FileSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MovieLibrary.Business.SqlServer\MovieLibrary.Business.SqlServer.csproj">
+      <Project>{226B9121-0553-4FCE-8A8B-6D6793E3DC66}</Project>
+      <Name>MovieLibrary.Business.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\MovieLibrary.Business\MovieLibrary.Business.csproj">
       <Project>{f1a36463-bb35-41b3-81b4-8283166c6aca}</Project>

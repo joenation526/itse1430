@@ -7,11 +7,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CharacterCreator
+namespace CharacterCreator.Winforms
 {
-    public class ObjectValidator
+    public static class ObjectValidator 
     {
-        public IEnumerable<ValidationResult> TryValidate ( object value )
+        public static IEnumerable<ValidationResult> Validate ( Character value )
         {
             var errors = new List<ValidationResult>();
 
@@ -20,4 +20,7 @@ namespace CharacterCreator
             return errors;
         }
     }
+
+
 }
+

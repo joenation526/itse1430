@@ -5,12 +5,14 @@
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using CharacterCreator.Winforms;
 
 namespace CharacterCreator
 {
     public abstract class CharacterRoster : ICharacterRoster
     {
-        //TODO: implement interface in this class file
         public Character Add ( Character character )
         {
             //TODO: validate
@@ -19,22 +21,22 @@ namespace CharacterCreator
                 return null;
             };
 
-            var errors = new ObjectValidator().TryValidate(character);
+            var errors = ObjectValidator.Validate(character);
+            if (errors.Any())
+                return null;
+
 
             //Character names must be unique
             var existing = FindByName(character.Name);
             if (existing != null)
             {
                 return null;
-            }
+            };
 
-            var item = CloneCharacter(character);
-            item.Id = _id++;
-            _characters.Add(item);
-
-            return CloneCharacter(item); 
+            return AddCore(character); 
         }
 
+        protected abstract Character AddCore ( Character character );
 
         public void Delete ( int id )
         {
@@ -43,10 +45,10 @@ namespace CharacterCreator
                 return; 
             }
 
-            var character = FindById(id);
-            if (character != null)
-                _characters.Remove(character);
+            DeleteCore(id);
         }
+
+        protected abstract void DeleteCore ( int id );
 
         public Character Get ( int id )
         {
@@ -55,105 +57,47 @@ namespace CharacterCreator
                 return null;
             }
 
-            var character = FindById(id);
+            return GetCore(id); 
+        }
+
+        protected abstract Character GetCore ( int id );
+
+        public IEnumerable<Character> GetAll () => GetAllCore() ?? Enumerable.Empty<Character>();
+
+        protected abstract IEnumerable<Character> GetAllCore ();
+
+        public string Update ( int id , Character character )
+        {
+            
             if (character == null)
-            {
+                return "Character is null";
+
+            var errors = ObjectValidator.Validate(character);
+            if (errors.Any())
                 return null;
-            }
 
-            return CloneCharacter(character); 
-        }
+            if (id <= 0)
+                return "Id is invalid";
 
+            var existing = FindById(id);
+            if (existing == null)
+                return "Character not found";
 
-        public IEnumerable<Character> GetAll ()
-        {
-            foreach (var character in _characters)
-            {
-                yield return CloneCharacter(character);
-            }
-        }
+            //Character names must be unique
+            var sameName = FindByName(character.Name);
+            if (sameName != null && sameName.Id != id)
+                return "Characters must be unique";
 
-        public string Update ( int id , Character newCharacter )
-        {
-            for (var index = 0; index < _characters.Count; ++index) // .Length substitude
-            {
-                if (_characters[index]?.Id == id)
-                {
-                    _characters[index] = newCharacter;
-                    break;
-                };
-            };
+            UpdateCore(id, character);
 
             return null;
         }
 
-        private object FindByName ( string name )
-        {
-            foreach (var character in _characters)
-            {
-                if (String.Compare(character?.Name, name, true) == 0)
-                    return character; 
-            };
+        protected abstract void UpdateCore ( int id, Character character );
 
-            return null;
-        }
+        protected abstract Character FindById ( int id );
 
-        private object FindById ( int id )
-        {
-            foreach (var character in _characters)
-            {
-                if (character.Id == id)
-                    return character; 
-            };
+        protected abstract Character FindByName ( string name );
 
-            return null; 
-
-        }
-
-
-        private Character CloneCharacter ( Character character )
-        {
-            return new Character() {
-                Name = character.Name,
-                Description = character.Description,
-                Profession = new Profession(character.Profession.Description),
-                Race = new Race(character.Race.Description),
-                Strength = character.Strength,
-                Intelligence = character.Intelligence,
-                Agility = character.Agility,
-                Constitution = character.Constitution,
-                Charisma = character.Charisma,
-            };
-        }
-
-
-        //private void CopyCharacter ( Character target, Character source, bool includeId )
-        //{
-        //    if (includeId)
-        //        target.Id = source.Id;
-
-        //    target.Name = source.Name;
-        //    target.Description = source.Description;
-
-        //    if (source.Profession != null)
-        //        target.Profession = new Profession(source.Profession.Description);
-        //    else
-        //        target.Profession = null;
-
-
-        //    if (source.Race != null)
-        //        target.Race = new Race(source.Race.Description);
-        //    else
-        //        target.Race = null;
-
-        //    target.Strength = source.Strength;
-        //    target.Intelligence = source.Intelligence;
-        //    target.Agility = source.Agility;
-        //    target.Constitution = source.Constitution;
-        //    target.Charisma = source.Charisma;
-        //}
-
-        private readonly List<Character> _characters = new List<Character>();
-        private int _id = 1;
     }
 }

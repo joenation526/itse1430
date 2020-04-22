@@ -3,28 +3,18 @@
  * Spring 2020
  * Jonathan Saysanam
  */
+
 using System;
 using System.Collections.Generic;
 
-namespace CharacterCreator
-{
 
-    public class MemoryCharacterRoster : ICharacterRoster
+namespace CharacterCreator.Memory
+{
+    public class MemoryCharacterRoster : CharacterRoster
     {
         //TODO: change methods from public to protected override
-        public Character Add ( Character character )
+        protected override Character AddCore ( Character character )
         {
-
-            var errors = new ObjectValidator().TryValidate(character);
-            if (errors.Any())
-                return null;
-
-            //Character names must be unique
-            var existing = FindByName(character.Name);
-            if (existing != null)
-            {
-                return null;
-            }
 
             var item = CloneCharacter(character);
             item.Id = _id++;
@@ -34,24 +24,16 @@ namespace CharacterCreator
         }
 
 
-        public void Delete ( int id )
+        protected override void DeleteCore ( int id )
         {
-            if (id <= 0)
-            {
-                return; 
-            }
 
             var character = FindById(id);
             if (character != null)
                 _characters.Remove(character);
         }
 
-        public Character Get ( int id )
+        protected override Character GetCore ( int id )
         {
-            if (id <= 0)
-            {
-                return null;
-            }
 
             var character = FindById(id);
             if (character == null)
@@ -62,7 +44,7 @@ namespace CharacterCreator
             return CloneCharacter(character); 
         }
 
-        public IEnumerable<Character> GetAll ()
+        protected override IEnumerable<Character> GetAllCore ()
         {
             foreach (var character in _characters)
             {
@@ -71,35 +53,16 @@ namespace CharacterCreator
 
         }
 
-        public string Update ( int id , Character character )
+        protected override void UpdateCore ( int id, Character character )
         {
-            //TODO: Validate
-            if (character == null)
-                return "character is null";
-            var errors = new ObjectValidator().TryValidate(character);
-            if (errors.Any())
-                //if (!movie.Validate(out var error))
-                return "Error";
-            if (id <= 0)
-                return "Id is invalid";
-
             var existing = FindById(id);
-            if (existing == null)
-                return "Character not found";
-
-            //Movie names must be unique
-            var sameName = FindByName(character.Name);
-            if (sameName != null && sameName.Id != id)
-                return "Character must be unique";
 
             //Update
             CopyCharacter(existing, character, false);
-
-            return null;
         }
 
 
-        private Character FindByName ( string name )
+        protected override Character FindByName ( string name )
         {
             foreach (var character in _characters)
             {
@@ -110,7 +73,7 @@ namespace CharacterCreator
             return null;
         }
 
-        private Character FindById ( int id )
+        protected override Character FindById ( int id )
         {
             foreach (var character in _characters)
             {
@@ -119,7 +82,6 @@ namespace CharacterCreator
             };
 
             return null; 
-
         }
 
         private Character CloneCharacter ( Character character )
