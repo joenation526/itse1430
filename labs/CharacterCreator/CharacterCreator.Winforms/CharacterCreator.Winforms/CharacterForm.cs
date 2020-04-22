@@ -40,7 +40,7 @@ namespace CharacterCreator.Winforms
             var errors = ObjectValidator.Validate(character);
             if (errors.Any())
             {
-                DisplayError(errors);
+                DisplayError(errors.ToString());
                 return;
             }
 
@@ -104,9 +104,9 @@ namespace CharacterCreator.Winforms
             return character; 
         }
 
-        private void DisplayError ( IEnumerable<ValidationResult> errors )
+        private void DisplayError ( string errors )
         {
-            MessageBox.Show(errors.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(errors, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
 
