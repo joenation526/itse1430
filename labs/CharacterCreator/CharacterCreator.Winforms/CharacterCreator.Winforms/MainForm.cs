@@ -67,7 +67,6 @@ namespace CharacterCreator.Winforms
             UpdateUI(); 
         }
 
-
         private void OnCharacterEdit ( object sender, EventArgs e )
         {
             var character = GetSelectedCharacter();
@@ -94,7 +93,6 @@ namespace CharacterCreator.Winforms
             } while (true);
         }
 
-
         private void OnCharacterDelete ( object sender, EventArgs e )
         {
             var character = GetSelectedCharacter();
@@ -113,7 +111,6 @@ namespace CharacterCreator.Winforms
         #region Private Members
 
         private readonly ICharacterRoster _characters;
-  
 
         private bool DisplayConfirmation ( string message, string title )
         {
@@ -129,7 +126,5 @@ namespace CharacterCreator.Winforms
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
         #endregion
-
-        
     }
 }

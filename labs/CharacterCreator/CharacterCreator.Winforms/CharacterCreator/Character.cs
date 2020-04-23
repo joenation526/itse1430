@@ -70,7 +70,7 @@ namespace CharacterCreator
                 yield return new ValidationResult("Race is required", new[] { nameof(Race) });
             }
 
-            if (Strength == 0)
+            if (Strength <= 0)
             {
                 yield return new ValidationResult("Cannot have 0 strength.", new[] { nameof(Strength) });
             };
@@ -80,7 +80,7 @@ namespace CharacterCreator
                 yield return new ValidationResult("Cannot have >100 strength.", new[] { nameof(Strength) });
             }; 
 
-            if (Intelligence == 0)
+            if (Intelligence <= 0)
             {
                 yield return new ValidationResult("Cannot have 0 intelligence.", new[] { nameof(Intelligence) });
             };
@@ -90,7 +90,7 @@ namespace CharacterCreator
                 yield return new ValidationResult("Cannot have >100 intelligence.", new[] { nameof(Intelligence) });
             };
 
-            if (Agility == 0)
+            if (Agility <= 0)
             {
                 yield return new ValidationResult("Cannot have 0 agility.", new[] { nameof(Agility) });
             };
@@ -100,7 +100,7 @@ namespace CharacterCreator
                 yield return new ValidationResult("Cannot have >100 agility.", new[] { nameof(Agility) });
             };
 
-            if (Constitution == 0)
+            if (Constitution <= 0)
             {
                 yield return new ValidationResult("Cannot have 0 constitution.", new[] { nameof(Constitution) });
             };
@@ -110,7 +110,7 @@ namespace CharacterCreator
                 yield return new ValidationResult("Cannot have >100 constitution.", new[] { nameof(Constitution) });
             };
 
-            if (Charisma == 0)
+            if (Charisma <= 0)
             {
                 yield return new ValidationResult("Cannot have 0 charisma.", new[] { nameof(Charisma) });
             };

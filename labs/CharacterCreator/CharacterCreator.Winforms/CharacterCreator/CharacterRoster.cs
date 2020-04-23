@@ -3,11 +3,9 @@
  * Spring 2020
  * Jonathan Saysanam
  */
-using System;
+
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using CharacterCreator.Winforms;
 
 namespace CharacterCreator
 {
@@ -20,11 +18,6 @@ namespace CharacterCreator
             {
                 return null;
             };
-
-            var errors = ObjectValidator.Validate(character);
-            if (errors.Any())
-                return null;
-
 
             //Character names must be unique
             var existing = FindByName(character.Name);
@@ -71,10 +64,6 @@ namespace CharacterCreator
             
             if (character == null)
                 return "Character is null";
-
-            var errors = ObjectValidator.Validate(character);
-            if (errors.Any())
-                return null;
 
             if (id <= 0)
                 return "Id is invalid";

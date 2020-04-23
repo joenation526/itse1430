@@ -141,6 +141,11 @@
             // numericStrength
             // 
             this.numericStrength.Location = new System.Drawing.Point(128, 170);
+            this.numericStrength.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericStrength.Name = "numericStrength";
             this.numericStrength.Size = new System.Drawing.Size(40, 20);
             this.numericStrength.TabIndex = 3;
@@ -154,6 +159,11 @@
             // numericIntelligience
             // 
             this.numericIntelligience.Location = new System.Drawing.Point(127, 196);
+            this.numericIntelligience.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericIntelligience.Name = "numericIntelligience";
             this.numericIntelligience.Size = new System.Drawing.Size(41, 20);
             this.numericIntelligience.TabIndex = 4;
@@ -194,6 +204,11 @@
             // numericAgility
             // 
             this.numericAgility.Location = new System.Drawing.Point(128, 222);
+            this.numericAgility.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericAgility.Name = "numericAgility";
             this.numericAgility.Size = new System.Drawing.Size(39, 20);
             this.numericAgility.TabIndex = 5;
@@ -207,6 +222,11 @@
             // numericConstitution
             // 
             this.numericConstitution.Location = new System.Drawing.Point(128, 248);
+            this.numericConstitution.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericConstitution.Name = "numericConstitution";
             this.numericConstitution.Size = new System.Drawing.Size(40, 20);
             this.numericConstitution.TabIndex = 6;
@@ -220,6 +240,11 @@
             // numericCharisma
             // 
             this.numericCharisma.Location = new System.Drawing.Point(128, 274);
+            this.numericCharisma.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericCharisma.Name = "numericCharisma";
             this.numericCharisma.Size = new System.Drawing.Size(40, 20);
             this.numericCharisma.TabIndex = 7;

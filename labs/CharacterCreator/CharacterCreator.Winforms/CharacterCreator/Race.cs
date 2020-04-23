@@ -4,7 +4,6 @@
  * Jonathan Saysanam
  */
 
-
 namespace CharacterCreator
 {
     public class Race

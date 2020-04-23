@@ -6,7 +6,9 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using System.Windows.Forms;
+using CharacterCreator.Winforms;
 
 namespace CharacterCreator.Memory
 {
@@ -15,6 +17,15 @@ namespace CharacterCreator.Memory
         //TODO: change methods from public to protected override
         protected override Character AddCore ( Character character )
         {
+
+            var errors = ObjectValidator.Validate(character);
+            var error = errors.FirstOrDefault();
+            if (errors.Any())
+            {
+                var errorMessage = error?.ErrorMessage;
+                DisplayError(errorMessage);
+                return null;
+            }
 
             var item = CloneCharacter(character);
             item.Id = _id++;
@@ -56,6 +67,16 @@ namespace CharacterCreator.Memory
         protected override void UpdateCore ( int id, Character character )
         {
             var existing = FindById(id);
+
+
+            var errors = ObjectValidator.Validate(character);
+            var error = errors.FirstOrDefault();
+            if (errors.Any())
+            {
+                var errorMessage = error?.ErrorMessage;
+                DisplayError(errorMessage);
+                return;
+            }
 
             //Update
             CopyCharacter(existing, character, false);
@@ -116,6 +137,11 @@ namespace CharacterCreator.Memory
             target.Agility = source.Agility;
             target.Constitution = source.Constitution;
             target.Charisma = source.Charisma;
+        }
+
+        private void DisplayError ( string errors )
+        {
+            MessageBox.Show(errors, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private readonly List<Character> _characters = new List<Character>();

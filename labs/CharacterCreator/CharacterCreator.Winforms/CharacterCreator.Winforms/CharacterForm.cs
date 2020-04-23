@@ -5,9 +5,7 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Windows.Forms;
 using static CharacterCreator.Profession;
@@ -38,9 +36,11 @@ namespace CharacterCreator.Winforms
             var character = GetCharacter();
 
             var errors = ObjectValidator.Validate(character);
+            var error = errors.FirstOrDefault();
             if (errors.Any())
             {
-                DisplayError(errors.ToString());
+                var errorMessage = error?.ErrorMessage;
+                DisplayError(errorMessage);
                 return;
             }
 
@@ -48,8 +48,6 @@ namespace CharacterCreator.Winforms
             DialogResult = DialogResult.OK;
             Close();
         }
-
-
 
         protected override void OnLoad ( EventArgs e )
         {
@@ -108,7 +106,6 @@ namespace CharacterCreator.Winforms
         {
             MessageBox.Show(errors, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-
 
         private int GetAsInt32 ( Control control )
         {
@@ -185,7 +182,5 @@ namespace CharacterCreator.Winforms
             }
         }
     }
-
-
 }
 
