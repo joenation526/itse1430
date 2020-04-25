@@ -1,7 +1,10 @@
 /*
  * ITSE 1430
+ * Spring semester
+ * Jonathan Saysanam
  */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Nile
@@ -36,6 +39,24 @@ namespace Nile
         public override string ToString()
         {
             return Name;
+        }
+
+        public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
+        {
+            if (Id < 0)
+            {
+                yield return new ValidationResult("Id must be greater than 0", new[] { nameof(Id) });
+            };
+
+            if (String.IsNullOrEmpty(Name))
+            {
+                yield return new ValidationResult("Name is required.", new[] { nameof(Name) });
+            };
+
+            if (Price < 0)
+            {
+                yield return new ValidationResult("Price must be greater than or equal 0", new[] { nameof(Price) });
+            };
         }
 
         #region Private Members

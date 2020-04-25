@@ -1,8 +1,11 @@
 /*
  * ITSE 1430
+ * Spring 2020
+ * Jonathan Saysanam
  */
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace Nile.Stores
 {
@@ -89,6 +92,7 @@ namespace Nile.Stores
 
             return null;
         }
+
 
         private List<Product> _products = new List<Product>();
         private int _nextId = 1;

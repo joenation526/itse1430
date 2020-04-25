@@ -1,5 +1,7 @@
 /*
  * ITSE 1430
+ * Spring 2020
+ * Jonathan Saysanam
  */
 using System;
 using System.Windows.Forms;
@@ -139,6 +141,14 @@ namespace Nile.Windows
         }
 
         private readonly IProductDatabase _database = new Nile.Stores.MemoryProductDatabase();
+
         #endregion
+
+        private void OnAboutButton ( object sender, EventArgs e )
+        {
+            var about = new AboutBox();
+
+            about.ShowDialog(this);
+        }
     }
 }

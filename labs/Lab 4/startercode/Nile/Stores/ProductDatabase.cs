@@ -1,8 +1,13 @@
 /*
  * ITSE 1430
+ * Spring 2020
+ * Jonathan Saysanam
  */
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using Nile.Windows;
 
 namespace Nile.Stores
 {
@@ -14,9 +19,25 @@ namespace Nile.Stores
         /// <returns>The added product.</returns>
         public Product Add ( Product product )
         {
-            //TODO: Check arguments
+            // Check arguments
+            if (product == null)
+                return null;
 
-            //TODO: Validate product
+            if (product.Id <= 0)
+            {
+                DisplayError("Id is invalid");
+                return null;
+            };
+
+            // Validate product
+            var errors = ObjectValidator.Validate(product);
+            var error = errors.FirstOrDefault();
+            if (errors.Any())
+            {
+                var errorMessage = error?.ErrorMessage;
+                DisplayError(errorMessage);
+                return null;
+            };
 
             //Emulate database by storing copy
             return AddCore(product);
@@ -26,7 +47,11 @@ namespace Nile.Stores
         /// <returns>The product, if it exists.</returns>
         public Product Get ( int id )
         {
-            //TODO: Check arguments
+            // Check arguments
+            if (id <= 0)
+            {
+                return null;
+            }
 
             return GetCore(id);
         }
@@ -42,7 +67,11 @@ namespace Nile.Stores
         /// <param name="id">The product to remove.</param>
         public void Remove ( int id )
         {
-            //TODO: Check arguments
+            // Check arguments
+            if (id <= 0)
+            {
+                return;
+            }
 
             RemoveCore(id);
         }
@@ -52,14 +81,43 @@ namespace Nile.Stores
         /// <returns>The updated product.</returns>
         public Product Update ( Product product )
         {
-            //TODO: Check arguments
+            // Check arguments
+            if (product == null)
+            {
+                DisplayError("Product is null");
+                return null;
+            }
 
-            //TODO: Validate product
+            if (product.Id <= 0)
+            {
+                DisplayError("Id is invalid");
+                return null;
+            }
+
+            // Validate product
+            var errors = ObjectValidator.Validate(product);
+            var error = errors.FirstOrDefault();
+            if (errors.Any())
+            {
+                var errorMessage = error?.ErrorMessage;
+                DisplayError(errorMessage);
+                return null;
+            };
 
             //Get existing product
             var existing = GetCore(product.Id);
+            if (existing == null)
+            {
+                DisplayError("Product is not found");
+                return null;
+            }
 
             return UpdateCore(existing, product);
+        }
+
+        private void DisplayError ( string errors )
+        {
+            MessageBox.Show(errors, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         #region Protected Members
@@ -73,6 +131,7 @@ namespace Nile.Stores
         protected abstract Product UpdateCore( Product existing, Product newItem );
 
         protected abstract Product AddCore( Product product );
+
         #endregion
     }
 }

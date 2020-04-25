@@ -1,8 +1,11 @@
 /*
  * ITSE 1430
+ * Spring 2020
+ * Jonathan Saysanam
  */
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Nile.Windows
@@ -69,7 +72,15 @@ namespace Nile.Windows
                 IsDiscontinued = _chkDiscontinued.Checked,
             };
 
-            //TODO: Validate product
+            // Validate product
+            var errors = ObjectValidator.Validate(product);
+            var error = errors.FirstOrDefault();
+            if (errors.Any())
+            {
+                var errorMessage = error?.ErrorMessage;
+                DisplayError(errorMessage);
+                return;
+            }
 
             Product = product;
             DialogResult = DialogResult.OK;
@@ -107,7 +118,13 @@ namespace Nile.Windows
 
             //Validate price            
             return -1;
-        }                      
+        }
         #endregion
+
+
+        private void DisplayError ( string errors )
+        {
+            MessageBox.Show(errors, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 }
