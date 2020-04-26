@@ -17,15 +17,7 @@ namespace CharacterCreator.Memory
         //TODO: change methods from public to protected override
         protected override Character AddCore ( Character character )
         {
-
-            var errors = ObjectValidator.Validate(character);
-            var error = errors.FirstOrDefault();
-            if (errors.Any())
-            {
-                var errorMessage = error?.ErrorMessage;
-                DisplayError(errorMessage);
-                return null;
-            }
+            ObjectValidator.Validate(character);
 
             var item = CloneCharacter(character);
             item.Id = _id++;
@@ -68,15 +60,7 @@ namespace CharacterCreator.Memory
         {
             var existing = FindById(id);
 
-
-            var errors = ObjectValidator.Validate(character);
-            var error = errors.FirstOrDefault();
-            if (errors.Any())
-            {
-                var errorMessage = error?.ErrorMessage;
-                DisplayError(errorMessage);
-                return;
-            }
+            ObjectValidator.Validate(character);
 
             //Update
             CopyCharacter(existing, character, false);

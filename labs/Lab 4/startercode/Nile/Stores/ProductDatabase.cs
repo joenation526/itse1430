@@ -19,25 +19,15 @@ namespace Nile.Stores
         /// <returns>The added product.</returns>
         public Product Add ( Product product )
         {
-            // Check arguments
+            //TODO: Check arguments
             if (product == null)
-                return null;
+                throw new ArgumentNullException(nameof(product), "Product is null");
 
             if (product.Id <= 0)
-            {
-                DisplayError("Id is invalid");
-                return null;
-            };
+                throw new ArgumentOutOfRangeException(nameof(product.Id), "Id must be greater than zero");
 
             // Validate product
-            var errors = ObjectValidator.Validate(product);
-            var error = errors.FirstOrDefault();
-            if (errors.Any())
-            {
-                var errorMessage = error?.ErrorMessage;
-                DisplayError(errorMessage);
-                return null;
-            };
+            ObjectValidator.Validate(product);
 
             //Emulate database by storing copy
             return AddCore(product);
@@ -81,44 +71,26 @@ namespace Nile.Stores
         /// <returns>The updated product.</returns>
         public Product Update ( Product product )
         {
-            // Check arguments
+            //TODO: Check arguments
             if (product == null)
-            {
-                DisplayError("Product is null");
-                return null;
-            }
+                throw new ArgumentNullException(nameof(product), "Product is null");
 
             if (product.Id <= 0)
-            {
-                DisplayError("Id is invalid");
-                return null;
-            }
+                throw new ArgumentOutOfRangeException(nameof(product.Id), "Id must be greater than zero");
+
 
             // Validate product
-            var errors = ObjectValidator.Validate(product);
-            var error = errors.FirstOrDefault();
-            if (errors.Any())
-            {
-                var errorMessage = error?.ErrorMessage;
-                DisplayError(errorMessage);
-                return null;
-            };
+             ObjectValidator.Validate(product);
 
             //Get existing product
             var existing = GetCore(product.Id);
             if (existing == null)
-            {
-                DisplayError("Product is not found");
-                return null;
-            }
+                throw new ArgumentNullException(nameof(product), "Product doesn't exist.");
 
             return UpdateCore(existing, product);
         }
 
-        private void DisplayError ( string errors )
-        {
-            MessageBox.Show(errors, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+
 
         #region Protected Members
 
