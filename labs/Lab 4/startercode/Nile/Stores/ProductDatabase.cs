@@ -19,7 +19,7 @@ namespace Nile.Stores
         /// <returns>The added product.</returns>
         public Product Add ( Product product )
         {
-            //TODO: Check arguments
+            // Check arguments
             if (product == null)
                 throw new ArgumentNullException(nameof(product), "Product is null");
 
@@ -28,18 +28,19 @@ namespace Nile.Stores
 
             try
             {
-                //TODO: Do not duplicate products.
-                // Probably not the correct way to do this, but I'll fix it later
-                var sameProduct = FindProduct(product.Id);
-                if (sameProduct != null && sameProduct.Id == product.Id)
+                var existing = FindByName(product.Name);
+                if (existing != null)
                     throw new InvalidOperationException("Products must be unique");
 
                 //Emulate database by storing copy
                 return AddCore(product);
 
-            } catch
-            { 
-                return null;
+            } catch (InvalidOperationException)
+            {
+                throw;
+            } catch (Exception e)
+            {
+                throw new InvalidOperationException("Error adding character", e);
             };
         }
 
@@ -47,9 +48,9 @@ namespace Nile.Stores
         /// <returns>The product, if it exists.</returns>
         public Product Get ( int id )
         {
-            //TODO: Check arguments
+            // Check arguments
             if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id), "Cannot retrieve non-existent product");
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero.");
 
             return GetCore(id);
         }
@@ -65,9 +66,9 @@ namespace Nile.Stores
         /// <param name="id">The product to remove.</param>
         public void Remove ( int id )
         {
-            //TODO: Check arguments
+            // Check arguments
             if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id), "Cannot retrieve non-existent product");
+                throw new ArgumentOutOfRangeException(nameof(id), "Id must be greater than zero");
 
             RemoveCore(id);
         }
@@ -77,7 +78,7 @@ namespace Nile.Stores
         /// <returns>The updated product.</returns>
         public Product Update ( Product product )
         {
-            //TODO: Check arguments
+            // Check arguments
             if (product == null)
                 throw new ArgumentNullException(nameof(product), "Product is null");
 
@@ -90,10 +91,8 @@ namespace Nile.Stores
 
             try
             {
-                //TODO: Do not duplicate products.
-                // Probably not the correct way to do this, but I'll fix it later
-                var sameProduct = FindProduct(product.Id);
-                if (sameProduct != null && sameProduct.Id == product.Id)
+                var sameName = FindByName(product.Name);
+                if (sameName != null && sameName.Id != product.Id)
                     throw new InvalidOperationException("Products must be unique");
 
                 //Get existing product
@@ -103,10 +102,17 @@ namespace Nile.Stores
 
                 return UpdateCore(existing, product);
 
-            } catch
+            } catch (ArgumentNullException)
             {
-                return null;
+                throw;
+            } catch (InvalidOperationException)
+            {
+                throw;
+            } catch (Exception e)
+            {
+                throw new Exception("Error updating character", e); 
             };
+
         }
 
 

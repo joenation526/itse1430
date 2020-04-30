@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace Nile
 {
-    /// <summary>Provides a database of <see cref="Product"/> items.</summary>
+    /// <summary>Provides a database of <see cref="IProductDatabase"/> items.</summary>
     public interface IProductDatabase
     {
         /// <summary>Adds a product.</summary>

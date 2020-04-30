@@ -4,6 +4,7 @@
  * Jonathan Saysanam
  */
 using System;
+using System.Configuration;
 using System.Windows.Forms;
 
 namespace Nile.Windows
@@ -23,6 +24,10 @@ namespace Nile.Windows
             base.OnLoad(e);
 
             _gridProducts.AutoGenerateColumns = false;
+            
+
+            var connString = ConfigurationManager.ConnectionStrings["ProductDatabase"];
+            new System.Data.SqlClient.SqlConnection(connString.ConnectionString).Open();
 
             UpdateList();
         }
@@ -40,19 +45,18 @@ namespace Nile.Windows
             if (child.ShowDialog(this) != DialogResult.OK)
                 return;
 
-            //TODO: Handle errors
-
+            //Handle errors
             try
             {
                 //Save product
                 _database.Add(child.Product);
+
                 UpdateList();
                 return;
-            } catch 
+            } catch (Exception ex)
             {
-                throw new Exception("Cannot to add database"); 
-            }
-
+                DisplayError(ex.Message);
+            };
         }
 
         private void OnProductEdit( object sender, EventArgs e )
@@ -115,17 +119,17 @@ namespace Nile.Windows
                                 "Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 
-            //TODO: Handle errors
+            //Handle errors
             try
             {
                 //Delete product
                 _database.Remove(product.Id);
                 UpdateList();
                 return;
-            } catch
+            } catch (Exception ex)
             {
-                throw new ArgumentOutOfRangeException("Cannot delete non-existing product.");
-            }
+                DisplayError(ex.Message);
+            };
             
         }
 
@@ -136,18 +140,16 @@ namespace Nile.Windows
             if (child.ShowDialog(this) != DialogResult.OK)
                 return;
 
-            //TODO: Handle errors
+            //Handle errors
             try
             {
                 //Save product
                 _database.Update(child.Product);
                 UpdateList();
-                return;
-            } catch
+            } catch (Exception ex)
             {
-                throw new ArgumentOutOfRangeException("Cannot edit products.");
-            }
-  
+                DisplayError(ex.Message);
+            };
         }
 
         private Product GetSelectedProduct ()
@@ -160,15 +162,19 @@ namespace Nile.Windows
 
         private void UpdateList ()
         {
-            //TODO: Handle errors
+            //Handle errors
             try
             {
                 _bsProducts.DataSource = _database.GetAll();
-            } catch
+            } catch (Exception e)
             {
-                throw new Exception("Cannot retrieve products from DataBase");
-            }
-            
+                DisplayError($"Failed to load products: {e.Message}");
+            };
+        }
+
+        private void DisplayError ( string message )
+        {
+            MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private readonly IProductDatabase _database = new Nile.Stores.MemoryProductDatabase();
