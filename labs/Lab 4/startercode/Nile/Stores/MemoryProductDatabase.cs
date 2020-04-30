@@ -5,6 +5,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Nile.Stores
@@ -82,7 +83,7 @@ namespace Nile.Stores
         }
 
         //Find a product by ID
-        private Product FindProduct ( int id )
+        protected override Product FindProduct ( int id )
         {
             foreach (var product in _products)
             {
@@ -93,6 +94,9 @@ namespace Nile.Stores
             return null;
         }
 
+        protected override Product FindByName ( string products ) => (from product in _products
+                                                                   where String.Compare(product.Name, products, true) == 0
+                                                                  select product).FirstOrDefault();
 
         private List<Product> _products = new List<Product>();
         private int _nextId = 1;

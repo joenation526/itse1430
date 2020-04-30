@@ -23,25 +23,33 @@ namespace Nile.Stores
             if (product == null)
                 throw new ArgumentNullException(nameof(product), "Product is null");
 
-            if (product.Id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(product.Id), "Id must be greater than zero");
-
             // Validate product
             ObjectValidator.Validate(product);
 
-            //Emulate database by storing copy
-            return AddCore(product);
+            try
+            {
+                //TODO: Do not duplicate products.
+                // Probably not the correct way to do this, but I'll fix it later
+                var sameProduct = FindProduct(product.Id);
+                if (sameProduct != null && sameProduct.Id == product.Id)
+                    throw new InvalidOperationException("Products must be unique");
+
+                //Emulate database by storing copy
+                return AddCore(product);
+
+            } catch
+            { 
+                return null;
+            };
         }
 
         /// <summary>Get a specific product.</summary>
         /// <returns>The product, if it exists.</returns>
         public Product Get ( int id )
         {
-            // Check arguments
+            //TODO: Check arguments
             if (id <= 0)
-            {
-                return null;
-            }
+                throw new ArgumentOutOfRangeException(nameof(id), "Cannot retrieve non-existent product");
 
             return GetCore(id);
         }
@@ -57,11 +65,9 @@ namespace Nile.Stores
         /// <param name="id">The product to remove.</param>
         public void Remove ( int id )
         {
-            // Check arguments
+            //TODO: Check arguments
             if (id <= 0)
-            {
-                return;
-            }
+                throw new ArgumentOutOfRangeException(nameof(id), "Cannot retrieve non-existent product");
 
             RemoveCore(id);
         }
@@ -82,14 +88,26 @@ namespace Nile.Stores
             // Validate product
              ObjectValidator.Validate(product);
 
-            //Get existing product
-            var existing = GetCore(product.Id);
-            if (existing == null)
-                throw new ArgumentNullException(nameof(product), "Product doesn't exist.");
+            try
+            {
+                //TODO: Do not duplicate products.
+                // Probably not the correct way to do this, but I'll fix it later
+                var sameProduct = FindProduct(product.Id);
+                if (sameProduct != null && sameProduct.Id == product.Id)
+                    throw new InvalidOperationException("Products must be unique");
 
-            return UpdateCore(existing, product);
+                //Get existing product
+                var existing = GetCore(product.Id);
+                if (existing == null)
+                    throw new ArgumentNullException(nameof(product), "Product doesn't exist.");
+
+                return UpdateCore(existing, product);
+
+            } catch
+            {
+                return null;
+            };
         }
-
 
 
         #region Protected Members
@@ -103,6 +121,10 @@ namespace Nile.Stores
         protected abstract Product UpdateCore( Product existing, Product newItem );
 
         protected abstract Product AddCore( Product product );
+
+        protected abstract Product FindProduct ( int id );
+
+        protected abstract Product FindByName ( string products );
 
         #endregion
     }

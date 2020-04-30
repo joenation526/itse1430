@@ -41,9 +41,18 @@ namespace Nile.Windows
                 return;
 
             //TODO: Handle errors
-            //Save product
-            _database.Add(child.Product);
-            UpdateList();
+
+            try
+            {
+                //Save product
+                _database.Add(child.Product);
+                UpdateList();
+                return;
+            } catch 
+            {
+                throw new Exception("Cannot to add database"); 
+            }
+
         }
 
         private void OnProductEdit( object sender, EventArgs e )
@@ -107,9 +116,17 @@ namespace Nile.Windows
                 return;
 
             //TODO: Handle errors
-            //Delete product
-            _database.Remove(product.Id);
-            UpdateList();
+            try
+            {
+                //Delete product
+                _database.Remove(product.Id);
+                UpdateList();
+                return;
+            } catch
+            {
+                throw new ArgumentOutOfRangeException("Cannot delete non-existing product.");
+            }
+            
         }
 
         private void EditProduct ( Product product )
@@ -120,9 +137,17 @@ namespace Nile.Windows
                 return;
 
             //TODO: Handle errors
-            //Save product
-            _database.Update(child.Product);
-            UpdateList();
+            try
+            {
+                //Save product
+                _database.Update(child.Product);
+                UpdateList();
+                return;
+            } catch
+            {
+                throw new ArgumentOutOfRangeException("Cannot edit products.");
+            }
+  
         }
 
         private Product GetSelectedProduct ()
@@ -136,8 +161,14 @@ namespace Nile.Windows
         private void UpdateList ()
         {
             //TODO: Handle errors
-
-            _bsProducts.DataSource = _database.GetAll();
+            try
+            {
+                _bsProducts.DataSource = _database.GetAll();
+            } catch
+            {
+                throw new Exception("Cannot retrieve products from DataBase");
+            }
+            
         }
 
         private readonly IProductDatabase _database = new Nile.Stores.MemoryProductDatabase();

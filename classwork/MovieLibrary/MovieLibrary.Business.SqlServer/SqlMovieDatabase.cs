@@ -187,7 +187,7 @@ namespace MovieLibrary.Business.SqlServer
                             Id = Convert.ToInt32(reader[0]),     //Dictionary with zero-based ordinal
                             Title = reader["Name"]?.ToString(),  //Dictionary with column name
 
-                            Description = reader.GetString(2),   //GetType(ordinal)
+                            Description = reader.IsDBNull(2) ? "" : reader.GetString(2),   //GetType(ordinal)
 
                             ReleaseYear = reader.GetFieldValue<int>(4),  //Generic(ordinal)                            
                             RunLength = reader.GetFieldValue<int>(5),
@@ -227,7 +227,7 @@ namespace MovieLibrary.Business.SqlServer
                             Id = Convert.ToInt32(reader[0]),     //Dictionary with zero-based ordinal
                             Title = reader["Name"]?.ToString(),  //Dictionary with column name
 
-                            Description = reader.GetString(2),   //GetType(ordinal)
+                            Description = reader.IsDBNull(2) ? "" : reader.GetString(2),   //GetType(ordinal)
 
                             ReleaseYear = reader.GetFieldValue<int>(4),  //Generic(ordinal)                            
                             RunLength = reader.GetFieldValue<int>(5),

@@ -13,6 +13,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MovieDb", "MovieDb\MovieDb.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.Business.SqlServer", "MovieLibrary.Business.SqlServer\MovieLibrary.Business.SqlServer.csproj", "{226B9121-0553-4FCE-8A8B-6D6793E3DC66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieLibrary.WebApp", "MovieLibrary.WebApp\MovieLibrary.WebApp.csproj", "{6F4CF380-7809-4A2E-B881-E871BC5ABFE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{226B9121-0553-4FCE-8A8B-6D6793E3DC66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{226B9121-0553-4FCE-8A8B-6D6793E3DC66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{226B9121-0553-4FCE-8A8B-6D6793E3DC66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F4CF380-7809-4A2E-B881-E871BC5ABFE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F4CF380-7809-4A2E-B881-E871BC5ABFE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F4CF380-7809-4A2E-B881-E871BC5ABFE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F4CF380-7809-4A2E-B881-E871BC5ABFE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
