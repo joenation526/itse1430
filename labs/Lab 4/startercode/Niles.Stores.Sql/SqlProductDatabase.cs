@@ -70,12 +70,13 @@ namespace Nile.Stores
                         Description = row["description"]?.ToString(),
                         IsDiscontinued = row.Field<bool>("isDiscontinued")
                     };
-
                     items.Add(product);
-                }
-            }
+                };
+            };
 
-            return items;
+            var sortedItems = items.OrderBy(m => m.Name).ToList();
+
+            return sortedItems;
         }
 
         protected override void RemoveCore ( int id )

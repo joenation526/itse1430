@@ -27,7 +27,7 @@ namespace Nile.Windows
             var connString = ConfigurationManager.ConnectionStrings["ProductDatabase"];
             _database = new SqlProductDatabase(connString.ConnectionString);
 
-            _gridProducts.AutoGenerateColumns = false;
+            _gridProducts.AutoGenerateColumns = true;
 
             UpdateList();
         }
