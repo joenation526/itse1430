@@ -24,11 +24,10 @@ namespace Nile.Windows
         {
             base.OnLoad(e);
 
-            _gridProducts.AutoGenerateColumns = false;
-            
-
             var connString = ConfigurationManager.ConnectionStrings["ProductDatabase"];
             _database = new SqlProductDatabase(connString.ConnectionString);
+
+            _gridProducts.AutoGenerateColumns = false;
 
             UpdateList();
         }
@@ -127,9 +126,9 @@ namespace Nile.Windows
                 _database.Remove(product.Id);
                 UpdateList();
                 return;
-            } catch (Exception ex)
+            } catch (Exception e)
             {
-                DisplayError(ex.Message);
+                DisplayError($"Failed to load products: {e.Message}");
             };
             
         }
@@ -147,9 +146,9 @@ namespace Nile.Windows
                 //Save product
                 _database.Update(product.Id ,child.Product);
                 UpdateList();
-            } catch (Exception ex)
+            } catch (Exception e)
             {
-                DisplayError(ex.Message);
+                DisplayError($"Failed to load products: {e.Message}");
             };
         }
 
@@ -188,5 +187,6 @@ namespace Nile.Windows
 
             about.ShowDialog(this);
         }
+
     }
 }

@@ -49,8 +49,8 @@ namespace Nile.Stores
             using (var conn = OpenConnection())
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "GetProduct";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandText = "GetAllProducts";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 var da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -65,10 +65,10 @@ namespace Nile.Stores
                 {
                     var product = new Product() {
                         Id = Convert.ToInt32(row[0]),
-                        Name = row["Name"].ToString(),
-                        Price = row.Field<decimal>("Price"),
-                        Description = row.Field<string>(2),
-                        IsDiscontinued = row.Field<bool>("IsDiscontinued")
+                        Name = row["name"].ToString(),
+                        Price = row.Field<decimal>("price"),
+                        Description = row["description"]?.ToString(),
+                        IsDiscontinued = row.Field<bool>("isDiscontinued")
                     };
 
                     items.Add(product);
@@ -78,14 +78,12 @@ namespace Nile.Stores
             return items;
         }
 
-     
-
         protected override void RemoveCore ( int id )
         {
             using (var conn = OpenConnection())
             {
                 var cmd = conn.CreateCommand();
-                cmd.CommandText = "DeleteProduct";
+                cmd.CommandText = "RemoveProduct";
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@id", id);
@@ -100,7 +98,7 @@ namespace Nile.Stores
             using (var conn = OpenConnection())
             {
                 var cmd = new SqlCommand("UpdateProduct", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@id", newItem.Id);
                 cmd.Parameters.AddWithValue("@name", newItem.Name);
@@ -122,59 +120,16 @@ namespace Nile.Stores
         }
         protected override Product FindByName ( string name )
         {
-            using (var conn = OpenConnection())
-            {
-                var cmd = conn.CreateCommand();
-                cmd.CommandText = "FindName";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@name", name);
+            var items = GetAllCore();
 
-                // Error - clean up reader
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var product = new Product() {
-                            Id = Convert.ToInt32(reader[0]),                
-                            Name = reader["Name"]?.ToString(),              
-                            Description = reader.GetString(2),              
-                            Price = reader.GetFieldValue<decimal>(4),           
-                            IsDiscontinued = reader.GetBoolean(5)
-                        };
-                        return product;
-                    };
-                };
-            };
-            return null;
+            return items.FirstOrDefault(p => String.Compare(p.Name, name, true) == 0);
         }
 
         protected override Product FindProduct ( int id )
         {
-            using (var conn = OpenConnection())
-            {
-                var cmd = conn.CreateCommand();
-                cmd.CommandText = "GetProduct";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@id", id);
+            var items = GetAllCore();
 
-                //Error - clean up reader
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var product = new Product() {
-
-                            Id = Convert.ToInt32(reader[0]),                
-                            Name = reader["Name"]?.ToString(),              
-                            Description = reader.GetString(2),              
-                            Price = reader.GetFieldValue<decimal>(4),           
-                            IsDiscontinued = reader.GetBoolean(5)
-                        };
-                        return product;
-                    };
-                };
-            };
-            return null;
+            return items.FirstOrDefault(i => i.Id == id);
         }
 
         private readonly string _connectionString;

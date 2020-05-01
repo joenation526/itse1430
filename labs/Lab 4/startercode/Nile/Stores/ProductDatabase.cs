@@ -40,7 +40,7 @@ namespace Nile.Stores
                 throw;
             } catch (Exception e)
             {
-                throw new InvalidOperationException("Error adding character", e);
+                throw new InvalidOperationException ("Error adding product", e);
             };
         }
 

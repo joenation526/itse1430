@@ -26,7 +26,7 @@ namespace MovieLibrary.Business.SqlServer
                 var cmd = new SqlCommand("AddMovie", conn);
                 //var cmd2 = conn.CreateCommand();
                 //cmd.CommandText = "AddMovie";
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 //Add parameters
                 //1. Long way
