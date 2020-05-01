@@ -18,7 +18,7 @@ namespace Nile.Stores
         /// <returns>The added product.</returns>
         protected override Product AddCore ( Product product )
         {
-            var newProduct = CopyProduct(product);
+            var newProduct = CloneProduct(product);
             _products.Add(newProduct);
 
             if (newProduct.Id <= 0)
@@ -26,7 +26,7 @@ namespace Nile.Stores
             else if (newProduct.Id >= _nextId)
                 _nextId = newProduct.Id + 1;
 
-            return CopyProduct(newProduct);
+            return CloneProduct(newProduct);
         }
 
         /// <summary>Get a specific product.</summary>
@@ -35,7 +35,7 @@ namespace Nile.Stores
         {
             var product = FindProduct(id);
 
-            return (product != null) ? CopyProduct(product) : null;
+            return (product != null) ? CloneProduct(product) : null;
         }
 
         /// <summary>Gets all products.</summary>
@@ -43,7 +43,7 @@ namespace Nile.Stores
         protected override IEnumerable<Product> GetAllCore ()
         {
             foreach (var product in _products)
-                yield return CopyProduct(product);
+                yield return CloneProduct(product);
         }
 
         /// <summary>Removes the product.</summary>
@@ -58,28 +58,30 @@ namespace Nile.Stores
         /// <summary>Updates a product.</summary>
         /// <param name="product">The product to update.</param>
         /// <returns>The updated product.</returns>
-        protected override Product UpdateCore ( Product existing, Product product )
+        protected override void UpdateCore ( int id, Product product )
         {
             //Replace 
-            existing = FindProduct(product.Id);
-            _products.Remove(existing);
-            
-            var newProduct = CopyProduct(product);
-            _products.Add(newProduct);
+            var existing = FindProduct(product.Id);
 
-            return CopyProduct(newProduct);
+            CopyProduct(existing, product, false);
         }
         
-        private Product CopyProduct ( Product product )
+        private void CopyProduct ( Product target, Product source, bool includeId )
         {
-            var newProduct = new Product();
-            newProduct.Id = product.Id;
-            newProduct.Name = product.Name;
-            newProduct.Description = product.Description;
-            newProduct.Price = product.Price;
-            newProduct.IsDiscontinued = product.IsDiscontinued;
+            if (includeId)
+                target.Id = source.Id;
+            target.Name = source.Name;
+            target.Description = source.Description;
+            target.Price = source.Price;
+            target.IsDiscontinued = source.IsDiscontinued;
+        }
 
-            return newProduct;
+        private Product CloneProduct ( Product newProduct )
+        {
+            var product = new Product();
+            CopyProduct(product, newProduct, true);
+
+            return product; 
         }
 
         //Find a product by ID

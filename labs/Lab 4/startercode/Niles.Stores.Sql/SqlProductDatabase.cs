@@ -5,8 +5,9 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-
+using System.Linq;
 
 namespace Nile.Stores
 {
@@ -39,47 +40,141 @@ namespace Nile.Stores
             };
         }
 
-        protected override Product FindByName ( string products )
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override Product FindProduct ( int id )
-        {
-            throw new NotImplementedException();
-        }
-
         protected override IEnumerable<Product> GetAllCore ()
+        {
+            var items = new List<Product>();
+
+            var ds = new DataSet();
+
+            using (var conn = OpenConnection())
+            {
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "GetProduct";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                var da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+
+                da.Fill(ds);
+            };
+
+            var table = ds.Tables.OfType<DataTable>().FirstOrDefault();
+            if (table != null)
+            {
+                foreach (var row in table.Rows.OfType<DataRow>())
+                {
+                    var product = new Product() {
+                        Id = Convert.ToInt32(row[0]),
+                        Name = row["Name"].ToString(),
+                        Price = row.Field<decimal>("Price"),
+                        Description = row.Field<string>(2),
+                        IsDiscontinued = row.Field<bool>("IsDiscontinued")
+                    };
+
+                    items.Add(product);
+                }
+            }
+
+            return items;
+        }
+
+     
+
+        protected override void RemoveCore ( int id )
         {
             using (var conn = OpenConnection())
             {
-                
-            };
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "DeleteProduct";
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            //return _products;
+                cmd.Parameters.AddWithValue("@id", id);
+
+                cmd.ExecuteNonQuery(); 
+            }
         }
+
+        // Needs to return void
+        protected override void UpdateCore ( int id, Product newItem )
+        {
+            using (var conn = OpenConnection())
+            {
+                var cmd = new SqlCommand("UpdateProduct", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@id", newItem.Id);
+                cmd.Parameters.AddWithValue("@name", newItem.Name);
+                cmd.Parameters.AddWithValue("@price", newItem.Price);
+                cmd.Parameters.AddWithValue("@description", newItem.Description);
+                cmd.Parameters.AddWithValue("@isDiscontinued", newItem.IsDiscontinued);
+
+               cmd.ExecuteNonQuery();
+            };
+        }
+        protected override Product GetCore ( int id ) => FindProduct(id);
 
         private SqlConnection OpenConnection ()
         {
             var conn = new SqlConnection(_connectionString);
             conn.Open();
 
-            return conn; 
+            return conn;
+        }
+        protected override Product FindByName ( string name )
+        {
+            using (var conn = OpenConnection())
+            {
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "FindName";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@name", name);
+
+                // Error - clean up reader
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var product = new Product() {
+                            Id = Convert.ToInt32(reader[0]),                
+                            Name = reader["Name"]?.ToString(),              
+                            Description = reader.GetString(2),              
+                            Price = reader.GetFieldValue<decimal>(4),           
+                            IsDiscontinued = reader.GetBoolean(5)
+                        };
+                        return product;
+                    };
+                };
+            };
+            return null;
         }
 
-        protected override Product GetCore ( int id )
+        protected override Product FindProduct ( int id )
         {
-            throw new NotImplementedException();
-        }
+            using (var conn = OpenConnection())
+            {
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "GetProduct";
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", id);
 
-        protected override void RemoveCore ( int id )
-        {
-            throw new NotImplementedException();
-        }
+                //Error - clean up reader
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var product = new Product() {
 
-        protected override Product UpdateCore ( Product existing, Product newItem )
-        {
-            throw new NotImplementedException();
+                            Id = Convert.ToInt32(reader[0]),                
+                            Name = reader["Name"]?.ToString(),              
+                            Description = reader.GetString(2),              
+                            Price = reader.GetFieldValue<decimal>(4),           
+                            IsDiscontinued = reader.GetBoolean(5)
+                        };
+                        return product;
+                    };
+                };
+            };
+            return null;
         }
 
         private readonly string _connectionString;

@@ -76,7 +76,7 @@ namespace Nile.Stores
         /// <summary>Updates a product.</summary>
         /// <param name="product">The product to update.</param>
         /// <returns>The updated product.</returns>
-        public Product Update ( Product product )
+        public void Update ( int id, Product product )
         {
             // Check arguments
             if (product == null)
@@ -91,6 +91,7 @@ namespace Nile.Stores
 
             try
             {
+                // Products have to be unique
                 var sameName = FindByName(product.Name);
                 if (sameName != null && sameName.Id != product.Id)
                     throw new InvalidOperationException("Products must be unique");
@@ -100,7 +101,7 @@ namespace Nile.Stores
                 if (existing == null)
                     throw new ArgumentNullException(nameof(product), "Product doesn't exist.");
 
-                return UpdateCore(existing, product);
+                UpdateCore(id, product);
 
             } catch (ArgumentNullException)
             {
@@ -110,7 +111,7 @@ namespace Nile.Stores
                 throw;
             } catch (Exception e)
             {
-                throw new Exception("Error updating character", e); 
+                throw new Exception("Error updating product", e); 
             };
 
         }
@@ -124,7 +125,7 @@ namespace Nile.Stores
 
         protected abstract void RemoveCore( int id );
 
-        protected abstract Product UpdateCore( Product existing, Product newItem );
+        protected abstract void UpdateCore( int id, Product newItem );
 
         protected abstract Product AddCore( Product product );
 

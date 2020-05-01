@@ -6,6 +6,7 @@
 using System;
 using System.Configuration;
 using System.Windows.Forms;
+using Nile.Stores;
 
 namespace Nile.Windows
 {
@@ -27,7 +28,7 @@ namespace Nile.Windows
             
 
             var connString = ConfigurationManager.ConnectionStrings["ProductDatabase"];
-            new System.Data.SqlClient.SqlConnection(connString.ConnectionString).Open();
+            _database = new SqlProductDatabase(connString.ConnectionString);
 
             UpdateList();
         }
@@ -144,7 +145,7 @@ namespace Nile.Windows
             try
             {
                 //Save product
-                _database.Update(child.Product);
+                _database.Update(product.Id ,child.Product);
                 UpdateList();
             } catch (Exception ex)
             {
@@ -177,7 +178,7 @@ namespace Nile.Windows
             MessageBox.Show(message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private readonly IProductDatabase _database = new Nile.Stores.MemoryProductDatabase();
+        private IProductDatabase _database;
 
         #endregion
 

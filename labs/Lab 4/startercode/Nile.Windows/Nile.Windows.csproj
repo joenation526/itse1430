@@ -97,6 +97,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Niles.Stores.Sql\Niles.Stores.Sql.csproj">
+      <Project>{72D60B3A-DDE2-4D7F-8833-0CD751609469}</Project>
+      <Name>Niles.Stores.Sql</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nile\Nile.csproj">
       <Project>{93bd7a37-01a9-498d-8479-67bef715ea20}</Project>
       <Name>Nile</Name>
